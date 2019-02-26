@@ -4,4 +4,8 @@ module.exports = (application) => {
     application.app.control.core.index(req, res, application);
   });
 
+  application.get('/login', (req, res) => {
+    application.app.control.core.register(req, res, application);
+  });
+
 }
