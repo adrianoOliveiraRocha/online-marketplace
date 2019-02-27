@@ -5,7 +5,11 @@ module.exports = (application) => {
   });
 
   application.get('/login', (req, res) => {
-    application.app.control.core.register(req, res, application);
+    application.app.control.core.login(req, res, application);
+  });
+
+  application.post('/login', (req, res) => {
+    application.app.control.core.login(req, res, application);
   });
 
 }
