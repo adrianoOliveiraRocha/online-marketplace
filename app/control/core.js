@@ -9,11 +9,13 @@ module.exports.index = (req, res, application) => {
 module.exports.login = (req, res, application) => {
   var message = req.session.message;
   req.session.message = '';
-  if (req.method == 'GET') {
-    res.render('core/login.ejs');
+  if(req.session.loged) {
+    res.redirect('/admin');
   } else {
-    if (req.session.loged) {
-      res.send('loged');
+    if (req.method == 'GET') {
+      res.render('core/login.ejs', {
+        'msg': message
+      });
     } else {
       const User = application.app.models.User;
       User.verify(req.body, application, (error, result) => {
@@ -27,11 +29,12 @@ module.exports.login = (req, res, application) => {
           req.session.email = req.body.email;
           req.session.password = req.body.password;
           req.session.message = `Bem vindo/a ${req.session.email}`;
+          req.session.loged = true;
           res.redirect('/');
         }
-      });  
+      });   
     }
-             
+
   }
 
 }
