@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="no-js">
+    
+    <head>
+        <title>Admin Home Page</title>
+        <%- include('includes/links-css.ejs'); %>
+    </head>
+    
+    <body>
+        <%- include('includes/top.ejs'); %>
+        
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+
+                <%- include('includes/left-column.ejs'); %>  
+
+                <!-- Content -->
+                <div class="span9" id="content">
+                   
+                    <div class="row-fluid">
+                    
+                        <% if(msg){ %>
+                            <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Mensagem!</strong>
+                            <%=msg%>
+                            </div>
+                        <% } %>
+                        
+                    </div>
+                        
+                    <div class="row-fluid">
+                        
+                    <div class="span12">
+                    <div class="block-content collapse in">
+                        <form class="form-horizontal" action="/profile" 
+                        method="POST">
+                            <fieldset>
+
+                            <legend>Perfil</legend>
+                            <div class="control-group">
+                                <label class="control-label" for="email">Email</label>
+                                <div class="controls">
+                                <input class="input-xlarge focused" name="email" type="text"
+                                value="<%=user.email%>">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="password">Senha</label>
+                                <div class="controls">
+                                <input class="input-xlarge" name="password" type="text"
+                                value="<%=user.password%>">
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Salvar Mudanças</button>
+                            </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                    </div>
+                        
+                    </div>
+                    
+                    
+                    
+                </div>
+                <!-- End Content -->
+
+            </div>
+
+            <hr>
+
+            <%- include('includes/footer.ejs'); %>
+
+        </div>
+        <!--/.fluid-container-->
+        <%- include('includes/scripts-bottom.ejs'); %>
+    </body>
+
+</html>

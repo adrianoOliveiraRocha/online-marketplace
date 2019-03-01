@@ -14,9 +14,14 @@ class User {
   }
 
   static verify(data, application, callback) {
-    var stm = `select count(*) from user where email = '${data.email}' 
+    var stm = `select * from user where email = '${data.email}' 
     and password = ${data.password}`;
-    console.log(stm)
+    application.config.connect().query(stm, callback);
+  }
+
+  static update(user, data, application, callback) {
+    var stm = `update user set email = '${data.email}', password='${data.password} 
+    where id = ${user.id}`;
     application.config.connect().query(stm, callback);
   }
 

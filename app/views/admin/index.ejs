@@ -19,9 +19,15 @@
                 <div class="span9" id="content">
                    
                     <div class="row-fluid">
-                        <div class='block'>
-                            First row-fluid
-                        </div>
+                    
+                        <% if(msg){ %>
+                            <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Mensagem!</strong>
+                            <%=msg%>
+                            </div>
+                        <% } %>
+                        
                     </div>
                         
                     <div class="row-fluid">

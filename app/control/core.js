@@ -10,6 +10,7 @@ module.exports.login = (req, res, application) => {
   var message = req.session.message;
   req.session.message = '';
   if(req.session.loged) {
+    req.session.message = `Você está logado(a) como ${req.session.email}`;
     res.redirect('/admin');
   } else {
     if (req.method == 'GET') {
@@ -25,12 +26,12 @@ module.exports.login = (req, res, application) => {
           res.render('core/login.ejs', {
             'msg': message
           });
-        } else {
-          req.session.email = req.body.email;
-          req.session.password = req.body.password;
-          req.session.message = `Bem vindo/a ${req.session.email}`;
+        } else { 
+          console.log(result[0]);
+          req.session.user = result[0];
+          req.session.message = `Você está logado(a) como ${req.session.email}`;
           req.session.loged = true;
-          res.redirect('/');
+          res.redirect('/admin');
         }
       });   
     }
