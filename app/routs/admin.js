@@ -10,10 +10,10 @@ module.exports = (application) => {
 
   application.get('/profile', (req, res) => {
     application.app.control.admin.profile(req, res, application);
-  })
+  });
 
   application.post('/profile', (req, res) => {
     application.app.control.admin.profile(req, res, application);
-  })
+  }); 
 
 }

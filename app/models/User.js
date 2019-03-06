@@ -20,7 +20,7 @@ class User {
   }
 
   static update(user, data, application, callback) {
-    var stm = `update user set email = '${data.email}', password='${data.password} 
+    var stm = `update user set email = '${data.email}', password='${data.password}' 
     where id = ${user.id}`;
     application.config.connect().query(stm, callback);
   }

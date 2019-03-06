@@ -25,8 +25,10 @@ module.exports.profile = (req, res, application) => {
       if (error) {
         res.send(error.sqlMessage);
       } else {
-        res.send(result[0]);
+        req.session.message = 'Atualizado com sucesso!';
+        res.redirect('\admin');
       }
     });
   }  
 }
+
