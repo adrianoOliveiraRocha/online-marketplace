@@ -3,7 +3,7 @@ class Post {
   constructor(title, text, image=null) {
     this.title = title,
     this.text = text,
-    this.inage = image
+    this.image = image
   }
 
   getTitle() {
@@ -20,4 +20,8 @@ class Post {
     application.config.connect().query(stm, callback);
   }
 
+}
+
+module.exports = () => {
+  return Post;
 }
