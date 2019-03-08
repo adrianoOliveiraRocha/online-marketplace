@@ -2,8 +2,8 @@
 <html class="no-js">
 	
 	<head>
-		<title>Novo Post</title>
-		<%- include('../includes/links-np-css.ejs'); %>
+		<title>Detalhes</title>
+		<%- include('../includes/links-css.ejs'); %>
 	</head>
 	
 	<body>
@@ -26,7 +26,7 @@
 						<form class="form-horizontal" 
 						id='form'
 						@submit="checkForm"
-						action="/new_post" 
+						action="/edit_post" 
 						method="POST"
 						enctype="multipart/form-data">
 
@@ -39,15 +39,24 @@
 
 							<fieldset>
 
-							<legend>Novo Post</legend>
+							<legend>Detalhes do Post</legend>
 							<div class="control-group">
 								<label class="control-label" for="title">Título</label>
 								<div class="controls">
 								<input class="input-xlarge focused" name="title" type="text"
-								v-model='title'>
+								v-model='title' value="<%=post.title%>">
 								</div>
 							</div>
-							
+							<div class="control-group">
+								<label class="control-label" for="text">Texto</label>
+								<div class="controls">
+								
+								<textarea rows="10"
+                class="input-xlarge" name="text" v-model='text'>
+                <%=post.text%>
+								</textarea>
+								</div>
+							</div>
 							<div class="control-group">
 								<label class="control-label" for="image">Imagem</label>
 								<div class="controls">
@@ -55,27 +64,8 @@
 								</div>
 							</div>
 							
-							<!-- tex editor -->
-							<div class="control-group">
-								<label class="control-label" for="text">Texto</label>
-								<div class="controls">
-								
-								<div class="block">
-										<div class="navbar navbar-inner block-header">
-												<div class="muted pull-left">CKEditor Full</div>
-										</div>
-										<div class="block-content collapse in">
-												<textarea id="ckeditor_full"
-												name="text" v-model="text"></textarea>
-										</div>
-								</div>
-
-								</div>
-							</div>
-							<!-- end tex editor -->
-							
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">Salvar</button>
+								<button type="submit" class="btn btn-primary">Editar</button>
 							</div>
 
 							</fieldset>
@@ -131,7 +121,7 @@
 
 		</div>
 		<!--/.fluid-container-->
-		<%- include('../includes/scripts-np-bottom.ejs'); %>
+		<%- include('../includes/scripts-bottom.ejs'); %>
 	</body>
 
 </html>
