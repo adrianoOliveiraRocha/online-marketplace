@@ -24,7 +24,7 @@ module.exports.new_post = (req, res, application) => {
     var post = new Post(data.title, data.text, imageName);
     post.save(application, (err, result) => {
       if(err) {
-        req.send(err.sqlMessage);
+        res.send(err.sqlMessage);
       } else {
         console.log(`Saved with id ${result['insertId']}`);
         req.session.message = 'Novo post salvo com sucesso!';
@@ -32,4 +32,31 @@ module.exports.new_post = (req, res, application) => {
       }
     });
   }
+}
+
+module.exports.show_posts = (req, res, application) => {
+  const Post = application.app.models.Post;
+  Post.getAll(application, (err, result) => {
+    if(err) {
+      console.error(`Error: ${err}`);
+    } else {
+      res.render('admin/post/show_posts.ejs', {
+        'user': req.session.user,
+        'posts': result
+      });
+    }
+  })
+  
+}
+
+module.exports.details_post = (req, res, application) => {
+  var idPost = req.query.id;
+  const Post = application.app.models.Post;
+  var post = Post.get(idPost, application, (err, result) => {
+    if (err) {
+      res.send(err.sqlMessage);
+    } else {
+      res.send(result[0]);
+    }
+  });
 }
