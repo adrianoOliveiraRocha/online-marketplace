@@ -38,11 +38,16 @@ class Post {
     application.config.connect().query(stm, callback);
   }
 
-  static editPost(data, application, callback) {
+  static editPost(data, imageName, application, callback) {
     let stm = `update post 
-    set title = '${data.title}', text = '${data.text}' 
+    set title = '${data.title}', text = '${data.text}', 
+    image = '${imageName}'
     where id = ${data.idPost}`;
-    console.log(stm);
+    application.config.connect().query(stm, callback);
+  }
+
+  static changeImage(idPost, application, callback){
+    let stm = `select * from post where id = ${idPost}`;
     application.config.connect().query(stm, callback);
   }
 

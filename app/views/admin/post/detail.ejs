@@ -2,7 +2,7 @@
 <html class="no-js">
 	
 	<head>
-		<title>Novo Post</title>
+		<title>Editar Post</title>
 		<%- include('../includes/links-np-css.ejs'); %>
 
 		<script src='/admin/utils.js'>
@@ -64,9 +64,15 @@
 							</div>
 							<% } else { %>
 							<div class="control-group">
-								<label class="control-label" for="image">Imagem</label>
+								<label class="control-label">Imagem</label>
 								<div class="controls">
-								my image here!
+								<img src="upload/<%=post.image %>" width="240px;">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="image">Substituir Imagem</label>
+								<div class="controls">
+								<input class="input-xlarge" name="image" type="file">
 								</div>
 							</div>
 							<% } %>

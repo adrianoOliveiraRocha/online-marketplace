@@ -67,23 +67,45 @@ module.exports.details_post = (req, res, application) => {
 }
 
 module.exports.edit_post = (req, res, application) => {
+  console.log(req.files.image.name);
   var data = req.body;
   var imageName = null;
+  const Post = application.app.models.Post;
 
-  // if (Object.keys(req.files).length > 0) {// image sended
-  //   let prefix = new Date().getTime() + '_';
-  //   console.log(`prefix: ${prefix}`);
-  //   imageName = prefix + req.files.image.name;
-  //   console.log(`imageName: ${imageName}`);
-  //   let image = req.files.image;
-  //   image.mv(__dirname + '/../public/upload/' + imageName, (err) => {
-  //     if (err) {
-  //       return res.status(500).send(err);
-  //     }
-  //   });
-  // }
-
-  application.app.models.Post.editPost(data, application,
+  if (Object.keys(req.files).length > 0) {// image sended
+    let prefix = new Date().getTime() + '_';
+    imageName = prefix + req.files.image.name;
+    console.log(`imageName: ${imageName}`);
+    let image = req.files.image;
+    image.mv(__dirname + '/../public/upload/' + imageName, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else { //delete the current image
+        Post.changeImage(data.idPost, application, (err, result) => {
+          if (err) {
+            console.error(err.sqlMessage);
+            res.send(`Oops! error getting image name of the database. Please contact the developer!`);
+          } else {
+            if (Object.keys(result).length == 0) {
+              console.log(`No image to delete`);
+            } else {
+              let oldFile = __dirname + `/../public/upload/${result[0].image}`;
+              const fs = require('fs');
+              fs.unlink(oldFile, (errOldFile) => {
+                if (errOldFile) {
+                  console.log(`Error trying delete the file: ${errOldFile}`);
+                } else {
+                  console.error('Image deleted with success!');
+                }
+              }); 
+            }
+          }
+        });
+      }
+    });
+  }
+  
+  application.app.models.Post.editPost(data, imageName, application,  
     (err, result) => {
     if(err) {
       console.error(err.sqlMessage);      
