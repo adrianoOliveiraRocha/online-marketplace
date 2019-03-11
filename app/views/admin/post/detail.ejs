@@ -2,8 +2,12 @@
 <html class="no-js">
 	
 	<head>
-		<title>Detalhes</title>
-		<%- include('../includes/links-css.ejs'); %>
+		<title>Novo Post</title>
+		<%- include('../includes/links-np-css.ejs'); %>
+
+		<script src='/admin/utils.js'>
+			
+		</script>
 	</head>
 	
 	<body>
@@ -23,49 +27,76 @@
 					<div class="span12">
 					<div class="block-content collapse in">
 
+						<% if(msg){ %>
+						<div class="alert alert-success alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>Sucesso!</strong>
+							<%=msg%>
+						</div>
+						<% } %>
+
 						<form class="form-horizontal" 
 						id='form'
-						@submit="checkForm"
 						action="/edit_post" 
 						method="POST"
 						enctype="multipart/form-data">
 
-						<p v-if="errors.length" class="alert alert-danger">
-							<b>Corriga o(s) seguintes erro(s):</b>
-							<ul>
-							<li v-for="error in errors">{{ error }}</li>
-							</ul>
-						</p>
+							<input type="hidden" name="idPost" value="<%=post.id%>">
 
 							<fieldset>
 
-							<legend>Detalhes do Post</legend>
+							<legend>Editar Post</legend>
+
 							<div class="control-group">
 								<label class="control-label" for="title">Título</label>
 								<div class="controls">
 								<input class="input-xlarge focused" name="title" type="text"
-								v-model='title' value="<%=post.title%>">
+								id="title" value="<%=post.title%>">
 								</div>
 							</div>
-							<div class="control-group">
-								<label class="control-label" for="text">Texto</label>
-								<div class="controls">
-								
-								<textarea rows="10"
-                class="input-xlarge" name="text" v-model='text'>
-                <%=post.text%>
-								</textarea>
-								</div>
-							</div>
+							
+							<% if(post.image === 'null'){ %>
 							<div class="control-group">
 								<label class="control-label" for="image">Imagem</label>
 								<div class="controls">
 								<input class="input-xlarge" name="image" type="file">
 								</div>
 							</div>
+							<% } else { %>
+							<div class="control-group">
+								<label class="control-label" for="image">Imagem</label>
+								<div class="controls">
+								my image here!
+								</div>
+							</div>
+							<% } %>
 							
+							<!-- tex editor -->
+							<div class="control-group">
+								<label class="control-label" for="text">Texto</label>
+								<div class="controls">
+								
+								<div class="block">
+										<div class="navbar navbar-inner block-header">
+												<div class="muted pull-left">Editor</div>
+										</div>
+										<div class="block-content collapse in">
+												<textarea id="ckeditor_full"
+												name="text"><%=post.text%></textarea>
+										</div>
+								</div>
+
+								</div>
+							</div>
+							<!-- end tex editor -->
+							
+							<div class="control-group">
+								<div class="controls"  id='messages'></div>
+							</div>
+
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">Editar</button>
+								<button type="button" class="btn btn-primary"
+								onClick='validateNewPost();'>Editar</button>
 							</div>
 
 							</fieldset>
@@ -80,39 +111,6 @@
 				</div>
 				<!-- End Content -->
 
-				<!-- development version, includes helpful console warnings -->
-				<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-				<script>
-					const app = new Vue({
-						el: '#form',
-						data: {
-							errors: [],
-							title: null,
-							text: null,
-						},
-						methods: {
-							checkForm: function(e) {
-								if(this.title && this.text) {
-									return true;
-								}
-
-								this.errors = [];
-
-								if(!this.title) {
-									this.errors.push("Por favor, preencha o campo Título");
-								}
-
-								if(!this.text) {
-									this.errors.push("Por favor, preencha o campo Texto");
-								}
-								
-								e.preventDefault();
-							}
-						}
-					});
-				</script>
-
 			</div>
 
 			<hr>
@@ -121,7 +119,7 @@
 
 		</div>
 		<!--/.fluid-container-->
-		<%- include('../includes/scripts-bottom.ejs'); %>
+		<%- include('../includes/scripts-np-bottom.ejs'); %>
 	</body>
 
 </html>

@@ -38,6 +38,14 @@ class Post {
     application.config.connect().query(stm, callback);
   }
 
+  static editPost(data, application, callback) {
+    let stm = `update post 
+    set title = '${data.title}', text = '${data.text}' 
+    where id = ${data.idPost}`;
+    console.log(stm);
+    application.config.connect().query(stm, callback);
+  }
+
 }
 
 module.exports = () => {

@@ -16,4 +16,8 @@ module.exports = (application) => {
     application.app.control.post.details_post(req, res, application);
   });
 
+  application.post('/edit_post', (req, res) => {
+    application.app.control.post.edit_post(req, res, application);
+  });
+
 }
