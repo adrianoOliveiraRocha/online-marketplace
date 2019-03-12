@@ -6,14 +6,6 @@ class Post {
     this.image = image
   }
 
-  getTitle() {
-    return this.title;
-  }
-
-  getText() {
-    return this.text;
-  }
-
   save(application, callback) {
 
     const dateFormat = require('dateformat');
@@ -43,11 +35,6 @@ class Post {
     set title = '${data.title}', text = '${data.text}', 
     image = '${imageName}'
     where id = ${data.idPost}`;
-    application.config.connect().query(stm, callback);
-  }
-
-  static changeImage(idPost, application, callback){
-    let stm = `select * from post where id = ${idPost}`;
     application.config.connect().query(stm, callback);
   }
 
