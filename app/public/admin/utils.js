@@ -34,3 +34,4 @@ function validateNewPost() {
     console.error(`Oh my god! I have an error: ${error}`);
   }
 }
+

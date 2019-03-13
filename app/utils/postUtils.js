@@ -1,11 +1,10 @@
-function deleteOldeImage(Post, data, application) {
-  Post.get(data.idPost, application, (err, result) => {
+function deleteOldeImage(Post, postId, application) {
+  Post.get(postId, application, (err, result) => {
     if (err) {
-      console.error(err.sqlMessage);
-      res.send(`Oops! error getting image name of the database. Please contact the developer!`);
+      throw err;
     } else {
       if (Object.keys(result).length == 0) {
-        console.log(`No image to delete`);
+        console.log(`No image to delete: ${result[0]}`);
       } else {
         let oldFile = __dirname + `/../public/upload/${result[0].image}`;
         const fs = require('fs');
@@ -27,7 +26,6 @@ function uploadImage(image) {
   image.mv(__dirname + '/../public/upload/' + imageName, (err) => {
     if (err) {
       console.error(err);
-      return null;
     }
   });
   return imageName;
