@@ -1,4 +1,5 @@
 class Category {
+  
   constructor(name, image=null) {
     this.name = name;
     this.image = image;
@@ -10,4 +11,9 @@ class Category {
     application.config.connect().query(stm, callback);
   }
 
+}
+
+
+module.exports = () => {
+  return Category;
 }
