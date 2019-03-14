@@ -1,4 +1,4 @@
-class Post {
+class Product {
 
   constructor(title, text, image=null) {
     this.title = title,
@@ -27,7 +27,7 @@ class Post {
     application.config.connect().query(stm, callback);
   }
 
-  static editPost(data, imageName, application, callback) {
+  static editProduct(data, imageName, application, callback) {
     console.log(`imageName: ${imageName}`);
     var stm = null;
     if (imageName != null) { 
@@ -43,7 +43,7 @@ class Post {
     application.config.connect().query(stm, callback);
   }
 
-  static deletePost(postId, application, callback) {
+  static deleteProduct(postId, application, callback) {
     var stm = `delete from post where id = ${postId}`;
     console.log(stm);
     application.config.connect().query(stm, callback);
@@ -51,5 +51,5 @@ class Post {
 }
 
 module.exports = () => {
-  return Post;
+  return Product;
 }

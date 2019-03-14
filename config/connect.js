@@ -4,7 +4,7 @@ var connect = function () {
     host: 'localhost',
     user: 'adriano',
     password: '453231',
-    database: 'blog'
+    database: 'onlinemarketplace'
   });
 }
 module.exports = function () {
