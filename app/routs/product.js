@@ -1,27 +1,11 @@
 module.exports = (application) => {
 
-  application.get('/new_post', (req, res) => {
-    application.app.control.post.new_post(req, res, application);
+  application.get('/novo_produto', (req, res) => {
+    application.app.control.product.new_product(req, res, application);
   });
 
-  application.post('/new_post', (req, res) => {
-    application.app.control.post.new_post(req, res, application);
-  });
-
-  application.get('/show_posts', (req, res) => {
-    application.app.control.post.show_posts(req, res, application);
-  });
-
-  application.get('/details_post', (req, res) => {
-    application.app.control.post.details_post(req, res, application);
-  });
-
-  application.post('/edit_post', (req, res) => {
-    application.app.control.post.edit_post(req, res, application);
-  });
-
-  application.get('/delete_post', (req, res) => {
-    application.app.control.post.delete_post(req, res, application);
-  });
+  application.post('/novo_produto', (req, res) => {
+    application.app.control.product.new_product(req, res, application);
+  }); 
 
 }

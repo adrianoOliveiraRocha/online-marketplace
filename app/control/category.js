@@ -79,7 +79,6 @@ module.exports.edit_category = (req, res, application) => {
       console.error(err.sqlMessage);      
       res.send(err.sqlMessage);
     } else {
-      console.log(result);
       req.session.message = 'Post editado com sucesso!';
       res.redirect('\admin');
     }

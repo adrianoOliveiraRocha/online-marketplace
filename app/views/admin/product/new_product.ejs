@@ -2,11 +2,8 @@
 <html class="no-js">
 	
 	<head>
-		<title>Novo Post</title>
+		<title>Novo Produto</title>
 		<%- include('../includes/links-np-css.ejs'); %>
-
-		<script src='/admin/utils.js'>
-			
 		</script>
 	</head>
 	
@@ -37,55 +34,65 @@
 
 						<form class="form-horizontal" 
 						id='form'
-						action="/new_post" 
+						action="/novo_produto" 
 						method="POST"
 						enctype="multipart/form-data">
 
 							<fieldset>
 
-							<legend>Novo Post</legend>
+							<legend>Novo Product</legend>
 
 							<div class="control-group">
-								<label class="control-label" for="title">Título</label>
+								<label class="control-label" for="name">Nome</label>
 								<div class="controls">
-								<input class="input-xlarge focused" name="title" type="text"
-								id="title">
+								<input class="input-xlarge focused" name="name" type="text"
+								id="name">
 								</div>
 							</div>
 							
+							<div class="control-group">
+								<label class="control-label" for="name">Descrição</label>
+								<div class="controls">
+								<textarea rows="5" cols="10"
+								class="input-xlarge" name="description" 
+								id="description">
+								</textarea>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="category">Categoria</label>
+								<div class="controls">
+								<select class="input-xlarge" name="category">
+									<% for(category of Object.values(allCategories)) { %>
+									<option value="<%=category.id%>"><%=category.name%></option>
+									<% } %>
+								</select>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="name">Preço R$</label>
+								<div class="controls">
+								<input class="input-xlarge" name="price" type="text"
+								id="price">
+								</div>
+							</div>
+
 							<div class="control-group">
 								<label class="control-label" for="image">Imagem</label>
 								<div class="controls">
 								<input class="input-xlarge" name="image" type="file">
 								</div>
 							</div>
-							
-							<!-- tex editor -->
-							<div class="control-group">
-								<label class="control-label" for="text">Texto</label>
-								<div class="controls">
-								
-								<div class="block">
-										<div class="navbar navbar-inner block-header">
-												<div class="muted pull-left">Editor</div>
-										</div>
-										<div class="block-content collapse in">
-												<textarea id="ckeditor_full"
-												name="text"></textarea>
-										</div>
-								</div>
-
-								</div>
-							</div>
-							<!-- end tex editor -->
-							
+												
 							<div class="control-group">
 								<div class="controls"  id='messages'></div>
 							</div>
 
 							<div class="form-actions">
 								<button type="button" class="btn btn-primary"
-								onClick='validateNewPost();'>Salvar</button>
+								onClick='validateNewProduct();'>Salvar</button>
 							</div>
 
 							</fieldset>
@@ -109,6 +116,7 @@
 		</div>
 		<!--/.fluid-container-->
 		<%- include('../includes/scripts-np-bottom.ejs'); %>
+		<script src="/admin/utilsProduct.js"></script>
 	</body>
 
 </html>
