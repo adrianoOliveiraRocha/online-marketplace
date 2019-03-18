@@ -5,9 +5,34 @@ class Category {
     this.image = image;
   } 
 
-  save(data, application, callback) {
+  save(application, callback) {
     let stm = `insert into category(name, image) 
-    values('${data.name}', '${data.image}')`;
+    values('${this.name}', '${this.image}')`;
+    application.config.connect().query(stm, callback);
+  }
+
+  static getAll(application, callback) {
+    let stm = `select * from category`;
+    application.config.connect().query(stm, callback);
+  }
+
+  static getThis(categoryId, application, callback) {
+    let stm = `select * from category where id = ${categoryId}`;
+    application.config.connect().query(stm, callback);
+  }
+
+  static edit(data, imageName, application, callback) {
+    var stm = null;
+    if (imageName != null) { 
+      stm = `update category 
+      set name = '${data.name}', 
+      image = '${imageName}'
+      where id = ${data.categoryId}`;
+    } else {
+      stm = `update category 
+      set name = '${data.name}' 
+      where id = ${data.categoryId}`;
+    }
     application.config.connect().query(stm, callback);
   }
 

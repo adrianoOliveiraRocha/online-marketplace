@@ -1,5 +1,5 @@
-function deleteOldeImage(Post, postId, application) {
-  Post.get(postId, application, (err, result) => {
+function deleteOldeImage(Category, categoryId, application) {
+  Category.get(categoryId, application, (err, result) => {
     if (err) {
       throw err;
     } else {

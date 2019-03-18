@@ -2,9 +2,8 @@
 <html class="no-js">
 	
 	<head>
-		<title>Nova Categoria</title>
-		<%- include('../includes/links-css.ejs'); %>
-
+		<title>Editar Categoria</title>
+		<%- include('../includes/links-np-css.ejs'); %>		
 	</head>
 	
 	<body>
@@ -34,28 +33,45 @@
 
 						<form class="form-horizontal" 
 						id='form'
-						action="/nova_categoria" 
+						action="/edit_category" 
 						method="POST"
 						enctype="multipart/form-data">
 
+							<input type="hidden" name="categoryId" value="<%=category.id%>">
+
 							<fieldset>
 
-							<legend>Nova Categoria</legend>
+							<legend>Editar Categoria</legend>
 
 							<div class="control-group">
 								<label class="control-label" for="name">Nome</label>
 								<div class="controls">
 								<input class="input-xlarge focused" name="name" type="text"
-								id="name">
+								id="name" value="<%=category.name%>">
 								</div>
 							</div>
 							
+							<% if(category.image === 'null'){ %>
 							<div class="control-group">
 								<label class="control-label" for="image">Imagem</label>
 								<div class="controls">
 								<input class="input-xlarge" name="image" type="file">
 								</div>
 							</div>
+							<% } else { %>
+							<div class="control-group">
+								<label class="control-label">Imagem</label>
+								<div class="controls">
+								<img src="upload/<%=category.image %>" width="240px;">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="image">Substituir Imagem</label>
+								<div class="controls">
+								<input class="input-xlarge" name="image" type="file">
+								</div>
+							</div>
+							<% } %>
 							
 							<div class="control-group">
 								<div class="controls"  id='messages'></div>
@@ -63,7 +79,10 @@
 
 							<div class="form-actions">
 								<button type="button" class="btn btn-primary"
-								onClick='validateNewCategory();'>Salvar</button>
+								onClick='validateNewCategory();'>Editar</button>
+								<a class="btn btn-primary" href="/delete_category?categoryId=<%=category.id%>">
+									Deletar
+								</a>
 							</div>
 
 							</fieldset>
@@ -86,8 +105,8 @@
 
 		</div>
 		<!--/.fluid-container-->
-		<%- include('../includes/scripts-bottom.ejs'); %>
-		<script src="/admin/utilsCategory.js"></script>
+    <%- include('../includes/scripts-np-bottom.ejs'); %>
+    <script src="/admin/utilsCategory.js"></script> 
 	</body>
 
 </html>
