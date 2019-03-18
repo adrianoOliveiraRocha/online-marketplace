@@ -62,7 +62,7 @@ module.exports.details_category = (req, res, application) => {
   });  
 }
 
-module.exports.edit_category = () => {
+module.exports.edit_category = (req, res, application) => {
   var data = req.body;
   var imageName = null;
   const Category = application.app.models.Category;
