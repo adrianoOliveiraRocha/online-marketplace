@@ -2,7 +2,7 @@ function validateNewProduct() {
   try {
     const form = document.getElementById('form');
     var name = document.getElementById('name').value;
-    var description = document.getElementById('description').innerText;
+    var description = document.getElementById('description').value;
     var price = document.getElementById('price').value;
     let errors = [];
 
@@ -14,8 +14,11 @@ function validateNewProduct() {
       errors.push('<strong>Por favor! preencha o campo descrição</strong>');
     }
 
-    if (!chekPrice(price)) {
+    price = chekPrice(price);
+    if (!price) {
       errors.push('<strong>Por favor! preencha o campo preço corretamente</strong>');
+    } else {
+      document.getElementById('price').value = price;
     }
 
     if (Object.keys(errors).length > 0) {
@@ -31,7 +34,6 @@ function validateNewProduct() {
       
     } else {
       document.getElementById('messages').innerHTML = '';
-      document.getElementById('ckeditor_full').value = description;
       form.submit();
     }
 
@@ -43,7 +45,7 @@ function validateNewProduct() {
 function chekPrice(price) {
   var numericPrice = price.replace(',', '.');
   try {
-    numericPrice = parseInt(numericPrice);
+    numericPrice = parseFloat(numericPrice);
     return numericPrice;
   } catch (error) {
     console.error(error.message);

@@ -37,7 +37,6 @@ module.exports.show_categories = (req, res, application) => {
       console.error(err.sqlMessage);
       res.send(`Error: ${err.sqlMessage}`);
     } else {
-      console.log(Object.values(result))
       res.render('admin/category/show_categories.ejs', {
         'categories': result,
         'user': req.session.user,

@@ -38,3 +38,16 @@ module.exports.new_product = (req, res, application) => {
 
   }
 }
+
+module.exports.show_products = (req, res, application) => {
+  application.app.models.Product.getAll(application, (err, result) => {
+    if(err) {
+      console.error(`Error trying get all products: ${err.sqlMessage}`);
+    } else {
+      res.render('admin/product/show_products.ejs', {
+        'products': result,
+        'user': req.session.user,
+      });
+    }
+  });
+}
