@@ -2,10 +2,10 @@
 <html class="no-js">
 	
 	<head>
-		<title>Editar Post</title>
+		<title>Editar Product</title>
 		<%- include('../includes/links-np-css.ejs'); %>
 
-		<script src='/admin/utils.js'>
+		<script src='/admin/utilsProduct.js'>
 			
 		</script>
 	</head>
@@ -37,25 +37,54 @@
 
 						<form class="form-horizontal" 
 						id='form'
-						action="/edit_post" 
+						action="/edit_product" 
 						method="POST"
 						enctype="multipart/form-data">
 
-							<input type="hidden" name="idPost" value="<%=post.id%>">
+							<input type="hidden" name="productId" value="<%=product.id%>">
 
 							<fieldset>
 
-							<legend>Editar Post</legend>
+							<legend>Editar Product</legend>
 
 							<div class="control-group">
-								<label class="control-label" for="title">Título</label>
+								<label class="control-label" for="title">Nome</label>
 								<div class="controls">
-								<input class="input-xlarge focused" name="title" type="text"
-								id="title" value="<%=post.title%>">
+								<input class="input-xlarge focused" name="name" type="text"
+								id="name" value="<%=product.name%>">
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="name">Descrição</label>
+								<div class="controls">
+									<textarea rows="5" cols="10"
+									class="input-xlarge" name="description" 
+									id="description">
+									<%=product.description%>
+									</textarea>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="category">Categoria</label>
+								<div class="controls">
+								<select class="input-xlarge" name="category">
+									<% for(category of Object.values(allCategories)) { %>
+									<option value="<%=category.id%>"><%=category.name%></option>
+									<% } %>
+								</select>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="name">Preço R$</label>
+								<div class="controls">
+								<input class="input-xlarge" name="price" type="text"
+								id="price">
 								</div>
 							</div>
 							
-							<% if(post.image === 'null'){ %>
+							<% if(product.image === 'null'){ %>
 							<div class="control-group">
 								<label class="control-label" for="image">Imagem</label>
 								<div class="controls">
@@ -66,7 +95,7 @@
 							<div class="control-group">
 								<label class="control-label">Imagem</label>
 								<div class="controls">
-								<img src="upload/<%=post.image %>" width="240px;">
+								<img src="upload/<%=product.image %>" width="240px;">
 								</div>
 							</div>
 							<div class="control-group">
@@ -77,24 +106,7 @@
 							</div>
 							<% } %>
 							
-							<!-- tex editor -->
-							<div class="control-group">
-								<label class="control-label" for="text">Texto</label>
-								<div class="controls">
-								
-								<div class="block">
-										<div class="navbar navbar-inner block-header">
-												<div class="muted pull-left">Editor</div>
-										</div>
-										<div class="block-content collapse in">
-												<textarea id="ckeditor_full"
-												name="text"><%=post.text%></textarea>
-										</div>
-								</div>
-
-								</div>
-							</div>
-							<!-- end tex editor -->
+							
 							
 							<div class="control-group">
 								<div class="controls"  id='messages'></div>
@@ -102,8 +114,8 @@
 
 							<div class="form-actions">
 								<button type="button" class="btn btn-primary"
-								onClick='validateNewPost();'>Editar</button>
-								<a class="btn btn-primary" href="/delete_post?postId=<%=post.id%>">
+								onClick='validateNewProduct();'>Editar</button>
+								<a class="btn btn-primary" href="/delete_product?productId=<%=product.id%>">
 									Deletar
 								</a>
 							</div>

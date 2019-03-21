@@ -9,7 +9,7 @@ class Product {
   }
 
   save(application, callback) {
-    var stm = `insert into product (name, description, category, price, image) 
+    let stm = `insert into product (name, description, category, price, image) 
     values('${this.name}', '${this.description}', ${this.category}, ${this.price}, 
     '${this.image}')`;
     application.config.connect().query(stm, callback);
@@ -17,6 +17,26 @@ class Product {
 
   static getAll(application, callback) {
     let stm = `select * from product`;
+    application.config.connect().query(stm, callback);
+  }
+
+  static getThis(productId, application, callback) {
+    let stm = `select * from product where id = '${productId}'`;
+    application.config.connect().query(stm, callback); 
+  }
+
+  static edit(data, imageName, application, callback) {
+    var stm = null;
+    if (imageName != null) { 
+      stm = `update product 
+      set name = '${data.name}', 
+      image = '${imageName}'
+      where id = ${data.categoryId}`;
+    } else {
+      stm = `update category 
+      set name = '${data.name}' 
+      where id = ${data.categoryId}`;
+    }
     application.config.connect().query(stm, callback);
   }
   
