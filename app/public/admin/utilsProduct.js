@@ -43,6 +43,7 @@ function validateNewProduct() {
 }
 
 function chekPrice(price) {
+  var numericPrice = price.replace('R$ ', '');
   var numericPrice = price.replace(',', '.');
   try {
     numericPrice = parseFloat(numericPrice);
