@@ -2,7 +2,7 @@ function validateNewProduct() {
   try {
     const form = document.getElementById('form');
     var name = document.getElementById('name').value;
-    var description = document.getElementById('description').value;
+    var description = document.getElementById('description').value.trim();
     var price = document.getElementById('price').value;
     let errors = [];
 
@@ -34,6 +34,7 @@ function validateNewProduct() {
       
     } else {
       document.getElementById('messages').innerHTML = '';
+      // alert('all rigth');
       form.submit();
     }
 
@@ -43,8 +44,8 @@ function validateNewProduct() {
 }
 
 function chekPrice(price) {
-  var numericPrice = price.replace('R$ ', '');
   var numericPrice = price.replace(',', '.');
+  var numericPrice = numericPrice.replace('R$', '');
   try {
     numericPrice = parseFloat(numericPrice);
     return numericPrice;
@@ -53,3 +54,4 @@ function chekPrice(price) {
     return false;
   }
 }
+

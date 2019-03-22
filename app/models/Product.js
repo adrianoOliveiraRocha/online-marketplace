@@ -10,7 +10,7 @@ class Product {
 
   save(application, callback) {
     let stm = `insert into product (name, description, category, price, image) 
-    values('${this.name}', '${this.description}', ${this.category}, ${this.price}, 
+    values('${this.name}', '${this.description.trim()}', ${this.category}, ${this.price}, 
     '${this.image}')`;
     application.config.connect().query(stm, callback);
   }
@@ -26,17 +26,25 @@ class Product {
   }
 
   static edit(data, imageName, application, callback) {
-    var stm = null;
+    var stm = null;   
+    
     if (imageName != null) { 
       stm = `update product 
-      set name = '${data.name}', 
+      set name = '${data.name}',
+      description = '${data.description.trim()}',
+      category = ${data.category},
+      price = ${data.price}, 
       image = '${imageName}'
-      where id = ${data.categoryId}`;
+      where id = ${data.productId}`;
     } else {
-      stm = `update category 
-      set name = '${data.name}' 
-      where id = ${data.categoryId}`;
+      stm = `update product 
+      set name = '${data.name}',
+      description = '${data.description.trim()}',
+      category = ${data.category},
+      price = ${data.price}
+      where id = ${data.productId}`;
     }
+    console.log(stm)
     application.config.connect().query(stm, callback);
   }
   

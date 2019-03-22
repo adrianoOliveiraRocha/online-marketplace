@@ -101,7 +101,7 @@ module.exports.edit_product = (req, res, application) => {
       console.error(err.sqlMessage);      
       res.send(err.sqlMessage);
     } else {
-      console.log(`inserted id: ${result[0].insertId}`);
+      console.log(`Success ${result}`);
       req.session.message = 'Post editado com sucesso!';
       res.redirect('\admin');
     }
