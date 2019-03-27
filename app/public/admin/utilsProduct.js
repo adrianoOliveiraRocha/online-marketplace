@@ -55,3 +55,8 @@ function chekPrice(price) {
   }
 }
 
+
+function editProfile() {
+  console.log('test')
+}
+

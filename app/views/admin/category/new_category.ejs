@@ -1,93 +1,109 @@
+
 <!DOCTYPE html>
-<html class="no-js">
-	
-	<head>
-		<title>Nova Categoria</title>
-		<%- include('../includes/links-css.ejs'); %>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Área Administrativa</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <%-include('./../admin_includes/index/links.ejs')%>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
 
-	</head>
-	
-	<body>
-		<%- include('../includes/top.ejs'); %>
-		
-		<div class="container-fluid">
+  <%-include('./../admin_includes/header.ejs')%>
 
-			<div class="row-fluid">
+  <%-include('./../admin_includes/left_side_column.ejs')%>
 
-				<%- include('../includes/left-column.ejs'); %>  
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Nova Categoria
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Início</a></li>
+        <li><a href="#">Categoria</a></li>
+        <li class="active">Nova</li>
+      </ol>
+    </section>
 
-				<!-- Content -->
-				<div class="span9" id="content">
-				   
-					<div class="row-fluid">
-						
-					<div class="span12">
-					<div class="block-content collapse in">
+    <!-- Main content -->
+    <section class="content">
 
-						<% if(msg){ %>
-						<div class="alert alert-success alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert">&times;</button>
-							<strong>Sucesso!</strong>
-							<%=msg%>
-						</div>
-						<% } %>
+      <!-- Default box -->
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Formulário</h3>
 
-						<form class="form-horizontal" 
-						id='form'
-						action="/nova_categoria" 
-						method="POST"
-						enctype="multipart/form-data">
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                    title="Collapse">
+              <i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+              <i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          <!-- form start -->
+          <form role="form" action="/test">
+            <div class="box-body">
+              <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" name="name" 
+                  placeholder="Nome da Categotia">
+              </div>
+              <div class="form-group">
+                <label for="description">Descrição</label>
+                <textarea class="form-control" 
+                id="description" name="description">
+                
+                </textarea>
+              </div>
+              <div class="form-group">
+                <label for="image">Imagem</label>
+                <input type="file" id="image" name="image">
+              </div>
+              
+            </div>
+            <!-- /.box-body -->
 
-							<fieldset>
+            <div class="box-footer">
+              <button type="button" class="btn btn-primary"
+                onClick='validateNewCategory();'>
+                Salvar
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+        <div class="control-group">
+          <div class="controls"  id='messages'></div>
+        </div>
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
 
-							<legend>Nova Categoria</legend>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
-							<div class="control-group">
-								<label class="control-label" for="name">Nome</label>
-								<div class="controls">
-								<input class="input-xlarge focused" name="name" type="text"
-								id="name">
-								</div>
-							</div>
-							
-							<div class="control-group">
-								<label class="control-label" for="image">Imagem</label>
-								<div class="controls">
-								<input class="input-xlarge" name="image" type="file">
-								</div>
-							</div>
-							
-							<div class="control-group">
-								<div class="controls"  id='messages'></div>
-							</div>
+  <%-include('./../admin_includes/footer.ejs')%>
 
-							<div class="form-actions">
-								<button type="button" class="btn btn-primary"
-								onClick='validateNewCategory();'>Salvar</button>
-							</div>
+  
+</div>
+<!-- ./wrapper -->
 
-							</fieldset>
-						</form>
+<%-include('./../admin_includes/index/scripts.ejs')%>
+<script src="admin/utilsCategory.js">
+  
+</script>
 
-					</div>
-					
-					</div>
-						
-					</div>
-
-				</div>
-				<!-- End Content -->
-
-			</div>
-
-			<hr>
-
-			<%- include('../includes/footer.ejs'); %>
-
-		</div>
-		<!--/.fluid-container-->
-		<%- include('../includes/scripts-bottom.ejs'); %>
-		<script src="/admin/utilsCategory.js"></script>
-	</body>
-
+</body>
 </html>
