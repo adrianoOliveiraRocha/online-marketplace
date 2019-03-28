@@ -1,5 +1,4 @@
 module.exports.index = (req, res, application) => {
-  console.log(req.session.user)
   var message = req.session.message;
   req.session.message = '';
   res.render('admin/index.ejs', {

@@ -22,12 +22,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Nova Categoria
+        Detalhes da Categoria
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Início</a></li>
         <li><a href="#">Categoria</a></li>
-        <li class="active">Nova</li>
+        <li class="active">Detalhes</li>
       </ol>
     </section>
 
@@ -50,23 +50,41 @@
         <div class="box-body">
           <!-- form start -->
           <form role="form" 
-            action="/nova_categoria"
+            action="/editar_categoria"
             id="form"
             method="POST"
             enctype="multipart/form-data">
-            
+
+            <input type="hidden" name="categoryId" value="<%=category.id%>">
+
             <div class="box-body">
               <div class="form-group">
                 <label for="name">Nome</label>
                 <input type="text" class="form-control" id="name" name="name" 
-                  placeholder="Nome da Categotia">
+                  placeholder="Nome da Categotia" value="<%=category.name.trim()%>">
               </div>
-
-              <div class="form-group">
-                <label for="image">Imagem</label>
-                <input type="file" id="image" name="image">
-              </div>              
-            </div>
+              
+              <% if(category.image == 'null'){ %>
+							<div class="control-group">
+								<label class="control-label" for="image">Imagem</label>
+								<div class="controls">
+								<input class="input-xlarge" name="image" type="file">
+								</div>
+							</div>
+							<% } else { %>
+              <div class="control-group">
+                <label class="control-label">Imagem</label>
+								<div class="controls">
+								<img src="upload/<%=category.image %>" width="240px;">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="image">Substituir Imagem</label>
+								<div class="controls">
+								<input class="input-xlarge" name="image" type="file">
+								</div>
+							</div>
+							<% } %>
             <!-- /.box-body -->
 
             <div class="box-footer">

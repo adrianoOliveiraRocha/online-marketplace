@@ -33,6 +33,7 @@ class Category {
       set name = '${data.name}' 
       where id = ${data.categoryId}`;
     }
+    console.log(stm);
     application.config.connect().query(stm, callback);
   }
 

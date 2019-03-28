@@ -45,14 +45,14 @@ module.exports.show_categories = (req, res, application) => {
   });  
 }
 
-module.exports.details_category = (req, res, application) => {
+module.exports.category_details = (req, res, application) => {
   var msg = req.session.message;
   req.session.message = '';
-  application.app.models.Category.getThis(req.query.id, application, (err, result) => {
+  application.app.models.Category.getThis(req.query.idCategory, application, (err, result) => {
     if(err) {
       console.error(`Error trying get this category: ${err.sqlMessage}`);
     } else {
-      res.render('admin/category/detalhes_categoria.ejs', {
+      res.render('admin/category/category_details.ejs', {
         'msg': msg,
         'category': result[0],
         'user': req.session.user,
@@ -63,7 +63,7 @@ module.exports.details_category = (req, res, application) => {
 
 module.exports.edit_category = (req, res, application) => {
   var data = req.body;
-  var imageName = null;
+  var imageName = 'null';
   const Category = application.app.models.Category;
 
   if (Object.keys(req.files).length > 0) {// image sended
@@ -78,6 +78,7 @@ module.exports.edit_category = (req, res, application) => {
       console.error(err.sqlMessage);      
       res.send(err.sqlMessage);
     } else {
+      console.log(result);
       req.session.message = 'Post editado com sucesso!';
       res.redirect('\admin');
     }
