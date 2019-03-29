@@ -38,9 +38,13 @@ function editProfile(req, res, application) {
 module.exports.index = (req, res, application) => {
   var message = req.session.message;
   req.session.message = '';
+  var error = req.session.error;
+  req.session.error = '';
+  
   res.render('admin/index.ejs', {
     'msg': message,
-    'user': req.session.user
+    'user': req.session.user,  
+    'error': error  
   });
 }
 
@@ -52,8 +56,7 @@ module.exports.logout = (req, res, application) => {
 module.exports.profile = (req, res, application) => {
   if (req.method == 'GET') {
     res.render('admin/profile.ejs', {
-      'user': req.session.user,
-      'msg': ''      
+      'user': req.session.user,           
     });
   } else {
     editProfile(req, res, application);    

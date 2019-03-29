@@ -18,7 +18,6 @@ module.exports.login = (req, res, application) => {
         'msg': message
       });
     } else {
-      console.log(`req.body: ${req.body}`)
       const User = application.app.models.User;
       User.verify(req.body, application, (error, result) => {
         if (error) {

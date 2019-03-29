@@ -13,7 +13,8 @@ function saveCategory(req, res, application) {
   category.save(application, (err, result) => {
     if(err) {
       console.error(err.sqlMessage);
-      res.send('Error trying save the category!');
+      req.session.error = `Error trying save the category: ${err.sqlMessage}`;
+      res.redirect('\admin');
     } else {
       console.log(`Saved with id ${result['insertId']}`);
       req.session.message = 'Nova Categoria salva com sucesso!';
@@ -40,7 +41,8 @@ module.exports.show_categories = (req, res, application) => {
   application.app.models.Category.getAll(application, (err, result) => {
     if(err) {
       console.error(err.sqlMessage);
-      res.send(`Error: ${err.sqlMessage}`);
+      req.session.error = `Error trying get all categories: ${err.sqlMessage}`;
+      res.redirect('\admin');
     } else {
       res.render('admin/category/show_categories.ejs', {
         'categories': result,
@@ -57,6 +59,8 @@ module.exports.category_details = (req, res, application) => {
     (err, result) => {
     if(err) {
       console.error(`Error trying get this category: ${err.sqlMessage}`);
+      req.session.error = `Error trying get this category: ${err.sqlMessage}`;
+      res.redirect('\admin');
     } else {
       res.render('admin/category/category_details.ejs', {
         'msg': msg,
@@ -81,8 +85,9 @@ module.exports.edit_category = (req, res, application) => {
   Category.edit(data, imageName, application,  
     (err, result) => {
     if(err) {
-      console.error(err.sqlMessage);      
-      res.send(err.sqlMessage);
+      console.error(err.sqlMessage);   
+      req.session.error = `Error trying edit the category: ${err.sqlMessage}`;
+      res.redirect('\admin');
     } else {
       console.log(result);
       req.session.message = 'Post editado com sucesso!';
@@ -102,7 +107,8 @@ module.exports.delete_category = (req, res, application) => {
   Category.delete(categoryId, application, (err, result) => {
     if(err) {
       console.error(`Error trying delete the category: ${err.sqlMessage}`);
-      res.send(err.sqlMessage);
+      req.session.error = `Error trying delete the category: ${err.sqlMessage}`;
+      res.redirect('\admin');
     } else {      
       console.log(result);
       req.session.message = 'Categoria deletada com sucesso!';
