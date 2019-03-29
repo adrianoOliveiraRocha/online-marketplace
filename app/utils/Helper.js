@@ -1,7 +1,7 @@
-function deleteOldeImage(Category, categoryId, application) {
-  Category.getThis(categoryId, application, (err, result) => {
+function deleteOldeImage(Class, objectId, application) {
+  Class.getThis(objectId, application, (err, result) => {
     if (err) {
-      throw new Error(`Error trying get the category to delete old image: ${err}`);
+      throw new Error(`Error trying get the object to delete old image: ${err}`);
     } else {
       if (result[0].image == 'null') {
         console.log(`No image to delete`);
@@ -11,7 +11,7 @@ function deleteOldeImage(Category, categoryId, application) {
         const fs = require('fs');
         fs.unlink(oldFile, (errOldFile) => {
           if (errOldFile) {
-            throw new Error(`Error trying delete old image of the category: ${err}`);
+            throw new Error(`Error trying delete old image of the object: ${err}`);
           } else {
             console.error('Image deleted with success!');
           }

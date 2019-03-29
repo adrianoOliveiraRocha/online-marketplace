@@ -8,7 +8,7 @@ module.exports.new_category = (req, res, application) => {
     });
   } else {
     var data = req.body;
-    var imageName = null;
+    var imageName = 'null';
     if (Object.keys(req.files).length > 0) {// image sended
       const utilsCategory = require('./../utils/utilsCategory');
       var imageName = utilsCategory.uploadImage(req.files.image);

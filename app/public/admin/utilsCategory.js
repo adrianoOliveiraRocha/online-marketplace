@@ -31,6 +31,11 @@ function validateNewCategory() {
   }
 }
 
+function deleCategory() {
+  const categoryId = document.getElementById('categoryId').value;
+  // document.href = "/test"
+}
+
 
 
 
