@@ -34,24 +34,24 @@
       
     <div class="row-fluid">
                     
-        <% if(typeof msg != "undefined" && msg != ""){ %>
-          <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Mensagem!</strong>
-            <%=msg%>
-          </div>
-        <% } %>
+      <% if(typeof msg != "undefined" && msg != ""){ %>
+        <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Mensagem!</strong>
+          <%=msg%>
+        </div>
+      <% } %>
 
-        <% if(typeof error != "undefined" && error != ""){ %>
-          <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h2>Ops! Tivemos um problema técnico. Por favor, entre em contato com o desenvolvedor</h2>
-            <p>Desculpe o incoveniente :-(</p>
-            <br>
-            <strong>Error: </strong>
-            <%=error%>
-          </div>
-        <% } %>
+      <% if(typeof error != "undefined" && error != ""){ %>
+        <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <h2>Ops! Tivemos um problema técnico. Por favor, entre em contato com o desenvolvedor</h2>
+          <p>Desculpe o incoveniente :-(</p>
+          <br>
+          <strong>Error: </strong>
+          <%=error%>
+        </div>
+      <% } %>
         
     </div>
 

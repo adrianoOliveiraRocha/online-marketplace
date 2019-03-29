@@ -46,13 +46,18 @@ function validateProduct() {
       
     } else {
       document.getElementById('messages').innerHTML = '';
-      alert('all rigth');
-      // form.submit();
+      // alert('all rigth');
+      form.submit();
     }
 
   } catch (error) {
     console.error(`Oh my god! I have an error: ${error}`);
   }
+}
+
+function deleteProduct() {
+  const idProduct = document.getElementById('idProduct').value;
+  location.href = "/delete_product?idProduct=" + idProduct;
 }
 
 

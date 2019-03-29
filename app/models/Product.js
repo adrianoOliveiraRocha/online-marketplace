@@ -28,23 +28,27 @@ class Product {
   static edit(data, imageName, application, callback) {
     var stm = null;   
     
-    if (imageName != null) { 
+    if (imageName != 'null') { 
       stm = `update product 
       set name = '${data.name}',
       description = '${data.description.trim()}',
       category = ${data.category},
       price = ${data.price}, 
       image = '${imageName}'
-      where id = ${data.productId}`;
+      where id = ${data.idProduct}`;
     } else {
       stm = `update product 
       set name = '${data.name}',
       description = '${data.description.trim()}',
       category = ${data.category},
       price = ${data.price}
-      where id = ${data.productId}`;
+      where id = ${data.idProduct}`;
     }
-    console.log(stm)
+    application.config.connect().query(stm, callback);
+  }
+
+  static delete(idProduct, application, callback) {
+    const stm = `delete from product where id = ${idProduct}`;
     application.config.connect().query(stm, callback);
   }
   

@@ -1,7 +1,7 @@
 // helpers
 function saveProduct(req, res, application) {
   var data = req.body;
-  var imageName = null;
+  var imageName = 'null';
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
     var imageName = helper.uploadImage(req.files.image);
@@ -13,7 +13,8 @@ function saveProduct(req, res, application) {
   product.save(application, (err, result) => {
     if(err) {
       console.error(err.sqlMessage);
-      res.send('Error trying save the product!');
+      req.session.error = `Error trying save a new product: ${err.sqlMessage}`;
+      res.redirect('\admin');
     } else {
       console.log(`Saved with id ${result['insertId']}`);
       req.session.message = 'Novo Product salvo com sucesso!';
@@ -49,6 +50,8 @@ module.exports.show_products = (req, res, application) => {
   application.app.models.Product.getAll(application, (err, result) => {
     if(err) {
       console.error(`Error trying get all products: ${err.sqlMessage}`);
+      req.session.error = `Error trying get all products: ${err.sqlMessage}`;
+      req.redirect('\admin');
     } else {
       res.render('admin/product/show_products.ejs', {
         'products': result,
@@ -59,14 +62,12 @@ module.exports.show_products = (req, res, application) => {
 }
 
 module.exports.products_details = (req, res, application) => {
-  var msg = req.session.message;
-  req.session.message = '';
-
-  application.app.models.Product.getThis(req.query.id, application, 
+  application.app.models.Product.getThis(req.query.idProduct, application, 
     (err, result) => {
       if (err) {
         console.error(`Error tryong get product: ${err.sqlMessage}`);
-        res.send('Error tryong get product');
+        req.session.error = `Error tryong get product: ${err.sqlMessage}`;
+        res.redirect('\admin');
       } else {
         getAllCategories(result[0]);        
       }
@@ -78,9 +79,8 @@ module.exports.products_details = (req, res, application) => {
         console.error(`Error: ${err.sqlMessage}`);
         res.send(`Error: ${err.sqlMessage}`);
       } else {
-        res.render('admin/product/detail.ejs', {
+        res.render('admin/product/product_details.ejs', {
           'product': product,
-          'msg': msg,
           'user': req.session.user,
           'allCategories': categories
         });
@@ -92,24 +92,45 @@ module.exports.products_details = (req, res, application) => {
 
 module.exports.edit_product = (req, res, application) => {
   var data = req.body;
-  var imageName = null;
+  var imageName = 'null';
   const Product = application.app.models.Product;
 
   if (Object.keys(req.files).length > 0) {// image sended
-    const utilsProduct = require('./../utils/utilsProduct');
-    utilsProduct.deleteOldeImage(Product, data.productId, application);      
-    var imageName = utilsProduct.uploadImage(req.files.image);
+    const helper = require('./../utils/helper');
+    helper.deleteOldeImage(Product, data.idProduct, application);      
+    var imageName = helper.uploadImage(req.files.image);
   }
 
   Product.edit(data, imageName, application,  
     (err, result) => {
     if(err) {
-      console.error(err.sqlMessage);      
-      res.send(err.sqlMessage);
+      console.error(`Error trying edit the product: ${err.sqlMessage}`);  
+      req.session.error = `Error trying edit the product: ${err.sqlMessage}`;
+      res.redirect('\admin');
     } else {
       console.log(`Success ${result}`);
       req.session.message = 'Post editado com sucesso!';
       res.redirect('\admin');
     }
   });
+}
+
+module.exports.delete_product = (req, res, application) => {
+  const idProduct = req.query.idProduct;
+  const Product = application.app.models.Product;
+
+  const helper = require('../utils/helper');
+  helper.deleteOldeImage(Product, idProduct, application); 
+
+  Product.delete(idProduct, application, (err, result) => {
+    if(err) {
+      console.error(`Error trying delete the product: ${err.sqlMessage}`);
+      req.session.error = `Error trying delete the product: ${err.sqlMessage}`;
+      res.redirect('\admin');
+    } else {      
+      console.log(result);
+      req.session.message = 'Product deletado com sucesso!';
+      res.redirect('\admin');
+    }
+  }); 
 }

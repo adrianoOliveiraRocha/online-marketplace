@@ -16,8 +16,12 @@ module.exports = (application) => {
     application.app.control.product.products_details(req, res, application);
   });
 
-  application.post('/edit_product', (req, res) => {
+  application.post('/editar_produto', (req, res) => {
     application.app.control.product.edit_product(req, res, application);
+  });
+
+  application.get('/delete_product', (req, res) => {
+    application.app.control.product.delete_product(req, res, application);
   });
 
 }
