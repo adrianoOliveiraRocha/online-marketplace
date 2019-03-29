@@ -1,6 +1,6 @@
 class Product {
 
-  constructor(data, image=null) {
+  constructor(data, image='null') {
     this.name = data.name;
     this.description = data.description;
     this.category = data.category;

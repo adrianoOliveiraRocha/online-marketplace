@@ -11,7 +11,7 @@ function deleteOldeImage(Class, objectId, application) {
         const fs = require('fs');
         fs.unlink(oldFile, (errOldFile) => {
           if (errOldFile) {
-            throw new Error(`Error trying delete old image of the object: ${err}`);
+            throw new Error(`Error trying delete old image of the object (${Class}): ${err}`);
           } else {
             console.error('Image deleted with success!');
           }

@@ -33,7 +33,7 @@ function validateNewCategory() {
 
 function deleCategory() {
   const categoryId = document.getElementById('categoryId').value;
-  // document.href = "/test"
+  location.href = "/delete_category?categoryId=" + categoryId;
 }
 
 

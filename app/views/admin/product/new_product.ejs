@@ -22,12 +22,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Detalhes da Categoria
+        Novo Produto
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Início</a></li>
-        <li><a href="#">Categoria</a></li>
-        <li class="active">Detalhes</li>
+        <li><a href="#">Produto</a></li>
+        <li class="active">Novo</li>
       </ol>
     </section>
 
@@ -50,63 +50,61 @@
         <div class="box-body">
           <!-- form start -->
           <form role="form" 
-            action="/editar_categoria"
+            action="/novo_produto"
             id="form"
             method="POST"
             enctype="multipart/form-data">
-
-            <input type="hidden" name="categoryId" id="categoryId" value="<%=category.id%>">
-
+            
             <div class="box-body">
               <div class="form-group">
                 <label for="name">Nome</label>
                 <input type="text" class="form-control" id="name" name="name" 
-                  placeholder="Nome da Categotia" value="<%=category.name.trim()%>">
+                  placeholder="Nome do Produto">
               </div>
-              <hr>
-              <% if(category.image == 'null'){ %>
-							<div class="control-group">
-								<label class="control-label" for="image">Imagem</label>
-								<div class="controls">
-								<input class="input-xlarge" name="image" type="file">
-								</div>
-							</div>
-							<% } else { %>
-              <div class="control-group">
-                <label class="control-label">Imagem</label>
-								<div class="controls">
-								<img src="upload/<%=category.image %>" width="240px;">
-								</div>
+
+              <div class="form-group">
+                <label for="description">Descrição</label>
+                <textarea class="form-control" 
+                  id="description" 
+                  name="description">
+                </textarea>
               </div>
-              <hr>
-							<div class="control-group">
-								<label class="control-label" for="image">Substituir Imagem</label>
-								<div class="controls">
-								<input class="input-xlarge" name="image" type="file">
-								</div>
-							</div>
-							<% } %>
+
+              <div class="form-group">
+                <label for="name">Categoria</label>
+                <select class="form-control">
+                <% for(let category of allCategories) {%>
+                  <option value="<%=category.id%>"><%=category.name%></option>
+                <% } %>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="name">Preço</label>
+                <input type="text" class="form-control" id="price" name="price" 
+                  placeholder="Preço">
+              </div>
+
+              <div class="form-group">
+                <label for="image">Imagem</label>
+                <input type="file" id="image" name="image">
+              </div>              
+            </div>
             <!-- /.box-body -->
-            <hr>
+
             <div class="box-footer">
               <button type="button" class="btn btn-primary"
-                onClick='validateNewCategory();'>
+                onClick='validateProduct();'>
                 Salvar
               </button>
-              <button type="button" class="btn btn-danger"
-                onClick='deleCategory();'>
-                Delete
-              </button>
-              
             </div>
           </form>
         </div>
-        
         <!-- /.box-body -->
         <div class="box-footer">
-          <div class="control-group">
-            <div class="controls"  id='messages'></div>
-          </div>
+        <div class="control-group">
+          <div class="controls"  id='messages'></div>
+        </div>
         </div>
         <!-- /.box-footer-->
       </div>
@@ -124,7 +122,7 @@
 <!-- ./wrapper -->
 
 <%-include('./../admin_includes/index/scripts.ejs')%>
-<script src="admin/utilsCategory.js">
+<script src="admin/utilsProduct.js">
   
 </script>
 

@@ -19,4 +19,8 @@ module.exports = (application) => {
     application.app.control.category.edit_category(req, res, application);
   });
 
+  application.get('/delete_category', (req, res) => {
+    application.app.control.category.delete_category(req, res, application);
+  });
+
 }

@@ -37,6 +37,11 @@ class Category {
     application.config.connect().query(stm, callback);
   }
 
+  static delete(categoryId, application, callback) {
+    const stm = `delete from category where id = ${categoryId}`;
+    application.config.connect().query(stm, callback);
+  }
+
 }
 
 

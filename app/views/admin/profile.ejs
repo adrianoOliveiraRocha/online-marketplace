@@ -65,7 +65,7 @@
                 class="form-control"
                 value="<%=user.password.trim()%>">
               </div>
-
+              <hr>
               <% if(user.image === null){ %>
 							<div class="control-group">
 								<label class="control-label" for="image">Imagem</label>
@@ -79,7 +79,8 @@
 								<div class="controls">
 								<img src="upload/<%=user.image %>" width="240px;">
 								</div>
-							</div>
+              </div>
+              <hr>
 							<div class="control-group">
 								<label class="control-label" for="image">Substituir Imagem</label>
 								<div class="controls">

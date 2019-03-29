@@ -1,6 +1,32 @@
+// helpers
+function saveProduct(req, res, application) {
+  var data = req.body;
+  var imageName = null;
+  if (Object.keys(req.files).length > 0) {// image sended
+    const helper = require('./../utils/helper');
+    var imageName = helper.uploadImage(req.files.image);
+  }
+
+  const Product = application.app.models.Product;
+  var product = new Product(data, imageName);
+
+  product.save(application, (err, result) => {
+    if(err) {
+      console.error(err.sqlMessage);
+      res.send('Error trying save the product!');
+    } else {
+      console.log(`Saved with id ${result['insertId']}`);
+      req.session.message = 'Novo Product salvo com sucesso!';
+      res.redirect('\admin');
+    }
+  });
+}
+// end helpers
+
 module.exports.new_product = (req, res, application) => {
   var msg = req.session.message;
   req.session.message = '';
+  
   if (req.method == 'GET') {
     application.app.models.Category.getAll(application, 
       (err, result) => {
@@ -15,27 +41,7 @@ module.exports.new_product = (req, res, application) => {
         }        
       });    
   } else {
-    var data = req.body;
-    var imageName = null;
-    if (Object.keys(req.files).length > 0) {// image sended
-      const utilsProduct = require('./../utils/utilsProduct');
-      var imageName = utilsProduct.uploadImage(req.files.image);
-    }
-
-    const Product = application.app.models.Product;
-    var product = new Product(data, imageName);
-
-    product.save(application, (err, result) => {
-      if(err) {
-        console.error(err.sqlMessage);
-        res.send('Error trying save the product!');
-      } else {
-        console.log(`Saved with id ${result['insertId']}`);
-        req.session.message = 'Novo Product salvo com sucesso!';
-        res.redirect('\admin');
-      }
-    });
-
+    saveProduct(req, res, application);
   }
 }
 

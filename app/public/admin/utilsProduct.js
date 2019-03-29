@@ -1,4 +1,16 @@
-function validateNewProduct() {
+function chekPrice(price) {
+  var numericPrice = price.replace(',', '.');
+  var numericPrice = numericPrice.replace('R$', '');
+  try {
+    numericPrice = parseFloat(numericPrice);
+    return numericPrice;
+  } catch (error) {
+    console.error(error.message);
+    return false;
+  }
+}
+
+function validateProduct() {
   try {
     const form = document.getElementById('form');
     var name = document.getElementById('name').value;
@@ -34,8 +46,8 @@ function validateNewProduct() {
       
     } else {
       document.getElementById('messages').innerHTML = '';
-      // alert('all rigth');
-      form.submit();
+      alert('all rigth');
+      // form.submit();
     }
 
   } catch (error) {
@@ -43,20 +55,6 @@ function validateNewProduct() {
   }
 }
 
-function chekPrice(price) {
-  var numericPrice = price.replace(',', '.');
-  var numericPrice = numericPrice.replace('R$', '');
-  try {
-    numericPrice = parseFloat(numericPrice);
-    return numericPrice;
-  } catch (error) {
-    console.error(error.message);
-    return false;
-  }
-}
 
 
-function editProfile() {
-  console.log('test')
-}
 
