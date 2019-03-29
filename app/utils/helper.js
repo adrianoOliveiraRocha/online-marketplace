@@ -1,7 +1,7 @@
 function deleteOldeImage(Class, objectId, application) {
   Class.getThis(objectId, application, (err, result) => {
     if (err) {
-      throw new Error(`Error trying get the object to delete old image: ${err}`);
+      throw new Error(`Error trying get the object (${Class}) to delete old image: ${err}`);
     } else {
       if (result[0].image == 'null') {
         console.log(`No image to delete`);

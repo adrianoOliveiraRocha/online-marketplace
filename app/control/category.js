@@ -10,8 +10,8 @@ module.exports.new_category = (req, res, application) => {
     var data = req.body;
     var imageName = 'null';
     if (Object.keys(req.files).length > 0) {// image sended
-      const utilsCategory = require('./../utils/utilsCategory');
-      var imageName = utilsCategory.uploadImage(req.files.image);
+      const helper = require('../utils/helper');
+      var imageName = helper.uploadImage(req.files.image);
     }
 
     const Category = application.app.models.Category;
@@ -67,9 +67,9 @@ module.exports.edit_category = (req, res, application) => {
   const Category = application.app.models.Category;
 
   if (Object.keys(req.files).length > 0) {// image sended
-    const utilsCategory = require('./../utils/utilsCategory');
-    utilsCategory.deleteOldeImage(Category, data.categoryId, application);      
-    var imageName = utilsCategory.uploadImage(req.files.image);
+    const helper = require('../utils/helper');
+    helper.deleteOldeImage(Category, data.categoryId, application);      
+    var imageName = helper.uploadImage(req.files.image);
   }
 
   Category.edit(data, imageName, application,  
