@@ -12,6 +12,7 @@ class Product {
     let stm = `insert into product (name, description, category, price, image) 
     values('${this.name}', '${this.description.trim()}', ${this.category}, ${this.price}, 
     '${this.image}')`;
+    console.log(stm);
     application.config.connect().query(stm, callback);
   }
 

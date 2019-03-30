@@ -22,6 +22,7 @@ function deleteOldeImage(Class, objectId, application) {
 }
 
 function uploadImage(image) {
+  console.log(image)
   let prefix = new Date().getTime() + '_';
   var imageName = prefix + image.name;
   image.mv(__dirname + '/../public/upload/' + imageName, (err) => {

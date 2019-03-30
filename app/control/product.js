@@ -1,12 +1,13 @@
 // helpers
 function saveProduct(req, res, application) {
+  
   var data = req.body;
   var imageName = 'null';
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
     var imageName = helper.uploadImage(req.files.image);
   }
-
+  
   const Product = application.app.models.Product;
   var product = new Product(data, imageName);
 
@@ -21,6 +22,7 @@ function saveProduct(req, res, application) {
       res.redirect('\admin');
     }
   });
+
 }
 // end helpers
 
@@ -36,7 +38,6 @@ module.exports.new_product = (req, res, application) => {
         } else {
           res.render('admin/product/new_product.ejs', {
             'user': req.session.user,
-            'msg': msg,
             'allCategories': result
           });
         }        
@@ -77,7 +78,8 @@ module.exports.products_details = (req, res, application) => {
     application.app.models.Category.getAll(application, (err, categories) => {
       if (err) {
         console.error(`Error: ${err.sqlMessage}`);
-        res.send(`Error: ${err.sqlMessage}`);
+        req.session.error = `Error tryong get all categories: ${err.sqlMessage}`;
+        res.redirect('\admin');
       } else {
         res.render('admin/product/product_details.ejs', {
           'product': product,
@@ -109,7 +111,7 @@ module.exports.edit_product = (req, res, application) => {
       res.redirect('\admin');
     } else {
       console.log(`Success ${result}`);
-      req.session.message = 'Post editado com sucesso!';
+      req.session.message = 'Produto editado com sucesso!';
       res.redirect('\admin');
     }
   });
@@ -129,7 +131,7 @@ module.exports.delete_product = (req, res, application) => {
       res.redirect('\admin');
     } else {      
       console.log(result);
-      req.session.message = 'Product deletado com sucesso!';
+      req.session.message = 'Produto deletado com sucesso!';
       res.redirect('\admin');
     }
   }); 
