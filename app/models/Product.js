@@ -1,8 +1,8 @@
 class Product {
 
   constructor(data, image='null') {
-    this.name = data.name;
-    this.description = data.description;
+    this.name = data.name.replace(/'/g, '"');
+    this.description = data.description.replace(/'/g, '"');
     this.category = data.category;
     this.price = data.price;
     this.image = image;    
@@ -27,19 +27,21 @@ class Product {
 
   static edit(data, imageName, application, callback) {
     var stm = null;   
+    var name = data.name.replace(/'/g, '"');
+    var description = data.description.replace(/'/g, '"');
     
     if (imageName != 'null') { 
       stm = `update product 
-      set name = '${data.name}',
-      description = '${data.description.trim()}',
+      set name = '${name}',
+      description = '${description.trim()}',
       category = ${data.category},
       price = ${data.price}, 
       image = '${imageName}'
       where id = ${data.idProduct}`;
     } else {
       stm = `update product 
-      set name = '${data.name}',
-      description = '${data.description.trim()}',
+      set name = '${name}',
+      description = '${description.trim()}',
       category = ${data.category},
       price = ${data.price}
       where id = ${data.idProduct}`;

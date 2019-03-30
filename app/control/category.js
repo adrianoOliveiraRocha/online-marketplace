@@ -101,18 +101,40 @@ module.exports.delete_category = (req, res, application) => {
   const categoryId = req.query.categoryId;
   const Category = application.app.models.Category;
 
-  const helper = require('../utils/helper');
-  helper.deleteOldeImage(Category, categoryId, application); 
-
-  Category.delete(categoryId, application, (err, result) => {
-    if(err) {
-      console.error(`Error trying delete the category: ${err.sqlMessage}`);
-      req.session.error = `Error trying delete the category: ${err.sqlMessage}`;
+  Category.doesHasProductAttached(categoryId, application, (errdhpa, result) => {
+    if (errdhpa) {
+      console.error(`Error verifying whether exists products 
+      attached to the category: ${err.sqlMessage}`);
+      req.session.error = `Error verifying whether exists products 
+      attached to the category: ${err.sqlMessage}`;
       res.redirect('\admin');
-    } else {      
-      console.log(result);
-      req.session.message = 'Categoria deletada com sucesso!';
-      res.redirect('\admin');
+    } else {
+      if (Object.keys(result).length > 0) {
+        console.log(result);
+        req.session.message = `Você não pode deletar essa categoria porque existem 
+        ${Object.keys(result).length} produtos ligados a ela!`;
+        res.redirect('\admin');
+      } else {
+        delCategory();
+      }
     }
-  }); 
+  });
+
+  function delCategory() {
+    const helper = require('../utils/helper');
+    helper.deleteOldeImage(Category, categoryId, application);
+
+    Category.delete(categoryId, application, (err, result) => {
+      if(err) {
+        console.error(`Error trying delete the category: ${err.sqlMessage}`);
+        req.session.error = `Error trying delete the category: ${err.sqlMessage}`;
+        res.redirect('\admin');
+      } else {      
+        console.log(result);
+        req.session.message = 'Categoria deletada com sucesso!';
+        res.redirect('\admin');
+      }
+    });
+  }
+
 }
