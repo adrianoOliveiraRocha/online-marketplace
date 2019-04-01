@@ -3,20 +3,28 @@ function deleteOldeImage(Class, objectId, application) {
     if (err) {
       throw new Error(`Error trying get the object (${Class}) to delete old image: ${err}`);
     } else {
-      if (result[0].image == 'null') {
-        console.log(`No image to delete`);
-        console.log(result[0]);
-      } else {
-        let oldFile = __dirname + `/../public/upload/${result[0].image}`;
-        const fs = require('fs');
-        fs.unlink(oldFile, (errOldFile) => {
-          if (errOldFile) {
-            throw new Error(`Error trying delete old image of the object (${Class}): ${err}`);
-          } else {
-            console.error('Image deleted with success!');
-          }
-        }); 
-      }
+
+      try {
+        if (result[0].image == 'null') {
+          console.log(`No image to delete`);
+          console.log(result[0]);
+        } else {
+          let oldFile = __dirname + `/../public/upload/${result[0].image}`;
+          const fs = require('fs');
+          fs.unlink(oldFile, (errOldFile) => {
+            if (errOldFile) {
+              throw new Error(`Error trying delete old image of the object (${Class}): ${err}`);
+            } else {
+              console.error('Image deleted with success!');
+            }
+          }); 
+        }
+      } catch (error) {
+        console.log('This error happen probably because for any \
+        reason this object had not a image attached in');
+        console.error(error);
+      }     
+
     }
   });
 }
