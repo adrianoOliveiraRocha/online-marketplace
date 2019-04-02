@@ -58,34 +58,16 @@
             <input type="hidden" name="categoryId" id="categoryId" value="<%=category.id%>">
 
             <div class="box-body">
+
               <div class="form-group">
                 <label for="name">Nome</label>
                 <input type="text" class="form-control" id="name" name="name" 
                   placeholder="Nome da Categotia" value="<%=category.name.trim()%>">
               </div>
               <hr>
-              <% if(category.image == 'null'){ %>
-							<div class="control-group">
-								<label class="control-label" for="image">Imagem</label>
-								<div class="controls">
-								<input class="input-xlarge" name="image" type="file">
-								</div>
-							</div>
-							<% } else { %>
-              <div class="control-group">
-                <label class="control-label">Imagem</label>
-								<div class="controls">
-								<img src="upload/<%=category.image %>" width="240px;">
-								</div>
-              </div>
-              <hr>
-							<div class="control-group">
-								<label class="control-label" for="image">Substituir Imagem</label>
-								<div class="controls">
-								<input class="input-xlarge" name="image" type="file">
-								</div>
-							</div>
-							<% } %>
+            </div>
+
+              
             <!-- /.box-body -->
             <hr>
             <div class="box-footer">

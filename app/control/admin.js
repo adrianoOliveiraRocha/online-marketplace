@@ -6,8 +6,8 @@ function editProfile(req, res, application) {
 
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
-    helper.deleteOldeImage(User, data.userId, application);      
-    imageName = helper.uploadImage(req.files.image);
+    helper.deleteOldeImage(User, data.userId, 'user', application);      
+    imageName = helper.uploadImage(req.files.image, 'user');
   }
 
   User.update(req.session.user, data, application, imageName, 

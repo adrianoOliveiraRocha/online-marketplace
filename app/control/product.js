@@ -5,7 +5,7 @@ function saveProduct(req, res, application) {
   var imageName = 'null';
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
-    var imageName = helper.uploadImage(req.files.image);
+    var imageName = helper.uploadImage(req.files.image, 'product');
   }
   
   const Product = application.app.models.Product;
@@ -63,6 +63,7 @@ module.exports.show_products = (req, res, application) => {
 }
 
 module.exports.products_details = (req, res, application) => {
+  console.log(application)
   application.app.models.Product.getThis(req.query.idProduct, application, 
     (err, result) => {
       if (err) {
@@ -100,7 +101,7 @@ module.exports.edit_product = (req, res, application) => {
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
     helper.deleteOldeImage(Product, data.idProduct, application);      
-    var imageName = helper.uploadImage(req.files.image);
+    var imageName = helper.uploadImage(req.files.image, 'product');
   }
 
   Product.edit(data, imageName, application,  

@@ -1,4 +1,4 @@
-function deleteOldeImage(Class, objectId, application) {
+function deleteOldeImage(Class, objectId, folder, application) {
   Class.getThis(objectId, application, (err, result) => {
     if (err) {
       throw new Error(`Error trying get the object (${Class}) to delete old image: ${err}`);
@@ -9,7 +9,7 @@ function deleteOldeImage(Class, objectId, application) {
           console.log(`No image to delete`);
           console.log(result[0]);
         } else {
-          let oldFile = __dirname + `/../public/upload/${result[0].image}`;
+          let oldFile = __dirname + `/../public/upload/${folder}/${result[0].image}`;
           const fs = require('fs');
           fs.unlink(oldFile, (errOldFile) => {
             if (errOldFile) {
@@ -29,11 +29,10 @@ function deleteOldeImage(Class, objectId, application) {
   });
 }
 
-function uploadImage(image) {
-  console.log(image)
+function uploadImage(image, folder) {
   let prefix = new Date().getTime() + '_';
   var imageName = prefix + image.name;
-  image.mv(__dirname + '/../public/upload/' + imageName, (err) => {
+  image.mv(__dirname + `/../public/upload/${folder}/${imageName}`, (err) => {
     if (err) {
       throw new Error(`Error trying upload image: ${err}`);
     }

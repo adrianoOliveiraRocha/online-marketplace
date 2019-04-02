@@ -1,14 +1,12 @@
 class Category {
   
-  constructor(name, image=null) {
-    this.name = name.replace(/'/g, '"');
-    this.image = image;
+  constructor(name) {
+    this.name = name.replace(/'/g, '"');    
   } 
 
   save(application, callback) {
-    let stm = `insert into category(name, image) 
-    values('${this.name}', '${this.image}')`;
-    console.log(stm)
+    let stm = `insert into category(name) 
+    values('${this.name}')`;
     application.config.connect().query(stm, callback);
   }
 
@@ -22,20 +20,12 @@ class Category {
     application.config.connect().query(stm, callback);
   }
 
-  static edit(data, imageName, application, callback) {
+  static edit(data, application, callback) {
     var stm = null;
     var name = data.name.replace(/'/g, '"'); // it replaces all ocurrences
-    if (imageName != null) { 
-      stm = `update category 
-      set name = '${name}', 
-      image = '${imageName}'
-      where id = ${data.categoryId}`;
-    } else {
-      stm = `update category 
-      set name = '${name}' 
-      where id = ${data.categoryId}`;
-    }
-    console.log(stm);
+    stm = `update category 
+    set name = '${name}' 
+    where id = ${data.categoryId}`;
     application.config.connect().query(stm, callback);
   }
 
@@ -50,7 +40,6 @@ class Category {
   }
 
 }
-
 
 module.exports = () => {
   return Category;
