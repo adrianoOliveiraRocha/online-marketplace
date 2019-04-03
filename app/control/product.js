@@ -63,7 +63,7 @@ module.exports.show_products = (req, res, application) => {
 }
 
 module.exports.products_details = (req, res, application) => {
-  console.log(application)
+  
   application.app.models.Product.getThis(req.query.idProduct, application, 
     (err, result) => {
       if (err) {
@@ -94,16 +94,17 @@ module.exports.products_details = (req, res, application) => {
 }
 
 module.exports.edit_product = (req, res, application) => {
+  
   var data = req.body;
   var imageName = 'null';
   const Product = application.app.models.Product;
-
+    
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
-    helper.deleteOldeImage(Product, data.idProduct, application);      
+    helper.deleteOldeImage(Product, data.idProduct, 'product', application);      
     var imageName = helper.uploadImage(req.files.image, 'product');
   }
-
+  
   Product.edit(data, imageName, application,  
     (err, result) => {
     if(err) {
@@ -116,6 +117,7 @@ module.exports.edit_product = (req, res, application) => {
       res.redirect('\admin');
     }
   });
+
 }
 
 module.exports.delete_product = (req, res, application) => {
@@ -123,7 +125,7 @@ module.exports.delete_product = (req, res, application) => {
   const Product = application.app.models.Product;
 
   const helper = require('../utils/helper');
-  helper.deleteOldeImage(Product, idProduct, application); 
+  helper.deleteOldeImage(Product, idProduct, 'product', application); 
 
   Product.delete(idProduct, application, (err, result) => {
     if(err) {
