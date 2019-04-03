@@ -12,4 +12,12 @@ module.exports = (application) => {
     application.app.control.core.login(req, res, application);
   });
 
+  application.get('/register', (req, res) => {
+    application.app.control.core.register(req, res, application);
+  });
+
+  application.post('/register', (req, res) => {
+    application.app.control.core.register(req, res, application);
+  });
+
 }

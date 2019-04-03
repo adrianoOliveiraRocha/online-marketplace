@@ -1,10 +1,18 @@
 class User {
 
-  constructor(email=null, password=null) {
-    this.email = email;
-    this.password = password;
+  constructor(email, password, imageName, admin=0) {
+    this.email = email
+    this.password = password
+    this.imageName = imageName
+    this.admin = admin
   }
 
+  save(application, callback) {
+    let stm = `insert into user (email, password, image, admin) 
+    values('${this.email}', '${this.password}', '${this.imageName}', ${this.admin})`
+    application.config.connect().query(stm, callback)
+  }
+ 
   getEmail() {
     return this.email;
   }

@@ -24,8 +24,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -58,19 +57,48 @@
 
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Por favor, faça login para iniciar a sessão</p>
+    <p class="login-box-msg">Por favor, use o formulário para criar sua conta</p>
 
-    <form action="/login" method="post">
+    <form action="/register" 
+      method="POST"
+      id="form"
+      enctype="multipart/form-data">
+
       <div class="form-group has-feedback">
         <input type="email" class="form-control" placeholder="Email" 
-        name="email">
+        name="email" required>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
         <input type="password" class="form-control" placeholder="Password"
-        name="password">
+        name="password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Endereço"
+        name="address" required>
+        <span class="glyphicon glyphicon-road form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="number" class="form-control" placeholder="Número"
+        name="add_number" required>
+        <span class="glyphicon glyphicon-home form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="tel" class="form-control" placeholder="Telefone"
+        name="fone" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required>
+        <p>Formato: XX-XXXXX-XXXX</p>
+        <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+      </div>
+      <hr>
+      <div class="form-group has-feedback">
+        <label for="image">Imagem</label>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="file" class="form-control" name="image">
+        <span class="glyphicon glyphicon-arrow-up form-control-feedback"></span>
+      </div>
+
       <div class="row">
         
         <!-- /.col -->
@@ -89,7 +117,7 @@
     <!-- /.social-auth-links -->
 
     <a href="#">Esqueci minha senha</a><br>
-    <a href="/register" class="text-center">Registrar-se</a>
+    <a href="/login" class="text-center">Já sou registrado</a>
 
   </div>
   <!-- /.login-box-body -->
