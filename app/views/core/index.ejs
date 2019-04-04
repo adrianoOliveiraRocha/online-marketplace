@@ -8,180 +8,153 @@
 Kool Store Template
 http://www.templatemo.com/preview/templatemo_428_kool_store
 -->
-    <meta charset="utf-8">
-    <title>Bem Vindo!</title>
+  <meta charset="utf-8">
+  <title>Bem Vindo!</title>
 
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
 
-    <%-include('core_includes/top_links.ejs')%>
+  <%-include('core_includes/top_links.ejs')%>
 
 </head>
 <body>
-    <!--[if lt IE 7]>
-    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-    <![endif]-->
-    
-    <%-include('core_includes/header.ejs')%>
+  <!--[if lt IE 7]>
+  <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  <![endif]-->
+  
+  <%-include('core_includes/header.ejs')%>
 
-    <div class="content-section">
-        <div class="container">
-            <div class="row">
+  <div class="content-section">
 
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->                
-                
-            </div> <!-- /.row -->
+      <div class="container">
+      
+        <div class="row-fluid">
+                        
+          <% if(typeof msg != "undefined" && msg != ""){ %>
+          <div class="alert alert-success alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>Mensagem!</strong>
+              <%=msg%>
+          </div>
+          <% } %>
 
-            
-        </div> <!-- /.container -->
-    </div> <!-- /.content-section -->
-   
-    <div class="content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 section-title">
-                    <h2>Em Oferta</h2>
-                </div> <!-- /.section -->
-            </div> <!-- /.row -->
-            <div class="row">
+          <% if(typeof error != "undefined" && error != ""){ %>
+          <div class="alert alert-danger alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h2>Ops! Tivemos um problema técnico. Por favor, entre em contato com o desenvolvedor</h2>
+              <p>Desculpe o incoveniente :-(</p>
+              <br>
+              <strong>Error: </strong>
+              <%=error%>
+          </div>
+          <% } %>
+          
+        </div>        
 
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->
-                <div class="col-md-3">
-                    <div class="product-item-1">
-                        <div class="product-thumb">
-                            <img src="/core/images/products/product.png" alt="Product Title">
-                        </div> <!-- /.product-thumb -->
-                        <div class="product-content">
-                            <h5><a href="#">Kool Shirt</a></h5>
-                            <span class="tagline">Partner Name</span>
-                            <span class="price">$25.00</span>
-                            <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
-                        </div> <!-- /.product-content -->
-                    </div> <!-- /.product-item -->
-                </div> <!-- /.col-md-3 -->                  
+        <div class="row">
+          <% for(product of products) { %>
+          <div class="col-md-3">
+            <div class="product-item-1">
+                <div class="product-thumb">
+                  <img src="upload/product/<%=product.image %>">
+                </div> <!-- /.product-thumb -->
+                <div class="product-content">
+                  <h5><a href="#"><%=product.name%></a></h5>
+                  <span class="tagline"><%=whatCategory(product.category)%></span>
+                  <span class="price"><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%></span>
+                  <p><%=product.description%></p>
+                </div> <!-- /.product-content -->
+            </div> <!-- /.product-item -->
+          </div> <!-- /.col-md-3 -->
+          <% } %>
+        </div> <!-- /.row -->
 
-            </div> <!-- /.row -->
-        </div> <!-- /.container -->
-    </div> <!-- /.content-section -->
+          
+      </div> <!-- /.container -->
+  </div> <!-- /.content-section -->
+  
+  <div class="content-section">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12 section-title">
+                  <h2>Em Oferta</h2>
+              </div> <!-- /.section -->
+          </div> <!-- /.row -->
+          <div class="row">
 
-    <%-include('core_includes/footer.ejs')%>
-    
-    <%-include('core_includes/bottom_scripts.ejs')%>
+              <div class="col-md-3">
+                  <div class="product-item-1">
+                      <div class="product-thumb">
+                          <img src="/core/images/products/product.png" alt="Product Title">
+                      </div> <!-- /.product-thumb -->
+                      <div class="product-content">
+                          <h5><a href="#">Kool Shirt</a></h5>
+                          <span class="tagline">Partner Name</span>
+                          <span class="price">$25.00</span>
+                          <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
+                      </div> <!-- /.product-content -->
+                  </div> <!-- /.product-item -->
+              </div> <!-- /.col-md-3 -->
+              <div class="col-md-3">
+                  <div class="product-item-1">
+                      <div class="product-thumb">
+                          <img src="/core/images/products/product.png" alt="Product Title">
+                      </div> <!-- /.product-thumb -->
+                      <div class="product-content">
+                          <h5><a href="#">Kool Shirt</a></h5>
+                          <span class="tagline">Partner Name</span>
+                          <span class="price">$25.00</span>
+                          <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
+                      </div> <!-- /.product-content -->
+                  </div> <!-- /.product-item -->
+              </div> <!-- /.col-md-3 -->
+              <div class="col-md-3">
+                  <div class="product-item-1">
+                      <div class="product-thumb">
+                          <img src="/core/images/products/product.png" alt="Product Title">
+                      </div> <!-- /.product-thumb -->
+                      <div class="product-content">
+                          <h5><a href="#">Kool Shirt</a></h5>
+                          <span class="tagline">Partner Name</span>
+                          <span class="price">$25.00</span>
+                          <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
+                      </div> <!-- /.product-content -->
+                  </div> <!-- /.product-item -->
+              </div> <!-- /.col-md-3 -->
+              <div class="col-md-3">
+                  <div class="product-item-1">
+                      <div class="product-thumb">
+                          <img src="/core/images/products/product.png" alt="Product Title">
+                      </div> <!-- /.product-thumb -->
+                      <div class="product-content">
+                          <h5><a href="#">Kool Shirt</a></h5>
+                          <span class="tagline">Partner Name</span>
+                          <span class="price">$25.00</span>
+                          <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
+                      </div> <!-- /.product-content -->
+                  </div> <!-- /.product-item -->
+              </div> <!-- /.col-md-3 -->
+              <div class="col-md-3">
+                  <div class="product-item-1">
+                      <div class="product-thumb">
+                          <img src="/core/images/products/product.png" alt="Product Title">
+                      </div> <!-- /.product-thumb -->
+                      <div class="product-content">
+                          <h5><a href="#">Kool Shirt</a></h5>
+                          <span class="tagline">Partner Name</span>
+                          <span class="price">$25.00</span>
+                          <p>Doloremque quo possimus quas necessitatibus blanditiis excepturi. Commodi, sunt asperiores tenetur deleniti labore!</p>
+                      </div> <!-- /.product-content -->
+                  </div> <!-- /.product-item -->
+              </div> <!-- /.col-md-3 -->                  
+
+          </div> <!-- /.row -->
+      </div> <!-- /.container -->
+  </div> <!-- /.content-section -->
+
+  <%-include('core_includes/footer.ejs')%>
+  
+  <%-include('core_includes/bottom_scripts.ejs')%>
 
 </body>
 </html>

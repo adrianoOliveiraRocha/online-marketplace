@@ -1,9 +1,55 @@
 module.exports.index = (req, res, application) => {
-  var message = req.session.message;
-  req.session.message = '';
-  res.render('core/index.ejs', {
-    'msg': message
+  var msg = req.session.message
+  req.session.message = ''
+  var error = req.session.error
+  req.session.error = ''
+
+  application.app.models.Product.getAll(application, 
+    (errProduct, result) => {
+      if (errProduct) {
+        console.error(`Error tryong get product: ${errProduct.sqlMessage}`);
+        req.session.error = `Error tryong get product: ${errProduct.sqlMessage}`;
+        res.render('core/index.ejs', {
+          'error': error
+        })
+      } else {
+        getAllCategories(result)      
+      }
   });
+
+  function getAllCategories(products) {
+    application.app.models.Category.getAll(application, 
+      (errCategory, categories) => {
+      if (errCategory) {
+        console.error(`Error: ${errCategory.sqlMessage}`);
+        req.session.error = `Error tryong get all categories: ${errCategory.sqlMessage}`;
+        res.render('core/index.ejs', {
+          'error': error
+        })
+      } else {
+
+        function whatCategory(categoryId) {
+          for(let category of categories) {
+            if (categoryId == category.id) {
+              return category.name
+            }
+          }
+        }
+
+        res.render('core/index.ejs', {
+          'products': products,
+          'user': req.session.user,
+          'categories': categories,
+          'msg': msg,
+          'error': error,
+          'whatCategory': whatCategory
+        })
+      }
+    })  
+  }
+
+  
+
 }
 
 module.exports.login = (req, res, application) => {
@@ -18,8 +64,8 @@ module.exports.login = (req, res, application) => {
       req.session.message = `Você está logado(a) como ${req.session.user.email}`;
       res.redirect('/admin'); 
     } else { // it is not admin
-      let msg = `I am not a admin ${req.session.user}`
-      res.send(msg)
+      req.session.message = `Você está logado(a) como ${req.session.user.email}`;
+      res.redirect('/client_area'); 
     }    
 
   } else { // not loged
@@ -53,8 +99,7 @@ module.exports.login = (req, res, application) => {
           if (req.session.user.admin == 1) {
             res.redirect('/admin')  
           } else {
-            let msg = `I am not a admin ${req.session.user}`
-            res.send(msg)
+            res.redirect('/client_area');
           }          
         } else {
           res.render('error404/index', {

@@ -60,9 +60,9 @@
                               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categoria
                               <span class="caret"></span></a>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Categoria 1</a></li>
-                                <li><a href="#">Categoria 2</a></li>
-                                <li><a href="#">Categoria 3</a></li>
+                                <% for(let category of categories) { %>
+                                <li><a href="#"><%=category.name%></a></li>
+                                <% } %>                                
                               </ul>
                           </li>
                           <li><a href="product-detail.html">Contato</a></li>
