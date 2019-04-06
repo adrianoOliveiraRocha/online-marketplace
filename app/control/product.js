@@ -12,6 +12,7 @@ function saveProduct(req, res, application) {
   var product = new Product(data, imageName);
 
   product.save(application, (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(err.sqlMessage);
       req.session.error = `Error trying save a new product: ${err.sqlMessage}`;
@@ -33,6 +34,7 @@ module.exports.new_product = (req, res, application) => {
   if (req.method == 'GET') {
     application.app.models.Category.getAll(application, 
       (err, result) => {
+        application.config.connect().end()
         if (err) {
           console.error(`Error trying get all categories: ${err.sqlMessage}`);
         } else {
@@ -49,6 +51,7 @@ module.exports.new_product = (req, res, application) => {
 
 module.exports.show_products = (req, res, application) => {
   application.app.models.Product.getAll(application, (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(`Error trying get all products: ${err.sqlMessage}`);
       req.session.error = `Error trying get all products: ${err.sqlMessage}`;
@@ -66,6 +69,7 @@ module.exports.products_details = (req, res, application) => {
   
   application.app.models.Product.getThis(req.query.idProduct, application, 
     (err, result) => {
+      application.config.connect().end()
       if (err) {
         console.error(`Error tryong get product: ${err.sqlMessage}`);
         req.session.error = `Error tryong get product: ${err.sqlMessage}`;
@@ -77,6 +81,7 @@ module.exports.products_details = (req, res, application) => {
 
   function getAllCategories(product) {
     application.app.models.Category.getAll(application, (err, categories) => {
+      application.config.connect().end()
       if (err) {
         console.error(`Error: ${err.sqlMessage}`);
         req.session.error = `Error tryong get all categories: ${err.sqlMessage}`;
@@ -107,6 +112,7 @@ module.exports.edit_product = (req, res, application) => {
   
   Product.edit(data, imageName, application,  
     (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(`Error trying edit the product: ${err.sqlMessage}`);  
       req.session.error = `Error trying edit the product: ${err.sqlMessage}`;
@@ -128,6 +134,7 @@ module.exports.delete_product = (req, res, application) => {
   helper.deleteOldeImage(Product, idProduct, 'product', application); 
 
   Product.delete(idProduct, application, (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(`Error trying delete the product: ${err.sqlMessage}`);
       req.session.error = `Error trying delete the product: ${err.sqlMessage}`;

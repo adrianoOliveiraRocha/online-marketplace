@@ -1,0 +1,11 @@
+<div class="container">
+  <ul class="pagination">
+    <% for(let page=1; page <= paginator.nPages; page++) {%>
+      <% if(page == paginator.page) {%>
+      <li class="active"><a href="#"><%=page%></a></li>
+      <% } else { %>
+      <li><a href="/?page=<%=page%>"><%=page%></a></li>
+      <% } %>
+    <% } %>
+  </ul>
+</div>

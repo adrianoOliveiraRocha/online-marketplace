@@ -52,7 +52,7 @@ http://www.templatemo.com/preview/templatemo_428_kool_store
         </div>        
 
         <div class="row">
-          <% for(product of products) { %>
+          <% for(product of paginator.content) { %>
           <div class="col-md-3">
             <div class="product-item-1">
                 <div class="product-thumb">
@@ -68,7 +68,12 @@ http://www.templatemo.com/preview/templatemo_428_kool_store
           </div> <!-- /.col-md-3 -->
           <% } %>
         </div> <!-- /.row -->
-
+        
+        <% if(paginator.nPages < 7){ %>
+        <%-include('core_includes/pagination/few_pages.ejs')%>
+        <% } else {%>
+        <%-include('core_includes/pagination/many_pages.ejs')%>
+        <% } %>
           
       </div> <!-- /.container -->
   </div> <!-- /.content-section -->

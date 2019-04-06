@@ -6,6 +6,7 @@ module.exports.index = (req, res, application) => {
 
   application.app.models.Product.getAll(application, 
     (errProduct, result) => {
+      application.config.connect().end()
       if (errProduct) {
         console.error(`Error tryong get product: ${errProduct.sqlMessage}`);
         req.session.error = `Error tryong get product: ${errProduct.sqlMessage}`;
@@ -20,6 +21,7 @@ module.exports.index = (req, res, application) => {
   function getAllCategories(products) {
     application.app.models.Category.getAll(application, 
       (errCategory, categories) => {
+      application.config.connect().end()
       if (errCategory) {
         console.error(`Error: ${errCategory.sqlMessage}`);
         req.session.error = `Error tryong get all categories: ${errCategory.sqlMessage}`;
@@ -35,9 +37,10 @@ module.exports.index = (req, res, application) => {
             }
           }
         }
-
+        let page = req.query.page
+        paginator = application.app.utils.paginator(products, page)
         res.render('core/index.ejs', {
-          'products': products,
+          'paginator': paginator,
           'user': req.session.user,
           'categories': categories,
           'msg': msg,
@@ -46,9 +49,7 @@ module.exports.index = (req, res, application) => {
         })
       }
     })  
-  }
-
-  
+  } 
 
 }
 
@@ -84,6 +85,7 @@ module.exports.login = (req, res, application) => {
   function post() {
     const User = application.app.models.User;
     User.verify(req.body, application, (error, result) => {
+      application.config.connect().end()
       if (error) {
         console.error(error.sqlMessage);
         req.session.error = `Error trying verify user: ${error.sqlMessage}`;
@@ -135,6 +137,7 @@ module.exports.register = (req, res, application) => {
     var client = new Client(data, imageName)
     
     client.createUser(application, (errorUser, resultUser) => {
+      application.config.connect().end()
       if (errorUser) {
         console.error(errorUser.sqlMessage);
         req.session.error = `Error trying save a new user: ${errorUser.sqlMessage}`;
@@ -146,6 +149,7 @@ module.exports.register = (req, res, application) => {
     
     function createClient(userId) {
       client.createClient(userId, application, (errorClient, resultClient) => {
+        application.config.connect().end()
         if (errorClient) {
           console.error(errorClient.sqlMessage);
           req.session.error = `Error trying save a new client: ${errorClient.sqlMessage}`;

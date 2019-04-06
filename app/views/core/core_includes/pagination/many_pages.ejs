@@ -1,0 +1,43 @@
+<%
+const pd = paginator.page -1
+const pu = paginator.nPages - paginator.page
+
+function getPage() {
+  if(pd > 3) {
+    return pd - 2
+  } else {
+    return 1
+  }
+}
+
+function getLimit() {
+  if(pu > 3) {
+    return paginator.page + 3
+  } else {
+    return paginator.nPages
+  }
+}
+%>
+
+<div class="container">
+  <ul class="pagination">
+
+    <% if(pd > 3) {%>
+      <li class="active"><a href="/?page=<%=paginator.page-1%>"><-</a></li>
+    <% } %>
+
+    <% for(let page=getPage(); page <= getLimit(); page++) {%>
+      <% if(page == paginator.page) {%>
+      <li class="active"><a href="#"><%=page%></a></li>
+      <% } else { %>
+      <li><a href="/?page=<%=page%>"><%=page%></a></li>
+      <% } %>
+    <% } %>
+
+    <% if(pu > 3) {%>
+      <li class="active"><a href="/?page=<%=paginator.page+1%>">-></a></li>
+    <% } %>
+
+  </ul>
+
+</div>

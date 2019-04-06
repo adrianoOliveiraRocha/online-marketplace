@@ -12,6 +12,7 @@ function editProfile(req, res, application) {
 
   User.update(req.session.user, data, application, imageName, 
     (error, result) => {
+    application.config.connect().end()
     if (error) {
       res.send(error.sqlMessage);
     } else {
@@ -22,6 +23,7 @@ function editProfile(req, res, application) {
 
   function updateSession() {
     User.getThis(req.session.user.id, application, (err, result) => {
+      application.config.connect().end()
       if (err) {
         console.error(err.sqlMessage);
       } else {

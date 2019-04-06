@@ -6,6 +6,7 @@ function saveCategory(req, res, application) {
   var category = new Category(data.name);
 
   category.save(application, (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(err.sqlMessage);
       req.session.error = `Error trying save the category: ${err.sqlMessage}`;
@@ -34,6 +35,7 @@ module.exports.new_category = (req, res, application) => {
 
 module.exports.show_categories = (req, res, application) => {
   application.app.models.Category.getAll(application, (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(err.sqlMessage);
       req.session.error = `Error trying get all categories: ${err.sqlMessage}`;
@@ -52,6 +54,7 @@ module.exports.category_details = (req, res, application) => {
   req.session.message = '';
   application.app.models.Category.getThis(req.query.idCategory, application, 
     (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(`Error trying get this category: ${err.sqlMessage}`);
       req.session.error = `Error trying get this category: ${err.sqlMessage}`;
@@ -71,6 +74,7 @@ module.exports.edit_category = (req, res, application) => {
 
   Category.edit(data, application,  
     (err, result) => {
+    application.config.connect().end()
     if(err) {
       console.error(err.sqlMessage);   
       req.session.error = `Error trying edit the category: ${err.sqlMessage}`;
@@ -89,6 +93,7 @@ module.exports.delete_category = (req, res, application) => {
   const Category = application.app.models.Category;
 
   Category.doesHasProductAttached(categoryId, application, (errdhpa, result) => {
+    application.config.connect().end()
     if (errdhpa) {
       console.error(`Error verifying whether exists products 
       attached to the category: ${err.sqlMessage}`);
@@ -109,6 +114,7 @@ module.exports.delete_category = (req, res, application) => {
 
   function delCategory() {
     Category.delete(categoryId, application, (err, result) => {
+      application.config.connect().end()
       if(err) {
         console.error(`Error trying delete the category: ${err.sqlMessage}`);
         req.session.error = `Error trying delete the category: ${err.sqlMessage}`;
