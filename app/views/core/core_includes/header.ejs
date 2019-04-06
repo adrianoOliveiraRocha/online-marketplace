@@ -61,7 +61,11 @@
                               <span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                 <% for(let category of categories) { %>
-                                <li><a href="#"><%=category.name%></a></li>
+                                <li>
+                                    <a href="/?idCategory=<%=category.id%>">
+                                        <%=category.name%>
+                                    </a>
+                                </li>
                                 <% } %>                                
                               </ul>
                           </li>

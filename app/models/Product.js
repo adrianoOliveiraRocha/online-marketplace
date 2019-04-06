@@ -12,13 +12,19 @@ class Product {
     let stm = `insert into product (name, description, category, price, image) 
     values('${this.name}', '${this.description.trim()}', ${this.category}, ${this.price}, 
     '${this.image}')`;
-    console.log(stm);
     application.config.connect().query(stm, callback);
   }
 
-  static getAll(application, callback) {
-    let stm = `select * from product`;
+  static getAll(application, idCategory, callback) {
+    var stm = ``
+    if (typeof idCategory == 'undefined') {
+      stm = `select * from product`;
+    } else {
+      stm = `select * from product where category = ${idCategory}`;
+    }
+
     application.config.connect().query(stm, callback);
+    
   }
 
   static getThis(productId, application, callback) {

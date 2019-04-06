@@ -4,7 +4,9 @@ module.exports.index = (req, res, application) => {
   var error = req.session.error
   req.session.error = ''
 
-  application.app.models.Product.getAll(application, 
+  var idCategory = req.query.idCategory;
+  
+  application.app.models.Product.getAll(application, idCategory, 
     (errProduct, result) => {
       application.config.connect().end()
       if (errProduct) {
@@ -21,7 +23,7 @@ module.exports.index = (req, res, application) => {
   function getAllCategories(products) {
     application.app.models.Category.getAll(application, 
       (errCategory, categories) => {
-      application.config.connect().end()
+      application.config.connect().end()      
       if (errCategory) {
         console.error(`Error: ${errCategory.sqlMessage}`);
         req.session.error = `Error tryong get all categories: ${errCategory.sqlMessage}`;
@@ -29,7 +31,6 @@ module.exports.index = (req, res, application) => {
           'error': error
         })
       } else {
-
         function whatCategory(categoryId) {
           for(let category of categories) {
             if (categoryId == category.id) {
@@ -39,13 +40,15 @@ module.exports.index = (req, res, application) => {
         }
         let page = req.query.page
         paginator = application.app.utils.paginator(products, page)
+        
         res.render('core/index.ejs', {
           'paginator': paginator,
           'user': req.session.user,
           'categories': categories,
           'msg': msg,
           'error': error,
-          'whatCategory': whatCategory
+          'whatCategory': whatCategory,
+          'currentCategory': idCategory
         })
       }
     })  
