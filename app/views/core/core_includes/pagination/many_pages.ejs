@@ -32,7 +32,11 @@ function getUrl(page) {
   <ul class="pagination">
 
     <% if(pd > 3) {%>
-      <li class="active"><a href="/?page=<%=paginator.page-1%>"><-</a></li>
+      <li>
+        <a href="/?page=<%=paginator.page-1%>" aria-label="Anterior">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
     <% } %>
 
     <% for(let page=getPage(); page <= getLimit(); page++) {%>
@@ -44,7 +48,11 @@ function getUrl(page) {
     <% } %>
 
     <% if(pu > 3) {%>
-      <li class="active"><a href="/?page=<%=paginator.page+1%>">-></a></li>
+      <li>
+        <a href="/?page=<%=paginator.page+1%>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
     <% } %>
 
   </ul>

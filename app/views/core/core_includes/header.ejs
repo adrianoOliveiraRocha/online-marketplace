@@ -75,9 +75,17 @@
 
               </div> <!-- /.col-md-6 -->
               <div class="col-md-6 col-sm-5">
-                  <div class="notification">
-                      <span>Mensagem editada pelo usuário</span>
-                  </div>
+                <div class="notification">
+									<a 
+										href="/access_cart"
+										title="Click para acessar o carrinho!">
+										<span class="glyphicon glyphicon-shopping-cart">
+												<% if(typeof cart != 'undefined') { %>
+													<%=cart.length%> produtos
+												<% } %>
+										</span>
+									</a>                    
+                </div>
               </div> <!-- /.col-md-6 -->
           </div> <!-- /.row -->
       </div> <!-- /.container -->

@@ -3,9 +3,10 @@ module.exports.index = (req, res, application) => {
   req.session.message = ''
   var error = req.session.error
   req.session.error = ''
-
   var idCategory = req.query.idCategory;
-  
+
+  // req.session.cart = undefined
+      
   application.app.models.Product.getAll(application, idCategory, 
     (errProduct, result) => {
       application.config.connect().end()
@@ -48,7 +49,8 @@ module.exports.index = (req, res, application) => {
           'msg': msg,
           'error': error,
           'whatCategory': whatCategory,
-          'currentCategory': idCategory
+          'currentCategory': idCategory,
+          'cart': req.session.cart
         })
       }
     })  
@@ -68,12 +70,11 @@ module.exports.login = (req, res, application) => {
       req.session.message = `Você está logado(a) como ${req.session.user.email}`;
       res.redirect('/admin'); 
     } else { // it is not admin
-      req.session.message = `Você está logado(a) como ${req.session.user.email}`;
+      req.session.message = `Bem-Vindo! Você está logado(a) como ${req.session.user.email}`;
       res.redirect('/client_area'); 
     }    
 
   } else { // not loged
-
     if (req.method == 'GET') {
       res.render('core/login.ejs', {
         'msg': msg,
@@ -166,4 +167,50 @@ module.exports.register = (req, res, application) => {
     }
 
   }
+}
+
+module.exports.add_to_cart = (req, res, application) => {
+
+  if (typeof req.session.cart == 'undefined') { // the cart is created here
+    req.session.cart = []
+
+    application.app.models.Product.getThis(req.query.productId, application, 
+      (err, result) => {
+        if(err) {
+          console.error(err.sqlMessage);
+          req.session.error = `Error trying pu the product whiten the cart: ${err.sqlMessage}`;
+          res.render('core/index.ejs', {
+            'error': error
+          })
+        } else {
+          req.session.cart.push(result[0])
+          
+        }
+      })
+
+  } else { // the cart already exists 
+    console.log('The cart exists')
+    console.log(req.session.cart)
+    // if(!productExists(req.session.cart, req.query.productId)) {   
+    //   req.session.cart.push(
+    //     {
+    //       'id': req.query.productId,
+    //       'quantity': 1
+    //     }
+    //   )
+    // }
+
+  }
+  
+  res.redirect('/')
+  
+}
+
+module.exports.access_cart = (req, res, application) => {
+  req.session.message = `
+    Você precisa estar logado antes de acessar o carrinho de compras.
+    Se você ainda não é registrado, click em registrar-se. 
+    É fácil e rápido :-)
+  `
+  res.redirect('/login')
 }

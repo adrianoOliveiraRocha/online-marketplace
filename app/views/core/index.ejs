@@ -59,10 +59,18 @@ http://www.templatemo.com/preview/templatemo_428_kool_store
                   <img src="upload/product/<%=product.image %>">
                 </div> <!-- /.product-thumb -->
                 <div class="product-content">
-                  <h5><a href="#"><%=product.name%></a></h5>
+                	<h5><a href="#"><%=product.name%></a></h5>
                   <span class="tagline"><%=whatCategory(product.category)%></span>
                   <span class="price"><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%></span>
                   <p><%=product.description%></p>
+									<p>
+										<a 
+											class="btn btn-default"
+											href="/add_to_cart?productId=<%=product.id%>">
+											Colocar no Carrinho
+										</a>
+									</p>
+
                 </div> <!-- /.product-content -->
             </div> <!-- /.product-item -->
           </div> <!-- /.col-md-3 -->
