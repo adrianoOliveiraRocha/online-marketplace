@@ -64,7 +64,64 @@
             <!-- /.box-header -->
             <div class="box-body">
               
-              content here
+              <% if(typeof cart != 'undefined') {%>
+              
+              <div class="container">
+                
+                <div class="row">
+
+                  <div class="col-sm-2">
+                    <label for="">Produto</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="" name="" value="Produto">
+                  </div>
+
+                  <div class="col-sm-2">
+                    <label for="">Preço</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="" name="" value="R$10,00">
+                  </div>
+
+                  <div class="col-sm-2">
+                    <label for="">Quantidade</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="" name="" value="1">
+                  </div>
+                  
+                  <div class="col-sm-2">
+                    <label for="">Subtotal</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="" name="" value="R$10,00">
+                  </div>
+                  <hr>
+                  <hr>
+
+                  <div class="col-sm-3">
+                    <a href="#" class="btn btn-warning">
+                      Alterar Quantidade
+                    </a>
+                  </div>
+                  <div class="col-sm-3">
+                    <a href="#" class="btn btn-warning">
+                      Deletar
+                    </a>
+                  </div>
+                  
+                </div>
+
+                <hr>
+                <hr>
+                
+
+                
+
+              </div>
+              
+              <% } %>
 
             </div>
             <!-- /.box-body -->

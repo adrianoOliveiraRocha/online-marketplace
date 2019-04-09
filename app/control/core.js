@@ -4,8 +4,8 @@ module.exports.index = (req, res, application) => {
   var error = req.session.error
   req.session.error = ''
   var idCategory = req.query.idCategory;
-
   // req.session.cart = undefined
+  
       
   application.app.models.Product.getAll(application, idCategory, 
     (errProduct, result) => {
@@ -173,7 +173,6 @@ module.exports.add_to_cart = (req, res, application) => {
 
   if (typeof req.session.cart == 'undefined') { // the cart is created here
     req.session.cart = []
-
     application.app.models.Product.getThis(req.query.productId, application, 
       (err, result) => {
         if(err) {
@@ -184,29 +183,43 @@ module.exports.add_to_cart = (req, res, application) => {
           })
         } else {
           req.session.cart.push(result[0])
-          
+          res.redirect('/')
         }
       })
-
   } else { // the cart already exists 
-    console.log('The cart exists')
-    console.log(req.session.cart)
-    // if(!productExists(req.session.cart, req.query.productId)) {   
-    //   req.session.cart.push(
-    //     {
-    //       'id': req.query.productId,
-    //       'quantity': 1
-    //     }
-    //   )
-    // }
-
+    // test whether the product was added
+    if(!productWasAdded(req.query.productId, req.session.cart)) {
+      application.app.models.Product.getThis(req.query.productId, application, 
+        (err, result) => {
+          if(err) {
+            console.error(err.sqlMessage);
+            req.session.error = `Error trying pu the product whiten the cart: ${err.sqlMessage}`;
+            res.render('core/index.ejs', {
+              'error': error
+            })
+          } else {
+            req.session.cart.push(result[0])
+            res.redirect('/')
+          }
+        })
+    } else {
+      res.redirect('/');
+    }    
   }
-  
-  res.redirect('/')
+
+  function productWasAdded(productId, cart) {
+    var resp = false
+    cart.forEach(product => {
+      if(product.id == productId) {
+        resp = true
+      }
+    }) 
+    return resp
+  }
   
 }
 
-module.exports.access_cart = (req, res, application) => {
+module.exports.access_cart = (req, res) => {
   req.session.message = `
     Você precisa estar logado antes de acessar o carrinho de compras.
     Se você ainda não é registrado, click em registrar-se. 

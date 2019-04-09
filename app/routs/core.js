@@ -25,7 +25,7 @@ module.exports = (application) => {
   })
 
   application.get('/access_cart', (req, res) => {
-    application.app.control.core.access_cart(req, res, application)
+    application.app.control.core.access_cart(req, res)
   })
 
 }
