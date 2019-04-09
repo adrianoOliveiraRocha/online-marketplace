@@ -22,7 +22,7 @@ function paginator(collection, page) {
     page = page - 1
   }
 
-  const LIMIT = 3 // 8 
+  const LIMIT = 8  
   let nTuples = Object.keys(collection).length
   let nPages = getNPages(nTuples, LIMIT)
   var amplitude = getAmplitude(page, LIMIT)

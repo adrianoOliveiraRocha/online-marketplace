@@ -17,6 +17,15 @@ function getLimit() {
     return paginator.nPages
   }
 }
+
+function getUrl(page) {
+  if(typeof currentCategory != 'undefined') {
+    return `/?page=${page}&idCategory=${currentCategory}`    
+  } else {
+    return `/?page=${page}`;    
+  }
+}
+
 %>
 
 <div class="container">
@@ -30,7 +39,7 @@ function getLimit() {
       <% if(page == paginator.page) {%>
       <li class="active"><a href="#"><%=page%></a></li>
       <% } else { %>
-      <li><a href="/?page=<%=page%>"><%=page%></a></li>
+      <li><a href=<%=getUrl(page)%>><%=page%></a></li>
       <% } %>
     <% } %>
 
