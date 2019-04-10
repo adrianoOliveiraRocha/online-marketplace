@@ -32,3 +32,26 @@ function editProfile() {
   }  
   
 }
+
+function updateQuantidy(productId) {
+  const quantityTd = document.getElementById('quantity' + productId)
+  let idInput = 'quantity' + productId + 'value'
+  const quantityInput = `
+  <input id="${idInput}" type="number" placeholder="Nova Quantidade"/>
+  <input type="button" value="ok" 
+  onclick="quantityDefined('${idInput}')"/>
+  `
+  quantityTd.innerHTML = quantityInput
+
+  
+}
+
+function quantityDefined(quantityInputId){
+  let newQuantity = parseInt(document.getElementById(quantityInputId).value)  
+  if(isNaN(newQuantity)) {
+    alert('Por favor, preencha o campo quantidade corretamente')
+  } else {
+    alert(newQuantity)
+  }
+  
+}
