@@ -33,25 +33,41 @@ function editProfile() {
   
 }
 
-function updateQuantidy(productId) {
-  const quantityTd = document.getElementById('quantity' + productId)
-  let idInput = 'quantity' + productId + 'value'
-  const quantityInput = `
-  <input id="${idInput}" type="number" placeholder="Nova Quantidade"/>
-  <input type="button" value="ok" 
-  onclick="quantityDefined('${idInput}')"/>
-  `
-  quantityTd.innerHTML = quantityInput
-
-  
+function updateQuantidy(productId, quantity) {
+  const subtotalInput = document.getElementById(`subtotal${productId}`)
+  const stringPrice = document.getElementById(`price${productId}`).value
+  const floatPrice = getFloatPrice(stringPrice)
+  const newQuantity = getQuantity(quantity, productId)
+  const newSubtotal = newQuantity * floatPrice
+  subtotalInput.value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(newSubtotal)  
 }
 
-function quantityDefined(quantityInputId){
-  let newQuantity = parseInt(document.getElementById(quantityInputId).value)  
-  if(isNaN(newQuantity)) {
-    alert('Por favor, preencha o campo quantidade corretamente')
-  } else {
-    alert(newQuantity)
+function getFloatPrice(stringPrice) {
+  var response = stringPrice.replace('R$', '')
+  response = response.replace(',', '.')
+  try {
+    response = parseFloat(response)
+  } catch (error) {
+    console.error(error)
+  }
+  return response
+}
+
+function getQuantity(strQuantity, productId) {
+  const response = parseInt(strQuantity)
+  try {    
+    if (response <= 0) {
+      response = 1
+    }
+  } catch (error) {
+    console.error(`Erro: ${error}`)
+    document.getElementById(`quantity${productId}`).value = 1
   }
   
+  return response
 }
+
+/*
+When somebody place a negative number in quantity, the system come back to 1. But, 
+the calc is beeing done whit this value but positive. Pease fixe this problem
+*/
