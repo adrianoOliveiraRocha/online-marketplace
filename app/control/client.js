@@ -25,3 +25,14 @@ module.exports.client_area = (req, res, application) => {
   }
   
 }
+
+module.exports.client_profile = (req, res, application) => {
+  if (req.method == 'GET') {
+    res.render('client_area/profile.ejs', {
+      'user': req.session.user,           
+    });
+  } else {
+    // editProfile(req, res, application); 
+    res.send('edit client profile')   
+  }  
+}
