@@ -40,6 +40,9 @@ function updateQuantidy(productId, quantity) {
   const newQuantity = getQuantity(quantity, productId)
   const newSubtotal = newQuantity * floatPrice
   subtotalInput.value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(newSubtotal)  
+  const newTotal = updateTotal()
+  console.log(document.getElementById('total'))
+  document.getElementById('total').value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(newTotal)
 }
 
 function getFloatPrice(stringPrice) {
@@ -57,17 +60,23 @@ function getQuantity(strQuantity, productId) {
   const response = parseInt(strQuantity)
   try {    
     if (response <= 0) {
-      response = 1
+      document.getElementById(`quantity${productId}`).value = 1
+      return 1      
     }
   } catch (error) {
-    console.error(`Erro: ${error}`)
-    document.getElementById(`quantity${productId}`).value = 1
+    console.error(`Erro: ${error}`)        
   }
   
   return response
 }
 
-/*
-When somebody place a negative number in quantity, the system come back to 1. But, 
-the calc is beeing done whit this value but positive. Pease fixe this problem
-*/
+function updateTotal() {
+  const subtotals = document.getElementsByClassName('subtotal')
+  var newTotal = 0
+  Object.values(subtotals).forEach(element => {
+    var value = element.value.replace('R$', '')
+    value = value.replace(',', '.')
+    newTotal = newTotal + parseFloat(value)
+  })
+  return newTotal
+}
