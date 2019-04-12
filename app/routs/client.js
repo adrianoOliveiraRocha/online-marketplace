@@ -7,5 +7,13 @@ module.exports = (application) => {
   application.get('/client_profile', (req, res) => {
     application.app.control.client.client_profile(req, res, application)
   })
+
+  application.post('/client_profile', (req, res) => {
+    application.app.control.client.client_profile(req, res, application)
+  }) 
+
+  application.post('/comeback_site', (req, res) => {
+    application.app.control.client.comeback_site(req, res, application)
+  })
   
 }

@@ -48,7 +48,7 @@
         <div class="box-body">
           <!-- form start -->
           <form role="form" 
-          action="/profile"
+          action="/client_profile"
           id="form" 
           enctype="multipart/form-data"
           method="POST">
@@ -56,12 +56,12 @@
             <div class="box-body">
               <div class="form-group">
                 <label for="email">E-Mail</label>
-                <input type="email" class="form-control" id="email" name="email" 
+                <input type="email" class="form-control" id="email" name="email" required
                   value="<%=user.email.trim()%>" placeholder="E-Mail do Usuário">
               </div>
               <div class="form-group">
                 <label for="password">Senha</label>
-                <input type="password" name="password" id="password" 
+                <input type="password" name="password" id="password" required
                 class="form-control"
                 value="<%=user.password.trim()%>">
               </div>
@@ -87,7 +87,25 @@
 								<input class="input-xlarge" name="image" type="file">
 								</div>
 							</div>
-							<% } %>
+              <% } %>
+              <hr>
+              <div class="form-group">
+                <label for="address">Endereço</label>
+                <input type="text" class="form-control" id="address" name="address" 
+                  value="<%=clientUser.address.trim()%>" placeholder="Endereço" required>
+              </div>
+              <div class="form-group">
+                <label for="addNumber">Número</label>
+                <input type="number" min="1" class="form-control" id="addNumber" name="addNumber" 
+                  value="<%=clientUser.add_number%>" placeholder="Número" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Telefone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" 
+                  value="<%=clientUser.phone.trim()%>" placeholder="Telefone"
+                  pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" required>
+                  <p>Formato: XX-XXXXX-XXXX</p>
+              </div>
               
             </div>
             <!-- /.box-body -->
@@ -124,7 +142,5 @@
 <%-include('client_includes/index/scripts.ejs')%>
 <script src="/admin/utilsUser.js"></script>
   
-</script>
-
 </body>
 </html>

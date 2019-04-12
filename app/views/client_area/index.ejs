@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Área clientistrativa</title>
+  <title>Área do Cliente</title>
 
   <%-include('client_includes/index/links.ejs')%>
 
@@ -65,8 +65,15 @@
             <div class="box-body">
               
               <% if(typeof cart != 'undefined') {%>
-              <% for(product of cart) {%>
+              <% for(product of cart) { %>
+              <form 
+                method="POST"
+                id="cartForm"
+                action="/comeback_site"
+                >
+              <input type="hidden" name="idProduct" value="<%=product.id%>">
               <div class="container">
+                
                 <table class="table">
                   <thead>
                     <tr>
@@ -109,6 +116,7 @@
                                         
                   </tbody>
                 </table>
+                
                 <table class="table" style="width: 20%">
                   <tr>
                     <th>
@@ -120,6 +128,7 @@
                 
               </div>
               <% } %> <!--end for -->
+              </form>
               <div class="box-body">
                 <table class="table">
                   <tbody>
@@ -155,8 +164,11 @@
                
               </div>
               <hr>
+              <% } else { %> 
+              <div class="alert alert-info">
+                <strong>Aviso!</strong> Seu carrinho está vazio.
+              </div>
               <% } %> <!--end if -->
-
             </div>
             <!-- /.box-body -->
           </div>
@@ -176,7 +188,7 @@
   </div>
   <!-- /.content-wrapper -->
   <%-include('./client_includes/footer.ejs')%>
-  <script src="/client/utilsUser.js"></script>
+  <script src="/client/utilsClient.js"></script>
 
 </div>
 <!-- ./wrapper -->
