@@ -71,7 +71,7 @@
                 id="cartForm"
                 action="/comeback_site"
                 >
-              <input type="hidden" name="idProduct" value="<%=product.id%>">
+              <input type="hidden" name="idProduct<%=product.id%>" value="<%=product.id%>">
               <div class="container">
                 
                 <table class="table">
@@ -86,7 +86,7 @@
                       <td>
                         <input type="text" 
                         id="price<%=product.id%>" 
-                        name="subtotal<%=product.id%>" readonly
+                        name="price<%=product.id%>" readonly
                         style="text-align: center"
                         value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%>">
                       </td>                      
@@ -99,7 +99,7 @@
                           id="quantity<%=product.id%>"  
                           style="text-align: center"
                           onchange="updateQuantidy(<%=product.id%>, this.value)"
-                          value="1">
+                          value="<%=product.quantity%>">
                       </td>                      
                     </tr>
                     <tr>
@@ -110,7 +110,7 @@
                         name="subtotal<%=product.id%>" readonly
                         style="text-align: center"
                         class="subtotal"
-                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%>">
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.subTotal)%>">
                       </td>                      
                     </tr>
                                         

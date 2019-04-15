@@ -84,7 +84,5 @@ function updateTotal() {
 document.getElementById('commandBackToSite').addEventListener('click', 
 (event) => {
   const form = document.getElementById('cartForm')
-  console.log(form)
   form.submit()
-
 })

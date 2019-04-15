@@ -182,6 +182,8 @@ module.exports.add_to_cart = (req, res, application) => {
             'error': error
           })
         } else {
+          result[0].quantity = 1
+          result[0].subTotal = result[0].price
           req.session.cart.push(result[0])
           res.redirect('/')
         }
@@ -198,6 +200,8 @@ module.exports.add_to_cart = (req, res, application) => {
               'error': error
             })
           } else {
+            result[0].quantity = 1
+            result[0].subTotal = result[0].price
             req.session.cart.push(result[0])
             res.redirect('/')
           }

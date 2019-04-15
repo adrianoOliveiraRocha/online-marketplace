@@ -60,7 +60,7 @@ module.exports.client_area = (req, res, application) => {
   req.session.message = ''
   var error = req.session.error
   req.session.error = ''
-
+  console.log(req.session.cart)
   res.render('client_area/index.ejs', {
     'user': req.session.user,
     'msg': msg,
@@ -73,7 +73,7 @@ module.exports.client_area = (req, res, application) => {
     if(typeof req.session.cart != 'undefined') {// I have a shoping cart
       var response = 0
       req.session.cart.forEach(product => {
-        response += parseFloat(product.price)
+        response += parseFloat(product.subTotal)
       })
       return response
     } else {
@@ -105,5 +105,24 @@ module.exports.client_profile = (req, res, application) => {
 }
 
 module.exports.comeback_site = (req, res, application) => {
-  res.send(req.body)
+  // update the cart
+  const currentValues = req.body
+  req.session.cart.forEach(product => {
+    updateVelues(product)
+  })
+
+  function updateVelues(product) {
+    console.log(currentValues['subtotal' + product.id])
+    product.quantity = currentValues['quantity' + product.id]
+    product.subTotal = getCurrentSubtotal(currentValues['subtotal' + product.id])    
+  }
+
+  function getCurrentSubtotal(strValue) {
+    let response = strValue.replace('R$', '')
+    response = response.replace(',', '.')
+    return response
+  }
+
+  res.redirect('/')
+
 }
