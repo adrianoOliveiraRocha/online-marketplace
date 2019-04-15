@@ -17,7 +17,7 @@ module.exports = (application) => {
   })
 
   application.get('/delete_item', (req, res) => {
-    application.app.control.client.delete_item(req, res, application)
+    application.app.control.client.delete_item(req, res)
   })
   
 }

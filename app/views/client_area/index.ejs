@@ -65,14 +65,17 @@
             <div class="box-body">
               
               <% if(typeof cart != 'undefined') {%>
-              <% for(product of cart) { %>
               <form 
                 method="POST"
                 id="cartForm"
                 action="/comeback_site"
                 >
+              <% for(product of cart) { %>
+
+              <% if(product != null) { %>
+              <div class="container" id="container<%=product.id%>">
+
               <input type="hidden" name="idProduct<%=product.id%>" value="<%=product.id%>">
-              <div class="container">
                 
                 <table class="table">
                   <thead>
@@ -129,8 +132,12 @@
                 <hr>
                 
               </div>
+
+              <% } %> <!--end if -->
+              
               <% } %> <!--end for -->
               </form>
+
               <div class="box-body">
                 <table class="table">
                   <tbody>

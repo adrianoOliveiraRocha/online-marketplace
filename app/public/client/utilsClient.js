@@ -86,3 +86,12 @@ document.getElementById('commandBackToSite').addEventListener('click',
   const form = document.getElementById('cartForm')
   form.submit()
 })
+
+// function deleteItem(productId) {
+//   try {
+//     let divProduct = document.getElementById('container' + productId) 
+//     divProduct.parentNode.removeChild(divProduct)
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }

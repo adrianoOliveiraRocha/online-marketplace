@@ -50,12 +50,14 @@ module.exports.index = (req, res, application) => {
           'error': error,
           'whatCategory': whatCategory,
           'currentCategory': idCategory,
-          'cart': req.session.cart
+          'cart': req.session.cart,
+          
         })
       }
     })  
   } 
 
+  
 }
 
 module.exports.login = (req, res, application) => {

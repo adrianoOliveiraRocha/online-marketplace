@@ -56,9 +56,8 @@ function editProfile(req, res, application) {
 
 function updateShopingCart(req) {
   const currentValues = req.body
-
   req.session.cart.forEach(product => {
-    updateVelues(product)
+    updateVelues(product)   
   })
 
   function updateVelues(product) {
@@ -81,7 +80,7 @@ module.exports.client_area = (req, res, application) => {
   req.session.message = ''
   var error = req.session.error
   req.session.error = ''
-  console.log(req.session.cart)
+  
   res.render('client_area/index.ejs', {
     'user': req.session.user,
     'msg': msg,
@@ -94,7 +93,9 @@ module.exports.client_area = (req, res, application) => {
     if(typeof req.session.cart != 'undefined') {// I have a shoping cart
       var response = 0
       req.session.cart.forEach(product => {
-        response += parseFloat(product.subTotal)
+        if(product != null) {
+          response += parseFloat(product.subTotal)
+        }        
       })
       return response
     } else {
@@ -135,10 +136,12 @@ module.exports.comeback_site = (req, res) => {
 module.exports.delete_item = (req, res) => {
   req.session.cart.forEach(product => {
     if(req.query.productId == product.id) {
-      product = undefined      
+      // req.session.cart[req.session.cart.indexOf(product)] = null
+      req.session.cart.splice(req.session.cart.indexOf(product))
     }    
   })
-  updateShopingCart(req)
+
   res.redirect('/client_area')
+  
 }
 
