@@ -53,6 +53,27 @@ function editProfile(req, res, application) {
   }
   
 }
+
+function updateShopingCart(req) {
+  const currentValues = req.body
+
+  req.session.cart.forEach(product => {
+    updateVelues(product)
+  })
+
+  function updateVelues(product) {
+    product.quantity = currentValues['quantity' + product.id]
+    product.subTotal = getCurrentSubtotal(currentValues['subtotal' + product.id])    
+  }
+
+  function getCurrentSubtotal(strValue) {
+    let response = strValue.replace('R$', '')
+    response = response.replace(',', '.')
+    return response
+  }
+  
+}
+
 // end helpers 
 
 module.exports.client_area = (req, res, application) => {
@@ -104,25 +125,20 @@ module.exports.client_profile = (req, res, application) => {
   }  
 }
 
-module.exports.comeback_site = (req, res, application) => {
+module.exports.comeback_site = (req, res) => {
   // update the cart
-  const currentValues = req.body
-  req.session.cart.forEach(product => {
-    updateVelues(product)
-  })
-
-  function updateVelues(product) {
-    console.log(currentValues['subtotal' + product.id])
-    product.quantity = currentValues['quantity' + product.id]
-    product.subTotal = getCurrentSubtotal(currentValues['subtotal' + product.id])    
-  }
-
-  function getCurrentSubtotal(strValue) {
-    let response = strValue.replace('R$', '')
-    response = response.replace(',', '.')
-    return response
-  }
-
+  updateShopingCart(req)
   res.redirect('/')
 
 }
+
+module.exports.delete_item = (req, res) => {
+  req.session.cart.forEach(product => {
+    if(req.query.productId == product.id) {
+      product = undefined      
+    }    
+  })
+  updateShopingCart(req)
+  res.redirect('/client_area')
+}
+
