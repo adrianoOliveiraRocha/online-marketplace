@@ -84,7 +84,6 @@ function updateTotal() {
 document.getElementById('commandBackToSite').addEventListener('click', 
 (event) => {
   const form = document.getElementById('cartForm')
-  console.log(form)
   if (form != null) {// I defined it as null when I have not products. But here it is null
     form.submit()  
   } else {
@@ -92,3 +91,24 @@ document.getElementById('commandBackToSite').addEventListener('click',
   }
   
 })
+
+function commandBackToSite() {
+  const form = document.getElementById('cartForm')
+  if (form != null) {// I defined it as null when I have not products. But here it is null
+    form.submit()  
+  } else {
+    window.location.href = '/'
+  }
+}
+
+function deleteItem(productId) {
+  
+  var redirect = () => {
+    var form = document.getElementById('cartForm')
+    form.action = `/delete_item?delete=${productId}`
+    form.submit()
+  }
+
+  redirect()
+
+}

@@ -16,7 +16,7 @@ module.exports = (application) => {
     application.app.control.client.comeback_site(req, res)
   })
 
-  application.get('/delete_item', (req, res) => {
+  application.post('/delete_item', (req, res) => {
     application.app.control.client.delete_item(req, res)
   })
   

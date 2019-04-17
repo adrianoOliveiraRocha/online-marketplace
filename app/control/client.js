@@ -134,17 +134,20 @@ module.exports.comeback_site = (req, res) => {
 }
 
 module.exports.delete_item = (req, res) => {
+
   req.session.cart.forEach(product => {
-    if(req.query.productId == product.id) {
+    if(req.query.delete == product.id) {
       req.session.cart.splice(req.session.cart.indexOf(product), 1)
       if (req.session.cart.length == 0) {
         req.session.cart = undefined
+      } else {
+        updateShopingCart(req)
       }
     }    
   })
 
   res.redirect('/client_area')
-  
+
 }
 
 
