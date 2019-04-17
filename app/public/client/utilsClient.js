@@ -84,14 +84,11 @@ function updateTotal() {
 document.getElementById('commandBackToSite').addEventListener('click', 
 (event) => {
   const form = document.getElementById('cartForm')
-  form.submit()
+  console.log(form)
+  if (form != null) {// I defined it as null when I have not products. But here it is null
+    form.submit()  
+  } else {
+    window.location.href = '/'
+  }
+  
 })
-
-// function deleteItem(productId) {
-//   try {
-//     let divProduct = document.getElementById('container' + productId) 
-//     divProduct.parentNode.removeChild(divProduct)
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }

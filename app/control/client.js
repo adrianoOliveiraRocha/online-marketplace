@@ -136,12 +136,15 @@ module.exports.comeback_site = (req, res) => {
 module.exports.delete_item = (req, res) => {
   req.session.cart.forEach(product => {
     if(req.query.productId == product.id) {
-      // req.session.cart[req.session.cart.indexOf(product)] = null
-      req.session.cart.splice(req.session.cart.indexOf(product))
+      req.session.cart.splice(req.session.cart.indexOf(product), 1)
+      if (req.session.cart.length == 0) {
+        req.session.cart = undefined
+      }
     }    
   })
 
   res.redirect('/client_area')
   
 }
+
 
