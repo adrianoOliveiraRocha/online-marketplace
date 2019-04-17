@@ -163,24 +163,29 @@
 
                 <div class="row">
                   <div class="col-sm-2" style="text-align: center">
-                    <a 
-                      class="form-control btn btn-primary"
+                    <a class="form-control btn btn-primary"
                       onclick="commandBackToSite()">
                       Continuar Comprando
                     </a>
                   </div>
                   <div class="col-sm-2" style="text-align: center">
-                    <a class="form-control btn btn-success">Finalizar</a>
+                    <a class="form-control btn btn-success"
+                      onclick="finalize()">
+                      Finalizar
+                    </a>
                   </div>
                   <div class="col-sm-2" style="text-align: center">
-                    <a class="form-control btn btn-danger">Cancelar</a>
+                    <a class="form-control btn btn-danger"
+                      href="/cancel_cart">
+                      Cancelar
+                    </a>
                   </div>              
                 </div>
                
               </div>
               <hr>
               <% } else { %> 
-              <div class="alert alert-info">
+              <div class="alert alert-warning">
                 <strong>Aviso!</strong> Seu carrinho está vazio.
               </div>
               <% } %> <!--end if -->

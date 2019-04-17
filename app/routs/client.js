@@ -19,5 +19,13 @@ module.exports = (application) => {
   application.post('/delete_item', (req, res) => {
     application.app.control.client.delete_item(req, res)
   })
+
+  application.get('/cancel_cart', (req, res) => {
+    application.app.control.client.cancel_cart(req, res)
+  })
+
+  application.post('/finalize', (req, res) => {
+    application.app.control.client.finalize(req, res)
+  })
   
 }

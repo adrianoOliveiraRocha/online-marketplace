@@ -81,17 +81,6 @@ function updateTotal() {
   return newTotal
 }
 
-document.getElementById('commandBackToSite').addEventListener('click', 
-(event) => {
-  const form = document.getElementById('cartForm')
-  if (form != null) {// I defined it as null when I have not products. But here it is null
-    form.submit()  
-  } else {
-    window.location.href = '/'
-  }
-  
-})
-
 function commandBackToSite() {
   const form = document.getElementById('cartForm')
   if (form != null) {// I defined it as null when I have not products. But here it is null
@@ -111,4 +100,16 @@ function deleteItem(productId) {
 
   redirect()
 
+}
+
+function finalize() {
+  
+  const redirect = () => {
+    const form = document.getElementById('cartForm')
+    form.action = `/finalize`
+    form.submit()
+  }
+
+  redirect()
+  
 }

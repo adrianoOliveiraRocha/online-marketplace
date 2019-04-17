@@ -73,6 +73,32 @@ function updateShopingCart(req) {
   
 }
 
+function getAllIds(data) {
+  var allIds = []
+  Object.keys(data).forEach(key => {
+    if(key.startsWith('idProduct')) {
+      allIds.push(data[key])     
+    }
+  })
+  return allIds
+}
+
+function getAllItems(allIds, data) {
+
+  var response = []
+  allIds.forEach(id => {
+    let item = {}
+    item['id'] = id
+    item['price'] = data[`price${id}`]
+    item['quantity'] = data[`quantity${id}`]
+    item['subtotal'] = data[`subtotal${id}`]
+    response.push(item)
+  })
+
+  return response
+
+}
+
 // end helpers 
 
 module.exports.client_area = (req, res, application) => {
@@ -149,5 +175,24 @@ module.exports.delete_item = (req, res) => {
   res.redirect('/client_area')
 
 }
+
+module.exports.cancel_cart = (req, res) => {
+
+  req.session.cart = undefined
+  res.redirect('/client_area')
+
+}
+
+module.exports.finalize = (req, res) => {
+  const data = req.body
+  const allIds = getAllIds(data)  
+  const allItems = getAllItems(allIds, data) // here I have a array with all items
+  
+  res.send(allItems)
+}
+
+
+
+
 
 
