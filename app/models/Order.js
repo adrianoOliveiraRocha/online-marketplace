@@ -1,8 +1,9 @@
 class Order {
 
-  constructor(userId) {
+  constructor(userId, total) {
     this.userId = userId
     this.date = this.getDate()
+    this.total = total
   }
 
   getDate() {
@@ -15,9 +16,13 @@ class Order {
 
   save(application, callback) {
     let stm = `
-    insert into order (userId, date)
-    values(${this.userId}, '${this.date}')`
+    insert into _order (userId, orderDate, total)
+    values(${this.userId}, '${this.date}', ${this.total})`
     application.config.connect().query(stm, callback)
   }
 
+}
+
+module.exports = () => {
+  return Order
 }

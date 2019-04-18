@@ -99,6 +99,24 @@ function getAllItems(allIds, data) {
 
 }
 
+function getTotal(allItems){    
+  
+  function getSTValue(subtotal) {
+    let response = subtotal.replace('R$', '')
+    response = response.replace(',', '.')
+    return parseFloat(response)
+  }
+
+  var response = 0
+  allItems.forEach(product => {
+    let stValue = getSTValue(product.subtotal)
+    response += stValue         
+  })
+
+  return response   
+
+}
+
 // end helpers 
 
 module.exports.client_area = (req, res, application) => {
@@ -183,13 +201,49 @@ module.exports.cancel_cart = (req, res) => {
 
 }
 
-module.exports.finalize = (req, res) => {
+module.exports.finalize = (req, res, application) => {
   const data = req.body
   const allIds = getAllIds(data)  
-  const allItems = getAllItems(allIds, data) // here I have a array with all items
+
+  /* here I have a array with all items
+  Each item is a object */
+  const allItems = getAllItems(allIds, data) 
+  var total = getTotal(allItems)
+  const Order = application.app.models.Order
+  var order = new Order(req.session.user.id, total)
+  order.save(application, (orderError, result) => {
+    application.config.connect().end()
+    if (orderError) {
+      console.error(orderError.sqlMessage);
+      req.session.error = `Error trying save order: ${orderError.sqlMessage}`;
+      res.redirect('\client_area');
+    } else {
+      const orderId = result['insertId']
+      saveItems(orderId)
+    }
+  })    
+
+  function saveItems(orderId) {
+    const Item = application.app.models.Item
+    Item.saveItems(allItems, orderId, application, 
+      (itemsError, result) => {
+        application.config.connect().end()
+        if (itemsError) {
+          console.error(itemsError.sqlMessage);
+          req.session.error = `Error trying save items: ${itemsError.sqlMessage}`;
+          res.redirect('\client_area');
+        } else {
+          console.log(result)
+          req.session.message = 'Pedido realizado com sucesso';
+          console.log(result)
+          req.session.cart = undefined
+          res.redirect('\client_area');
+        }
+      })
+  }
   
-  res.send(allItems)
 }
+
 
 
 

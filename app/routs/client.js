@@ -25,7 +25,7 @@ module.exports = (application) => {
   })
 
   application.post('/finalize', (req, res) => {
-    application.app.control.client.finalize(req, res)
+    application.app.control.client.finalize(req, res, application)
   })
   
 }
