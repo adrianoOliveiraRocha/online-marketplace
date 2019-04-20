@@ -1,15 +1,16 @@
 class Order {
 
-  constructor(userId, total) {
+  constructor(userId, total, status=0) {
     this.userId = userId
     this.date = this.getDate()
     this.total = total
+    this.status = status
   }
 
   getDate() {
     let today = new Date()
-    var dd = today.getDay()
-    var mm = today.getMonth()
+    var dd = today.getDate()
+    var mm = today.getMonth() + 1
     var yyyy = today.getFullYear()
     return `${yyyy}-${mm}-${dd}`
   }
@@ -18,6 +19,13 @@ class Order {
     let stm = `
     insert into _order (userId, orderDate, total)
     values(${this.userId}, '${this.date}', ${this.total})`
+    application.config.connect().query(stm, callback)
+  }
+
+  static getAll(application, user, callback) {
+    let stm = `
+    select * from _order
+    where userId = ${user.id}`
     application.config.connect().query(stm, callback)
   }
 

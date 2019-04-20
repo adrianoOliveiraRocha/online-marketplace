@@ -209,24 +209,24 @@ module.exports.finalize = (req, res, application) => {
   Each item is a object */
   const allItems = getAllItems(allIds, data) 
   var total = getTotal(allItems)
-  const Order = application.app.models.Order
-  var order = new Order(req.session.user.id, total)
-  order.save(application, (orderError, result) => {
-    application.config.connect().end()
-    if (orderError) {
-      console.error(orderError.sqlMessage);
-      req.session.error = `Error trying save order: ${orderError.sqlMessage}`;
-      res.redirect('\client_area');
-    } else {
-      const orderId = result['insertId']
-      saveItems(orderId)
-    }
-  })    
 
-  function saveItems(orderId) {
+  var save = new Promise((resolve, reject) => {
+    const Order = application.app.models.Order
+    var order = new Order(req.session.user.id, total)
+    order.save(application, (orderError, result) => {
+      application.config.connect().end()
+      if (orderError) {
+        reject(orderError)
+      } else {
+        const orderId = result['insertId']
+        resolve(orderId)
+      }
+    })
+  })
+
+  save.then((orderId) => {
     const Item = application.app.models.Item
-    Item.saveItems(allItems, orderId, application, 
-      (itemsError, result) => {
+    Item.saveItems(allItems, orderId, application, (itemsError, result) => {
         application.config.connect().end()
         if (itemsError) {
           console.error(itemsError.sqlMessage);
@@ -239,10 +239,33 @@ module.exports.finalize = (req, res, application) => {
           req.session.cart = undefined
           res.redirect('\client_area');
         }
-      })
-  }
+      }) 
+  }).catch((orderError) => {
+    console.error(orderError.sqlMessage);
+    req.session.error = `Error trying save order: ${orderError.sqlMessage}`;
+    res.redirect('\client_area');
+  })
   
 }
+
+module.exports.all_requests = (req, res, application) => {
+
+  const Order = application.app.models.Order
+    Order.getAll(application, req.session.user, (error, result) => {
+      if (error) {
+        console.error(error.sqlMessage);
+        req.session.error = `Error trying get all orders: ${error.sqlMessage}`;
+        res.redirect('\client_area');
+      } else {
+        res.render('client_area/all_requests.ejs', {
+          'allRequests': result,
+          'user': req.session.user
+        })
+      }
+    })
+
+}
+
 
 
 

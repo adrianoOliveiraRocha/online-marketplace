@@ -27,5 +27,9 @@ module.exports = (application) => {
   application.post('/finalize', (req, res) => {
     application.app.control.client.finalize(req, res, application)
   })
+
+  application.get('/pedidos', (req, res) => {
+    application.app.control.client.all_requests(req, res, application)
+  })
   
 }
