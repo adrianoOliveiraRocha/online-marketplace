@@ -1,5 +1,6 @@
 // helpers 
 function editProfile(req, res, application) {
+
   var data = req.body;
   var imageName = null;
   const User = application.app.models.User;
@@ -233,22 +234,21 @@ module.exports.finalize = (req, res, application) => {
           req.session.error = `Error trying save items: ${itemsError.sqlMessage}`;
           res.redirect('\client_area');
         } else {
-          console.log(result)
           req.session.message = 'Pedido realizado com sucesso';
           console.log(result)
           req.session.cart = undefined
-          res.redirect('\client_area');
+          res.redirect('\client_area')
         }
       }) 
   }).catch((orderError) => {
-    console.error(orderError.sqlMessage);
-    req.session.error = `Error trying save order: ${orderError.sqlMessage}`;
-    res.redirect('\client_area');
+    console.error(orderError.sqlMessage)
+    req.session.error = `Error trying save order: ${orderError.sqlMessage}`
+    res.redirect('\client_area')
   })
   
 }
 
-module.exports.all_requests = (req, res, application) => {
+module.exports.all_requests = (req, res, application) => {  
 
   const Order = application.app.models.Order
     Order.getAll(application, req.session.user, (error, result) => {
@@ -259,7 +259,8 @@ module.exports.all_requests = (req, res, application) => {
       } else {
         res.render('client_area/all_requests.ejs', {
           'allRequests': result,
-          'user': req.session.user
+          'user': req.session.user,
+          'getStatus': require('../utils/helper').getStatus
         })
       }
     })

@@ -40,5 +40,14 @@ function uploadImage(image, folder) {
   return imageName;
 }
 
-module.exports.deleteOldeImage = deleteOldeImage;
-module.exports.uploadImage = uploadImage;
+function getStatus(number) {
+  if (number == 0) {
+    return 'Não atendido'
+  } else {
+    return 'Atendido'
+  }
+}
+
+module.exports.deleteOldeImage = deleteOldeImage
+module.exports.uploadImage = uploadImage
+module;exports.getStatus = getStatus
