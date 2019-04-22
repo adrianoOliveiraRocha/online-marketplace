@@ -32,4 +32,8 @@ module.exports = (application) => {
     application.app.control.client.all_requests(req, res, application)
   })
   
+  application.get('/order_details', (req, res) => {
+    application.app.control.client.order_details(req, res, application)
+  })
+  
 }

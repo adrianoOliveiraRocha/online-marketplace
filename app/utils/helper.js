@@ -40,14 +40,21 @@ function uploadImage(image, folder) {
   return imageName;
 }
 
-function getStatus(number) {
-  if (number == 0) {
-    return 'Não atendido'
+function getTotal(cart){    
+  if(typeof cart != 'undefined') {// I have a shoping cart
+    var response = 0
+    cart.forEach(product => {
+      if(product != null) {
+        response += parseFloat(product.subTotal)
+      }        
+    })
+    return response
   } else {
-    return 'Atendido'
-  }
+    return undefined
+  }    
 }
+
 
 module.exports.deleteOldeImage = deleteOldeImage
 module.exports.uploadImage = uploadImage
-module;exports.getStatus = getStatus
+module.exports.getTotal = getTotal

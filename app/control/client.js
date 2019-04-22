@@ -130,23 +130,9 @@ module.exports.client_area = (req, res, application) => {
     'user': req.session.user,
     'msg': msg,
     'error': error,
-    'total': getTotal(),
+    'total': require('../utils/helper').getTotal(req.session.cart),
     'cart': req.session.cart
   })
-
-  function getTotal(){    
-    if(typeof req.session.cart != 'undefined') {// I have a shoping cart
-      var response = 0
-      req.session.cart.forEach(product => {
-        if(product != null) {
-          response += parseFloat(product.subTotal)
-        }        
-      })
-      return response
-    } else {
-      return undefined
-    }    
-  }
   
 }
 
@@ -260,11 +246,15 @@ module.exports.all_requests = (req, res, application) => {
         res.render('client_area/all_requests.ejs', {
           'allRequests': result,
           'user': req.session.user,
-          'getStatus': require('../utils/helper').getStatus
         })
       }
     })
 
+}
+
+module.exports.order_details = (req, res, application) => {
+  const requestId = req.query.requestId 
+  res.send(requestId)
 }
 
 

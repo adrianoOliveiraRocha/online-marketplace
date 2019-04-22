@@ -76,14 +76,25 @@
                 <tbody>                
                   <% for(request of allRequests) { %>
                   <tr>
-                    <td><%=request.id%></td>
+                    <td>
+                      <a href="/order_details?requestId=<%=request.id%>" 
+                        title="Detalhes do Pedido">
+                        <%=request.id%>
+                      </a>
+                    </td>
                     <td>
                       <%=request.orderDate.getDate()%>
                       /<%=request.orderDate.getMonth() + 1%>
                       /<%=request.orderDate.getFullYear()%>
                     </td>
                     <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(request.total)%></td>
-                    <td><%=getStatus(request.status)%></td>
+                    <td>
+                      <% if(request.status == 0) {%>
+                      <div style="color: red">Não atendido</div>
+                      <% } else { %>
+                      <div style="color: blue">Atendido</div>
+                      <% } %>
+                    </td>
                   </tr>
                   <% } %>
                                   
