@@ -60,6 +60,13 @@ class Product {
     const stm = `delete from product where id = ${idProduct}`;
     application.config.connect().query(stm, callback);
   }
+
+  static getName(productId, application, callback) {
+    let stm = `
+    select name from product
+    where id = ${productId}`
+    application.config.connect().query(stm, callback)
+  }
   
 }
 

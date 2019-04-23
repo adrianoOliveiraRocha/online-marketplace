@@ -32,7 +32,19 @@ class Item {
 
     application.config.connect().query(stm, callback)
 
-  }    
+  }  
+  
+  static getAll(orderId, application, callback) {
+    
+    let stm = `
+    select item.price as price, item.quantity as quantity,
+    item.subtotal as subtotal, product.name as productName
+    from item, product
+    where item.productId = product.id
+    and item.orderId = ${orderId}
+    `
+    application.config.connect().query(stm, callback)
+  }
 
 }
 

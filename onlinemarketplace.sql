@@ -18,6 +18,35 @@ USE `onlinemarketplace`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `_order`
+--
+
+DROP TABLE IF EXISTS `_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `orderDate` date NOT NULL,
+  `total` float NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `_order_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `_order`
+--
+
+LOCK TABLES `_order` WRITE;
+/*!40000 ALTER TABLE `_order` DISABLE KEYS */;
+INSERT INTO `_order` VALUES (6,21,'2019-03-04',53.7,0),(7,21,'2019-03-06',17.9,0),(8,21,'2019-04-20',12.1,0),(9,21,'2019-04-20',18.7,0),(10,21,'2019-04-20',22.6,0);
+/*!40000 ALTER TABLE `_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `category`
 --
 
@@ -51,7 +80,7 @@ DROP TABLE IF EXISTS `client`;
 CREATE TABLE `client` (
   `address` varchar(500) NOT NULL,
   `add_number` int(11) NOT NULL,
-  `fone` varchar(20) NOT NULL,
+  `phone` varchar(20) NOT NULL,
   `user_id` int(11) NOT NULL,
   KEY `user_id` (`user_id`),
   CONSTRAINT `client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
@@ -64,8 +93,40 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES ('Av. Lagoa Central',345,'85-09872-2871',21);
+INSERT INTO `client` VALUES ('Av. Lagoa Central',330,'85-7756-3738',21);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item`
+--
+
+DROP TABLE IF EXISTS `item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `productId` int(11) NOT NULL,
+  `price` float NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `subtotal` float NOT NULL,
+  `orderId` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `productId` (`productId`),
+  KEY `orderId` (`orderId`),
+  CONSTRAINT `item_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product` (`id`),
+  CONSTRAINT `item_ibfk_2` FOREIGN KEY (`orderId`) REFERENCES `_order` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item`
+--
+
+LOCK TABLES `item` WRITE;
+/*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (10,14,5.6,3,16.8,6),(11,16,6.5,3,19.5,6),(12,17,5.8,3,17.4,6),(13,14,5.6,1,5.6,7),(14,16,6.5,1,6.5,7),(15,17,5.8,1,5.8,7),(16,14,5.6,1,5.6,8),(17,16,6.5,1,6.5,8),(18,20,5.8,1,5.8,9),(19,21,12.9,1,12.9,9),(20,36,5.8,1,5.8,10),(21,37,3.9,1,3.9,10),(22,38,12.9,1,12.9,10);
+/*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -85,7 +146,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `category` (`category`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +155,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (14,'Produto 1','Descrição do produto 1',1,5.60,'1554286552617_Product.jpg'),(16,'Product 2 ','Description of this product',7,6.50,'1554286897868_Product.jpg'),(17,'Produto 3','Description of this product',6,5.80,'1554286919657_Product.jpg'),(18,'Produto 4','Description of this product',8,4.50,'1554286952465_Product.jpg'),(19,'Produto 5','Description of this product',8,6.50,'1554286980076_Product.jpg'),(20,'Produto 6','Description of this product',8,5.80,'1554287002182_Product.jpg'),(21,'Produto 7','Description of this product',8,12.90,'1554287022166_Product.jpg'),(22,'Produto 8','Description of this product',9,5.80,'1554287043899_Product.jpg'),(23,'Produto 9','Description of this product',10,4.50,'1554287067008_Product.jpg'),(24,'Produto 10','Description of this product',8,6.50,'1554287088160_Product.jpg'),(25,'Produto 11','Description of this product',8,5.80,'1554287110207_Product.jpg'),(26,'Produto 12','Description of this product',8,23.43,'1554287130384_Product.jpg'),(27,'Produto 13','Description of this product',6,5.80,'1554287151627_Product.jpg');
+INSERT INTO `product` VALUES (14,'Produto 1','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,5.60,'1554286552617_Product.jpg'),(16,'Product 2 ','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,6.50,'1554286897868_Product.jpg'),(17,'Produto 3','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554286919657_Product.jpg'),(18,'Produto 4','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,4.50,'1554286952465_Product.jpg'),(19,'Produto 5','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554286980076_Product.jpg'),(20,'Produto 6','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287002182_Product.jpg'),(21,'Produto 7','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,12.90,'1554287022166_Product.jpg'),(22,'Produto 8','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,5.80,'1554287043899_Product.jpg'),(23,'Produto 9','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',10,4.50,'1554287067008_Product.jpg'),(24,'Produto 10','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554287088160_Product.jpg'),(25,'Produto 11','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287110207_Product.jpg'),(26,'Produto 12','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,23.43,'1554287130384_Product.jpg'),(27,'Produto 13','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554287151627_Product.jpg'),(28,'Produto 14','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',11,5.80,'1554541645569_Product.jpg'),(29,'Produto 15','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541677095_Product.jpg'),(30,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541705613_Product.jpg'),(31,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,4.50,'1554541730992_Product.jpg'),(32,'Produto 17','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541756125_Product.jpg'),(33,'Produto 18','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,12.90,'1554541782850_Product.jpg'),(34,'Produto 19','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,5.60,'1554541810127_Product.jpg'),(35,'Produto 20','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,6.50,'1554541852665_Product.jpg'),(36,'Produto 21','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,5.80,'1554541881336_Product.jpg'),(37,'Produto 22','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,3.90,'1554541917272_Product.jpg'),(38,'Produto 23','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,12.90,'1554541957694_Product.jpg'),(39,'Produto 24','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,5.60,'1554541984513_Product.jpg');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +182,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin@email.com','453231','1554230246449_user-male.png',1),(21,'fulane@email.com','fu123','1554312392009_user-female.jpeg',0);
+INSERT INTO `user` VALUES (1,'admin@email.com','453231','1554230246449_user-male.png',1),(21,'fulane@email.com','fu123','1555066605070_user-female.jpeg',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -134,4 +195,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-03 14:36:30
+-- Dump completed on 2019-04-23 15:27:32

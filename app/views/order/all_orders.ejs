@@ -74,22 +74,22 @@
                 </tr>
                 </thead>
                 <tbody>                
-                  <% for(request of allRequests) { %>
+                  <% for(order of allOrders) { %>
                   <tr>
                     <td>
-                      <a href="/order_details?orderId=<%=request.id%>" 
+                      <a href="/order_details?orderId=<%=order.id%>" 
                         title="Detalhes do Pedido">
-                        <%=request.id%>
+                        <%=order.id%>
                       </a>
                     </td>
                     <td>
-                      <%=request.orderDate.getDate()%>
-                      /<%=request.orderDate.getMonth() + 1%>
-                      /<%=request.orderDate.getFullYear()%>
+                      <%=order.orderDate.getDate()%>
+                      /<%=order.orderDate.getMonth() + 1%>
+                      /<%=order.orderDate.getFullYear()%>
                     </td>
-                    <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(request.total)%></td>
+                    <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%></td>
                     <td>
-                      <% if(request.status == 0) {%>
+                      <% if(order.status == 0) {%>
                       <div style="color: red">Não atendido</div>
                       <% } else { %>
                       <div style="color: blue">Atendido</div>

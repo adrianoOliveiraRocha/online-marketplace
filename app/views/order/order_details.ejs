@@ -58,10 +58,12 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
+
             <div class="box-header">
               <h3 class="box-title">Detalhes do Pedido</h3>
-            </div>
+            </div>            
             <!-- /.box-header -->
+
             <div class="box-body">
               
               <div class="row">
@@ -127,12 +129,84 @@
                   </table>
                 </div>
               </div>
+             
+            </div>
+            <!-- /.box-body -->
+
+            <hr>
+
+            <!-- Items of the order -->
+            <div class="box-body">
+
+              
+              <div class="box-header">
+                <h3 class="box-title">Ítens do Pedido</h3>
+              </div>
+              <hr>
+              <% for(let item of items) { %>
+              
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="box-header">
+                    <h3 class="box-title"><%=item.productName%></h3>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Preço</label></td>
+                      <td>
+                        <input 
+                        style="text-align: center"
+                        readonly
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)%>"/>                      
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Quantidade</label></td>
+                      <td>
+                        <input 
+                        style="text-align: center"
+                        readonly 
+                        value="<%=item.quantity%>">
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-sm-4">                
+                  <table class="table">
+                    <tr>
+                      <td><label>Subtoal</label></td>
+                      <td>
+                        <input 
+                        readonly 
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.subtotal)%>" 
+                        style="text-align: center">
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                       
+              </div>
+
+              
 
               <hr>
 
+              <% } %>
+
 
             </div>
-            <!-- /.box-body -->
+
           </div>
           <!-- /.box -->
 

@@ -1,3 +1,8 @@
+// helpers
+
+// end helpers
+
+
 module.exports.all_orders = (req, res, application) => {  
 
   const Order = application.app.models.Order
@@ -8,7 +13,7 @@ module.exports.all_orders = (req, res, application) => {
         res.redirect('\client_area');
       } else {
         res.render('order/all_orders.ejs', {
-          'allRequests': result,
+          'allOrders': result,
           'user': req.session.user,
         })
       }
@@ -18,28 +23,50 @@ module.exports.all_orders = (req, res, application) => {
 
 module.exports.order_details = (req, res, application) => {
 
-  function fixDate(date) {
-    let day = date.getDate()
-    let month = date.getMonth()
-    let year = date.getFullYear()
-    return `${day}/${month}/${year}`
-  }
-
-  const ordertId = req.query.orderId 
+  const orderId = req.query.orderId 
   const Order = application.app.models.Order
-  Order.getThis(ordertId, application, (error, result) => {
-    if (error) {
-      console.error(error.sqlMessage);
-      req.session.error = `Error trying get the order: ${error.sqlMessage}`;
-      res.redirect('\client_area');
-    } else {
-      console.log(result)
-      res.render('order/order_details.ejs', {
-        'order': result[0],
-        'user': req.session.user,
-        'fixDate': require('../utils/utilsOrder').fixDate
-      }) 
-    }
+
+  const pOrder = new Promise((resolve, reject) => {
+
+    Order.getThis(orderId, application, (error, result) => {
+      application.config.connect().end()
+      
+      if (error) {
+        reject(error)        
+      } else {
+        resolve(result[0])        
+      }
+    })
+
+  })
+
+  pOrder.then((order) => {
+    
+   const Item = application.app.models.Item
+    
+    Item.getAll(order.id, application, (error, result) => {
+      application.config.connect().end()
+
+      if (error) {
+        console.error(error.sqlMessage);
+        req.session.error = `Error: ${error.sqlMessage}`;
+        res.redirect('\client_area');
+      } else {
+        res.render('order/order_details.ejs', {
+          'order': order,
+          'user': req.session.user,
+          'fixDate': require('../utils/utilsOrder').fixDate,
+          'items': result,
+        })
+      }
+    })    
+
+  }).catch(error => {
+
+    console.error(error.sqlMessage);
+    req.session.error = `Error: ${error.sqlMessage}`;
+    res.redirect('\client_area');
+
   })
   
 }

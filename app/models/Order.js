@@ -34,7 +34,7 @@ class Order {
     select * from _order
     where id = ${orderId}`
     application.config.connect().query(stm, callback)
-  }
+  }  
 
 }
 
