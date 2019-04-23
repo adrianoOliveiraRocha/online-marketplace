@@ -29,6 +29,13 @@ class Order {
     application.config.connect().query(stm, callback)
   }
 
+  static getThis(orderId, application, callback) {
+    let stm = `
+    select * from _order
+    where id = ${orderId}`
+    application.config.connect().query(stm, callback)
+  }
+
 }
 
 module.exports = () => {

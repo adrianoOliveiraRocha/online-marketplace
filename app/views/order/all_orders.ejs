@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Área do Cliente</title>
 
-  <%-include('client_includes/index/dt_links.ejs')%>
+  <%-include('../client_area/client_includes/index/dt_links.ejs')%>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-  <%-include('client_includes/header.ejs')%>
+  <%-include('../client_area/client_includes/header.ejs')%>
   
   <!-- Left side column. contains the logo and sidebar -->
-  <%-include('client_includes/left_side_column.ejs')%>
+  <%-include('../client_area/client_includes/left_side_column.ejs')%>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -77,7 +77,7 @@
                   <% for(request of allRequests) { %>
                   <tr>
                     <td>
-                      <a href="/order_details?requestId=<%=request.id%>" 
+                      <a href="/order_details?orderId=<%=request.id%>" 
                         title="Detalhes do Pedido">
                         <%=request.id%>
                       </a>
@@ -127,12 +127,11 @@
 
   </div>
   <!-- /.content-wrapper -->
-  <%-include('./client_includes/footer.ejs')%>
-  <script src="/client/utilsClient.js"></script>
-
+  <%-include('../client_area//client_includes/footer.ejs')%>
+  
 </div>
 <!-- ./wrapper -->
 
-<%-include('client_includes/index/dt_scripts.ejs')%>
+<%-include('../client_area/client_includes/index/dt_scripts.ejs')%>
 </body>
 </html>

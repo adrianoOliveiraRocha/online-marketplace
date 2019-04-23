@@ -234,28 +234,6 @@ module.exports.finalize = (req, res, application) => {
   
 }
 
-module.exports.all_requests = (req, res, application) => {  
-
-  const Order = application.app.models.Order
-    Order.getAll(application, req.session.user, (error, result) => {
-      if (error) {
-        console.error(error.sqlMessage);
-        req.session.error = `Error trying get all orders: ${error.sqlMessage}`;
-        res.redirect('\client_area');
-      } else {
-        res.render('client_area/all_requests.ejs', {
-          'allRequests': result,
-          'user': req.session.user,
-        })
-      }
-    })
-
-}
-
-module.exports.order_details = (req, res, application) => {
-  const requestId = req.query.requestId 
-  res.send(requestId)
-}
 
 
 
