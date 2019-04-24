@@ -132,28 +132,38 @@ module.exports.register = (req, res, application) => {
       'error': error
     })
   } else {
+
     var data = req.body;
+    
     var imageName = 'null';
     if (Object.keys(req.files).length > 0) {// image sended
       const helper = require('./../utils/helper')
       imageName = helper.uploadImage(req.files.image, 'user')
     }
 
-    const Client = application.app.models.Client
-    var client = new Client(data, imageName)
-    
-    client.createUser(application, (errorUser, resultUser) => {
-      application.config.connect().end()
-      if (errorUser) {
-        console.error(errorUser.sqlMessage);
-        req.session.error = `Error trying save a new user: ${errorUser.sqlMessage}`;
-        res.redirect(req.originalUrl);
-      } else {
-        createClient(resultUser['insertId'])
-      }
+    var saveUser = new Promise((resolve, reject) => {
+
+      const Client = application.app.models.Client
+      var client = new Client(data, imageName)
+      
+      client.createUser(application, (errorUser, resultUser) => {
+        application.config.connect().end()
+        if (errorUser) {
+          reject(errorUser)
+        } else {
+          response = {
+            'userId': resultUser['insertId'],
+            'client': client 
+          }
+          resolve(response)
+        }
+      })
+
     })
-    
-    function createClient(userId) {
+
+    saveUser.then(response => {
+      const client = response.client
+      const userId = response.userId
       client.createClient(userId, application, (errorClient, resultClient) => {
         application.config.connect().end()
         if (errorClient) {
@@ -166,7 +176,11 @@ module.exports.register = (req, res, application) => {
           res.redirect('\login');
         }
       })
-    }
+    }).catch(error => {
+      console.error(error.sqlMessage);
+      req.session.error = `Error trying save a new user: ${error.sqlMessage}`;
+      res.redirect(req.originalUrl);
+    })
 
   }
 }

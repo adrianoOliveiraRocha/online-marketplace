@@ -5,7 +5,8 @@ class Client extends User{
     super(data.email, data.password, imageName)
     this.address = data.address.replace(/'/g, '"')
     this.add_number = data.add_number
-    this.fone = data.fone       
+    this.phone = data.phone 
+    this.name = data.name      
   }  
 
   createUser(application, callback) {
@@ -15,8 +16,10 @@ class Client extends User{
   }
 
   createClient(userId, application, callback) {
-    let stm = `insert into client (address, add_number, fone, user_id)
-    values('${this.address}', ${this.add_number}, '${this.fone}', ${userId})`
+    let stm = `insert into client (name, address, add_number, phone, user_id)
+    values('${this.name}', '${this.address}', ${this.add_number}, 
+    '${this.phone}', ${userId})`
+    
     application.config.connect().query(stm, callback)
   }
 
