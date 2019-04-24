@@ -106,6 +106,7 @@
                           value="<%=product.quantity%>">
                       </td>                      
                     </tr>
+
                     <tr>
                       <th>Subtotal</th>
                       <td>
@@ -116,8 +117,7 @@
                         class="subtotal"
                         value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.subTotal)%>">
                       </td>                      
-                    </tr>
-                                        
+                    </tr>                                       
                   </tbody>
                 </table>
                 
@@ -139,6 +139,24 @@
               <% } %> <!--end if -->
               
               <% } %> <!--end for -->
+                
+              <% if(typeof money != undefined) { %>
+
+              <table class="table">
+                <tr>
+                  <td>Dinheiro R$</td>
+                  <td>
+                    <input 
+                      type="number" 
+                      name="money" 
+                      value="<%=money%>"
+                      style="text-align: center">
+                  </td>
+                </tr> 
+              </table>
+
+              <% } %>
+
               </form>
 
               <div class="box-body">

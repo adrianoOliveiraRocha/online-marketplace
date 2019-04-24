@@ -45,7 +45,6 @@ function editProfile(req, res, application) {
           res.redirect('\client_area');
         } else {
           req.session.message = 'Atualizado com sucesso!';
-          console.log(result)
           res.redirect('\client_area');
         }
       }
@@ -56,7 +55,9 @@ function editProfile(req, res, application) {
 }
 
 function updateShopingCart(req) {
+  
   const currentValues = req.body
+  req.session.money = currentValues.money
   req.session.cart.forEach(product => {
     updateVelues(product)   
   })
@@ -121,6 +122,7 @@ function getTotal(allItems){
 // end helpers 
 
 module.exports.client_area = (req, res, application) => {
+  
   var msg = req.session.message
   req.session.message = ''
   var error = req.session.error
@@ -131,7 +133,8 @@ module.exports.client_area = (req, res, application) => {
     'msg': msg,
     'error': error,
     'total': require('../utils/helper').getTotal(req.session.cart),
-    'cart': req.session.cart
+    'cart': req.session.cart,
+    'money': req.session.money
   })
   
 }
@@ -221,7 +224,6 @@ module.exports.finalize = (req, res, application) => {
           res.redirect('\client_area');
         } else {
           req.session.message = 'Pedido realizado com sucesso';
-          console.log(result)
           req.session.cart = undefined
           res.redirect('\client_area')
         }

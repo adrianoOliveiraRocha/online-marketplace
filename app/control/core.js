@@ -4,9 +4,7 @@ module.exports.index = (req, res, application) => {
   var error = req.session.error
   req.session.error = ''
   var idCategory = req.query.idCategory;
-  // req.session.cart = undefined
-  
-      
+
   application.app.models.Product.getAll(application, idCategory, 
     (errProduct, result) => {
       application.config.connect().end()
@@ -32,6 +30,7 @@ module.exports.index = (req, res, application) => {
           'error': error
         })
       } else {
+
         function whatCategory(categoryId) {
           for(let category of categories) {
             if (categoryId == category.id) {
@@ -39,6 +38,7 @@ module.exports.index = (req, res, application) => {
             }
           }
         }
+
         let page = req.query.page
         paginator = application.app.utils.paginator(products, page)
         
@@ -51,7 +51,7 @@ module.exports.index = (req, res, application) => {
           'whatCategory': whatCategory,
           'currentCategory': idCategory,
           'cart': req.session.cart,
-          
+          'money': req.session.money
         })
       }
     })  
@@ -99,7 +99,6 @@ module.exports.login = (req, res, application) => {
       } else { 
         if(Object.keys(result).length > 0) {
 
-          console.log(`result[0]: ${result[0]}`);
           req.session.user = result[0];
           req.session.message = `Você está logado(a) como ${req.session.user.email}`;
           req.session.loged = true;
@@ -189,6 +188,7 @@ module.exports.add_to_cart = (req, res, application) => {
 
   if (typeof req.session.cart == 'undefined') { // the cart is created here
     req.session.cart = []
+    req.session.money = 0
     application.app.models.Product.getThis(req.query.productId, application, 
       (err, result) => {
         if(err) {
@@ -206,9 +206,11 @@ module.exports.add_to_cart = (req, res, application) => {
       })
   } else { // the cart already exists 
     // test whether the product was added
+    req.session.money = req.body.money
     if(!productWasAdded(req.query.productId, req.session.cart)) {
       application.app.models.Product.getThis(req.query.productId, application, 
         (err, result) => {
+          application.config.connect().end()
           if(err) {
             console.error(err.sqlMessage);
             req.session.error = `Error trying pu the product whiten the cart: ${err.sqlMessage}`;
