@@ -70,7 +70,7 @@ class Order {
   static getReceived(userId, application, callback) {
     let stm = `
     select * from _order 
-    where status = 0
+    where status = 1
      and userId = ${userId}`
     application.config.connect().query(stm, callback)
   }
