@@ -203,7 +203,7 @@ module.exports.finalize = (req, res, application) => {
 
   var save = new Promise((resolve, reject) => {
     const Order = application.app.models.Order
-    var order = new Order(req.session.user.id, total)
+    var order = new Order(req.session.user.id, total, req.body.money)
     order.save(application, (orderError, result) => {
       application.config.connect().end()
       if (orderError) {

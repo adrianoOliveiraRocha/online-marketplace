@@ -1,10 +1,10 @@
 class Order {
 
-  constructor(userId, total, status=0) {
+  constructor(userId, total, money) {
     this.userId = userId
     this.date = this.getDate()
     this.total = total
-    this.status = status
+    this.money = money
   }
 
   getDate() {
@@ -17,8 +17,9 @@ class Order {
 
   save(application, callback) {
     let stm = `
-    insert into _order (userId, orderDate, total)
-    values(${this.userId}, '${this.date}', ${this.total})`
+    insert into _order (userId, orderDate, total, money)
+    values(${this.userId}, '${this.date}', ${this.total}, ${this.money})`
+    
     application.config.connect().query(stm, callback)
   }
 
