@@ -206,7 +206,7 @@ module.exports.add_to_cart = (req, res, application) => {
       })
   } else { // the cart already exists 
     // test whether the product was added
-    req.session.money = req.body.money
+    
     if(!productWasAdded(req.query.productId, req.session.cart)) {
       application.app.models.Product.getThis(req.query.productId, application, 
         (err, result) => {

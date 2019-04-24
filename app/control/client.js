@@ -187,6 +187,7 @@ module.exports.delete_item = (req, res) => {
 module.exports.cancel_cart = (req, res) => {
 
   req.session.cart = undefined
+  req.session.money = undefined
   res.redirect('/client_area')
 
 }
@@ -225,6 +226,7 @@ module.exports.finalize = (req, res, application) => {
         } else {
           req.session.message = 'Pedido realizado com sucesso';
           req.session.cart = undefined
+          req.session.money = undefined
           res.redirect('\client_area')
         }
       }) 
