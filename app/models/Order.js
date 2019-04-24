@@ -22,11 +22,11 @@ class Order {
     application.config.connect().query(stm, callback)
   }
 
-  static getAll(application, user, callback) {
+  static getAll(userId, application, callback) {
     // orders of this specific user
     let stm = `
     select * from _order
-    where userId = ${user.id}`
+    where userId = ${userId}`
     application.config.connect().query(stm, callback)
   }
 

@@ -84,6 +84,7 @@ module.exports.all_orders = function(req, res, application) {
 }
 
 module.exports.orderDetails = function(req, res, application) {
+  
   const orderId = req.query.orderId
   const Order = application.app.models.Order
   Order.orderDetails(orderId, application, (error, result) => {

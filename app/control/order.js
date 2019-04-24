@@ -3,21 +3,24 @@
 // end helpers
 
 
-module.exports.all_orders = (req, res, application) => {  
-
+module.exports.all_orders = (req, res, application) => {
+  const userId = req.session.user.id  
   const Order = application.app.models.Order
-    Order.getAll(application, req.session.user, (error, result) => {
-      if (error) {
-        console.error(error.sqlMessage);
-        req.session.error = `Error trying get all orders: ${error.sqlMessage}`;
-        res.redirect('\client_area');
-      } else {
-        res.render('order/all_orders.ejs', {
-          'allOrders': result,
-          'user': req.session.user,
-        })
-      }
-    })
+
+  Order.getAll(userId, application, (error, result) => {
+    if (error) {
+      console.error(error.sqlMessage)
+      req.session.error = `Error trying get all orders: ${error.sqlMessage}`
+      res.redirect('/client_area')
+    } else {
+      console.log(result.length)
+      res.render('order/all_orders.ejs', {
+        'user': req.session.user,
+        'allOrders': result
+      })
+    }
+  })
+  
 
 }
 
