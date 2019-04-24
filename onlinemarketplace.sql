@@ -30,10 +30,11 @@ CREATE TABLE `_order` (
   `orderDate` date NOT NULL,
   `total` float NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
+  `money` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   CONSTRAINT `_order_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +43,7 @@ CREATE TABLE `_order` (
 
 LOCK TABLES `_order` WRITE;
 /*!40000 ALTER TABLE `_order` DISABLE KEYS */;
-INSERT INTO `_order` VALUES (6,21,'2019-03-04',53.7,0),(7,21,'2019-03-06',17.9,0),(8,21,'2019-04-20',12.1,0),(9,21,'2019-04-20',18.7,0),(10,21,'2019-04-20',22.6,0);
+INSERT INTO `_order` VALUES (6,21,'2019-03-04',53.7,0,NULL),(7,21,'2019-03-06',17.9,0,NULL),(8,21,'2019-04-20',12.1,0,NULL),(9,21,'2019-04-20',18.7,0,NULL),(10,21,'2019-04-20',22.6,0,NULL),(11,32,'2019-04-24',113.22,0,NULL);
 /*!40000 ALTER TABLE `_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +95,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES ('Av. Lagoa Central',330,'85-7756-3738',21,'null');
+INSERT INTO `client` VALUES ('Av. Lagoa Central',330,'85-7756-3738',21,'Fulane Bastos'),('Rua dos Patos Brancos',334,'85-15467-9087',32,'Cicrano Pereira do Nascimento ');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +118,7 @@ CREATE TABLE `item` (
   KEY `orderId` (`orderId`),
   CONSTRAINT `item_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product` (`id`),
   CONSTRAINT `item_ibfk_2` FOREIGN KEY (`orderId`) REFERENCES `_order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +127,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (10,14,5.6,3,16.8,6),(11,16,6.5,3,19.5,6),(12,17,5.8,3,17.4,6),(13,14,5.6,1,5.6,7),(14,16,6.5,1,6.5,7),(15,17,5.8,1,5.8,7),(16,14,5.6,1,5.6,8),(17,16,6.5,1,6.5,8),(18,20,5.8,1,5.8,9),(19,21,12.9,1,12.9,9),(20,36,5.8,1,5.8,10),(21,37,3.9,1,3.9,10),(22,38,12.9,1,12.9,10);
+INSERT INTO `item` VALUES (10,14,5.6,3,16.8,6),(11,16,6.5,3,19.5,6),(12,17,5.8,3,17.4,6),(13,14,5.6,1,5.6,7),(14,16,6.5,1,6.5,7),(15,17,5.8,1,5.8,7),(16,14,5.6,1,5.6,8),(17,16,6.5,1,6.5,8),(18,20,5.8,1,5.8,9),(19,21,12.9,1,12.9,9),(20,36,5.8,1,5.8,10),(21,37,3.9,1,3.9,10),(22,38,12.9,1,12.9,10),(23,16,6.5,3,19.5,11),(24,26,23.43,4,93.72,11);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +175,7 @@ CREATE TABLE `user` (
   `image` varchar(1000) DEFAULT NULL,
   `admin` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +184,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin@email.com','453231','1554230246449_user-male.png',1),(21,'fulane@email.com','fu123','1555066605070_user-female.jpeg',0);
+INSERT INTO `user` VALUES (1,'admin@email.com','453231','1554230246449_user-male.png',1),(21,'fulane@email.com','fu123','1555066605070_user-female.jpeg',0),(32,'cicrano@email.com','ci123','1556106629398_client_user.png',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-24  7:43:16
+-- Dump completed on 2019-04-24 14:42:14
