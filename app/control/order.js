@@ -63,10 +63,42 @@ module.exports.order_details = (req, res, application) => {
 
   }).catch(error => {
 
-    console.error(error.sqlMessage);
-    req.session.error = `Error: ${error.sqlMessage}`;
-    res.redirect('\client_area');
+    console.error(error.sqlMessage)
+    req.session.error = `Error: ${error.sqlMessage}`
+    res.redirect('\client_area')
 
   })
   
+}
+
+module.exports.pending_orders = function(req, res, application) {
+  const Order = application.app.models.Order
+  Order.getPending(application, (error, result) => {
+    if (error) {
+      console.error(error.sqlMessage)
+      req.session.error = `Error: ${error.sqlMessage}`
+      res.redirect('\client_area')
+    } else {
+      res.render('order/pending_orders.ejs', {
+        'user': req.session.user,
+        'pendingOrders': result
+      })
+    }
+  })
+}
+
+module.exports.received_orders = function(req, res, application) {
+  const Order = application.app.models.Order
+  Order.getReceived(application, (error, result) => {
+    if (error) {
+      console.error(error.sqlMessage)
+      req.session.error = `Error: ${error.sqlMessage}`
+      res.redirect('\client_area')
+    } else {
+      res.render('order/received_orders.ejs', {
+        'user': req.session.user,
+        'receivedOrders': result
+      })
+    }
+  })
 }

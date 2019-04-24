@@ -34,7 +34,17 @@ class Order {
     select * from _order
     where id = ${orderId}`
     application.config.connect().query(stm, callback)
-  }  
+  }
+  
+  static getPending(application, callback) {
+    let stm = `select * from _order where status = 0`
+    application.config.connect().query(stm, callback)
+  }
+
+  static getReceived(application, callback) {
+    let stm = `select * from _order where status = 1`
+    application.config.connect().query(stm, callback)
+  }
 
 }
 
