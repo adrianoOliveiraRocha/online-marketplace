@@ -71,22 +71,22 @@
                   <th>Data</th>
                   <th>Valor</th>
                   <th>Status</th>    
-                  <th>Cliente</th>              
+                              
                 </tr>
                 </thead>
                 <tbody>                
                   <% for(order of allOrders) { %>
                   <tr>
                     <td>
-                      <a href="/order_details?orderId=<%=order.id%>" 
+                      <a href="/admin_order_details?orderId=<%=order.id%>" 
                         title="Detalhes do Pedido">
-                        <%=order.orderId%>
+                        <%=order.id%>
                       </a>
                     </td>
                     <td>
-                      <%=order.date.getDate()%>
-                      /<%=order.date.getMonth() + 1%>
-                      /<%=order.date.getFullYear()%>
+                      <%=order.orderDate.getDate()%>
+                      /<%=order.orderDate.getMonth() + 1%>
+                      /<%=order.orderDate.getFullYear()%>
                     </td>
                     <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%></td>
                     <td>
@@ -96,7 +96,7 @@
                       <div style="color: blue">Atendido</div>
                       <% } %>
                     </td>
-                    <td><%=order.userEmail%></td>
+                    
                   </tr>
                   <% } %>
                                   
@@ -107,11 +107,11 @@
                   <th>Data</th>
                   <th>Valor</th>
                   <th>Status</th>  
-                  <th>Cliente</th>                
+                                 
                 </tr>
                 </tfoot>
               </table>
-              
+
             </div>
             <!-- /.box-body -->
           </div>

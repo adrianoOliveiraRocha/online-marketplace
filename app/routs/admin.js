@@ -20,4 +20,8 @@ module.exports = (application) => {
     application.app.control.admin.all_orders(req, res, application)
   })
 
+  application.get('/admin_order_details', (req, res) => {
+    application.app.control.admin.orderDetails(req, res, application)
+  })
+
 }

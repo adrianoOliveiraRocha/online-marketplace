@@ -63,7 +63,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              
+              <% if(allOrders.lenght == 0){ %>
               <table id="dt_requests" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -108,6 +108,11 @@
                 </tr>
                 </tfoot>
               </table>
+              <% } else { %>
+              <div class="alert alert-warning">
+                <strong>Aviso!</strong> Você não tem nenhun pedido
+              </div>
+              <% } %>
               
             </div>
             <!-- /.box-body -->

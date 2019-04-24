@@ -73,7 +73,7 @@ module.exports.order_details = (req, res, application) => {
 
 module.exports.pending_orders = function(req, res, application) {
   const Order = application.app.models.Order
-  Order.getPending(application, (error, result) => {
+  Order.getPending(req.session.user.id, application, (error, result) => {
     application.config.connect().end()
     if (error) {
       console.error(error.sqlMessage)
@@ -90,7 +90,7 @@ module.exports.pending_orders = function(req, res, application) {
 
 module.exports.received_orders = function(req, res, application) {
   const Order = application.app.models.Order
-  Order.getReceived(application, (error, result) => {
+  Order.getReceived(req.session.user.id, application, (error, result) => {
     application.config.connect().end()
     if (error) {
       console.error(error.sqlMessage)

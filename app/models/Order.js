@@ -30,15 +30,25 @@ class Order {
     application.config.connect().query(stm, callback)
   }
 
-  static getAllOrders(application, callback) {
+  static orderDetails(orderId, application, callback) {
     // Orders of all users
     let stm = `
     select 
     _order.id as orderId, _order.orderDate as date, _order.total as total,
-    _order.status as status, user.id as userId, user.email as userEmail
-    from _order, user
-    where _order.userId = user.id
+    _order.status as status, user.id as userId, user.email as userEmail, 
+    client.address as address, client.add_number as number, 
+    client.phone as phone, client.name as name
+    from _order, user, client
+    where _order.userId = user.id and
+    user.id = client.user_id 
+    and _order.id = ${orderId} 
     `
+    application.config.connect().query(stm, callback)
+  }
+
+  static getAllOrders(application, callback) {
+    // Orders of all users
+    let stm = `select * from _order`
     application.config.connect().query(stm, callback)
   }
 
@@ -49,13 +59,19 @@ class Order {
     application.config.connect().query(stm, callback)
   }
   
-  static getPending(application, callback) {
-    let stm = `select * from _order where status = 0`
+  static getPending(userId, application, callback) {
+    let stm = `
+    select * from _order 
+    where status = 0
+     and userId = ${userId}`
     application.config.connect().query(stm, callback)
   }
 
-  static getReceived(application, callback) {
-    let stm = `select * from _order where status = 1`
+  static getReceived(userId, application, callback) {
+    let stm = `
+    select * from _order 
+    where status = 0
+     and userId = ${userId}`
     application.config.connect().query(stm, callback)
   }
 

@@ -29,8 +29,9 @@ class Client extends User{
   }
 
   static update(data, application, callback) {
-    let stm = `update client set address = '${data.address}', 
-    add_number = ${data.addNumber}, phone = '${data.phone}' 
+    let stm = `update client set name = '${data.name}',  
+    address = '${data.address}', 
+    add_number = ${data.addNumber}, phone = '${data.phone}'  
     where user_id = ${data.userId}`
     application.config.connect().query(stm, callback)
   }

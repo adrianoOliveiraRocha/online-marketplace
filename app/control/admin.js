@@ -83,3 +83,22 @@ module.exports.all_orders = function(req, res, application) {
 
 }
 
+module.exports.orderDetails = function(req, res, application) {
+  const orderId = req.query.orderId
+  const Order = application.app.models.Order
+  Order.orderDetails(orderId, application, (error, result) => {
+    if (error) {
+      console.error(error)
+      req.session.error = `Error trying get order details: ${error.sqlMessage}`
+      res.redirect('/admin')
+    } else {
+      console.log(result)
+      res.render('admin/order_details.ejs', {
+        'user': req.session.user,
+        'orderDetails': result
+      })
+    }
+  })
+  
+}
+
