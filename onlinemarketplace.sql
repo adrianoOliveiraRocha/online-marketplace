@@ -82,6 +82,7 @@ CREATE TABLE `client` (
   `add_number` int(11) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
   KEY `user_id` (`user_id`),
   CONSTRAINT `client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -93,7 +94,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES ('Av. Lagoa Central',330,'85-7756-3738',21);
+INSERT INTO `client` VALUES ('Av. Lagoa Central',330,'85-7756-3738',21,'null');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,6 +186,14 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'admin@email.com','453231','1554230246449_user-male.png',1),(21,'fulane@email.com','fu123','1555066605070_user-female.jpeg',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'onlinemarketplace'
+--
+
+--
+-- Dumping routines for database 'onlinemarketplace'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -195,4 +204,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-23 15:27:32
+-- Dump completed on 2019-04-24  7:43:16

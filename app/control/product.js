@@ -50,7 +50,7 @@ module.exports.new_product = (req, res, application) => {
 }
 
 module.exports.show_products = (req, res, application) => {
-  application.app.models.Product.getAll(application, (err, result) => {
+  application.app.models.Product.showProducts(application, (err, result) => {
     application.config.connect().end()
     if(err) {
       console.error(`Error trying get all products: ${err.sqlMessage}`);

@@ -27,6 +27,12 @@ class Product {
     
   }
 
+  static showProducts(application, callback) {
+    // This method get take all products to show in the admin
+    var stm = `select * from product`    
+    application.config.connect().query(stm, callback);    
+  }
+
   static getThis(productId, application, callback) {
     let stm = `select * from product where id = '${productId}'`;
     application.config.connect().query(stm, callback); 

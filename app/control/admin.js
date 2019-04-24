@@ -65,3 +65,21 @@ module.exports.profile = (req, res, application) => {
   }  
 }
 
+module.exports.all_orders = function(req, res, application) {
+  
+  const Order = application.app.models.Order
+  Order.getAllOrders(application, (error, result) => {
+    if (error) {
+      console.error(error.sqlMessage)
+      req.session.error = `Error trying get all orders: ${error.sqlMessage}`
+      res.redirect('\admin')
+    } else {
+      res.render('admin/all_orders.ejs', {
+        'user': req.session.user,
+        'allOrders': result
+      })
+    }
+  })
+
+}
+

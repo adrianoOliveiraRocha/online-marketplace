@@ -23,9 +23,22 @@ class Order {
   }
 
   static getAll(application, user, callback) {
+    // orders of this specific user
     let stm = `
     select * from _order
     where userId = ${user.id}`
+    application.config.connect().query(stm, callback)
+  }
+
+  static getAllOrders(application, callback) {
+    // Orders of all users
+    let stm = `
+    select 
+    _order.id as orderId, _order.orderDate as date, _order.total as total,
+    _order.status as status, user.id as userId, user.email as userEmail
+    from _order, user
+    where _order.userId = user.id
+    `
     application.config.connect().query(stm, callback)
   }
 

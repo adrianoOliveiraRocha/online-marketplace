@@ -16,4 +16,8 @@ module.exports = (application) => {
     application.app.control.admin.profile(req, res, application)
   }) 
 
+  application.get('/admin_all_orders', (req, res) => {
+    application.app.control.admin.all_orders(req, res, application)
+  })
+
 }
