@@ -162,6 +162,8 @@ module.exports.orderDetails = function(req, res, application) {
           'user': req.session.user,
           'order': orderDetails,
           'fixDate': require('../utils/utilsOrder').fixDate,
+          'fixHour': require('../utils/utilsOrder').fixHour,
+          'getRest': require('../utils/utilsOrder').getRest,
           'items': Items
         })
       }

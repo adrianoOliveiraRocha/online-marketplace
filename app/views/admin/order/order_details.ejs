@@ -92,12 +92,12 @@
                 <div class="col-sm-4">
                   <table class="table">
                     <tr>
-                      <td><label>Total</label></td>
+                      <td><label>Hora</label></td>
                       <td>
                         <input 
                         style="text-align: center"
                         readonly 
-                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%>">
+                        value="<%=fixHour(order.date)%>">
                       </td>
                     </tr>
                   </table>
@@ -106,6 +106,7 @@
               </div>
 
               <div class="row">
+
                 <div class="col-sm-4">
                   <table class="table">
                     <tr>
@@ -126,6 +127,21 @@
                     </tr>
                   </table>
                 </div>
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Total</label></td>
+                      <td>
+                        <input 
+                        style="text-align: center"
+                        readonly 
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%>">
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
               </div>              
 
             </div>
@@ -223,17 +239,22 @@
                 <div class="col-sm-4">
                   <div class="box-header">
                     <h3 class="box-title">
-                      Troco R$ 12,89
+                      Troco <%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(getRest(order.money, order.total))%>
                     </h3>
                   </div>
                 </div>
               </div>
-              <%=order.date.toString("yyyyMMddHHmmss")%>
-              
+                            
             </div>
 
           </div>
           <!-- /.box -->
+
+          <div class="box-footer">
+            <button type="button" class="btn btn-primary">
+              Atender
+            </button>
+          </div>
 
           
         </div>
