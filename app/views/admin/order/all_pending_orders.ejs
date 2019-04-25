@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Área do Cliente</title>
   <!-- data table -->
-  <%-include('../client_area/client_includes/index/dt_links.ejs')%>
+  <%-include('../../client_area/client_includes/index/dt_links.ejs')%>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-  <%-include('../admin/admin_includes/header.ejs')%>
+  <%-include('../../admin/admin_includes/header.ejs')%>
   
   <!-- Left side column. contains the logo and sidebar -->
-  <%-include('../admin/admin_includes/left_side_column.ejs')%>
+  <%-include('../../admin/admin_includes/left_side_column.ejs')%>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -59,23 +59,22 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Meus Pedidos</h3>
+              <h3 class="box-title">Pedidos Pendentes</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              
+              <% if(allPendingOrders.length > 0){ %>
               <table id="dt_requests" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>ID</th>
                   <th>Data</th>
                   <th>Valor</th>
-                  <th>Status</th>    
-                              
+                  
                 </tr>
                 </thead>
                 <tbody>                
-                  <% for(order of allOrders) { %>
+                  <% for(order of allPendingOrders) { %>
                   <tr>
                     <td>
                       <a href="/admin_order_details?orderId=<%=order.id%>" 
@@ -89,14 +88,7 @@
                       /<%=order.orderDate.getFullYear()%>
                     </td>
                     <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%></td>
-                    <td>
-                      <% if(order.status == 0) {%>
-                      <div style="color: red">Não atendido</div>
-                      <% } else { %>
-                      <div style="color: blue">Atendido</div>
-                      <% } %>
-                    </td>
-                    
+                                        
                   </tr>
                   <% } %>
                                   
@@ -106,12 +98,15 @@
                   <th>ID</th>
                   <th>Data</th>
                   <th>Valor</th>
-                  <th>Status</th>  
-                                 
+                  
                 </tr>
                 </tfoot>
               </table>
-
+              <% } else { %>
+              <div class="alert alert-warning">
+                <strong>Aviso!</strong> Você não tem nenhun pedido
+              </div>
+              <% } %>
             </div>
             <!-- /.box-body -->
           </div>
@@ -130,12 +125,12 @@
 
   </div>
   <!-- /.content-wrapper -->
-  <%-include('../admin/admin_includes/footer.ejs')%>
+  <%-include('../../admin/admin_includes/footer.ejs')%>
   <script src="/order/utilsOrder.js"></script>
   
 </div>
 <!-- ./wrapper -->
 <!-- data table -->
-<%-include('../client_area/client_includes/index/dt_scripts.ejs')%>
+<%-include('../../client_area/client_includes/index/dt_scripts.ejs')%>
 </body>
 </html>

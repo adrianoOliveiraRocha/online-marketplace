@@ -53,6 +53,18 @@ class Order {
     application.config.connect().query(stm, callback)
   }
 
+  static getAllPendingOrders(application, callback) {
+    // Pending orders of all users
+    let stm = `select * from _order where status = 0`
+    application.config.connect().query(stm, callback)
+  }
+
+  static getAllReceivedOrders(application, callback) {
+    // Received orders of all users
+    let stm = `select * from _order where status = 1`
+    application.config.connect().query(stm, callback)
+  }
+
   static getThis(orderId, application, callback) {
     let stm = `
     select * from _order

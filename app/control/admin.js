@@ -74,7 +74,7 @@ module.exports.all_orders = function(req, res, application) {
       req.session.error = `Error trying get all orders: ${error.sqlMessage}`
       res.redirect('\admin')
     } else {
-      res.render('admin/all_orders.ejs', {
+      res.render('admin/order/all_orders.ejs', {
         'user': req.session.user,
         'allOrders': result
       })
@@ -83,18 +83,57 @@ module.exports.all_orders = function(req, res, application) {
 
 }
 
+module.exports.pending_orders = function(req, res, application) {
+  
+  const Order = application.app.models.Order
+  Order.getAllPendingOrders(application, (error, result) => {
+    application.config.connect().end()
+    
+    if (error) {
+      console.error(error.sqlMessage)
+      req.session.error = `Error trying get all orders: ${error.sqlMessage}`
+      res.redirect('\admin')
+    } else {
+      res.render('admin/order/all_pending_orders.ejs', {
+        'user': req.session.user,
+        'allPendingOrders': result
+      })
+    }
+
+  })
+
+}
+
+module.exports.received_orders = function(req, res, application) {
+  const Order = application.app.models.Order
+  Order.getAllReceivedOrders(application, (error, result) => {
+    application.config.connect().end()
+    if (error) {
+      console.error(error.sqlMessage)
+      req.session.error = `Error trying get all orders: ${error.sqlMessage}`
+      res.redirect('\admin')
+    } else {
+      res.render('admin/order/all_received_orders.ejs', {
+        'user': req.session.user,
+        'allReceivedOrders': result
+      })
+    }
+  })
+}
+
 module.exports.orderDetails = function(req, res, application) {
   
   const orderId = req.query.orderId
   const Order = application.app.models.Order
   Order.orderDetails(orderId, application, (error, result) => {
+    application.config.connect().end()
     if (error) {
       console.error(error)
       req.session.error = `Error trying get order details: ${error.sqlMessage}`
       res.redirect('/admin')
     } else {
       console.log(result)
-      res.render('admin/order_details.ejs', {
+      res.render('admin/order/order_details.ejs', {
         'user': req.session.user,
         'orderDetails': result
       })
@@ -102,4 +141,3 @@ module.exports.orderDetails = function(req, res, application) {
   })
   
 }
-
