@@ -62,9 +62,71 @@
               <h3 class="box-title">Detalhes do Pedido</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
-              
-              
+            <div class="box-body">              
+
+              <div class="row">
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Código</label></td>
+                      <td><input readonly value="<%=order.orderId%>" style="text-align: center"></td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Data</label></td>
+                      <td>
+                        <input 
+                        style="text-align: center"
+                        readonly
+                        value="<%=fixDate(order.date)%>"/>                      
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Total</label></td>
+                      <td>
+                        <input 
+                        style="text-align: center"
+                        readonly 
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%>">
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                       
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Status</label></td>
+                      <td>
+                        <% if(order.status == 0) {%>
+                        <input 
+                        style="text-align: center; color: red"
+                        readonly 
+                        value="Não Atendido">
+                        <% } else { %>
+                        <input 
+                        style="text-align: center; color: blue"
+                        readonly 
+                        value="Atendido">
+                        <% } %>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>              
 
             </div>
             <!-- /.box-body -->

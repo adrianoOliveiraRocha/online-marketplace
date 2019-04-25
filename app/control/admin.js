@@ -105,6 +105,7 @@ module.exports.pending_orders = function(req, res, application) {
 }
 
 module.exports.received_orders = function(req, res, application) {
+
   const Order = application.app.models.Order
   Order.getAllReceivedOrders(application, (error, result) => {
     application.config.connect().end()
@@ -119,25 +120,59 @@ module.exports.received_orders = function(req, res, application) {
       })
     }
   })
+
 }
 
 module.exports.orderDetails = function(req, res, application) {
   
   const orderId = req.query.orderId
   const Order = application.app.models.Order
-  Order.orderDetails(orderId, application, (error, result) => {
-    application.config.connect().end()
-    if (error) {
-      console.error(error)
-      req.session.error = `Error trying get order details: ${error.sqlMessage}`
-      res.redirect('/admin')
-    } else {
-      console.log(result)
-      res.render('admin/order/order_details.ejs', {
-        'user': req.session.user,
-        'orderDetails': result
+
+  function getOrderDetails() {
+
+    return new Promise((resolve, reject) => {
+      Order.orderDetails(orderId, application, (error, result) => {
+        application.config.connect().end()
+        if (error) {
+          reject(error)
+        } else {
+          resolve(result[0])          
+        }
       })
-    }
+    })
+
+  }
+
+  async function getItems() {
+    const orderDetails = await getOrderDetails()
+    return orderDetails
+  }
+
+  getItems().then(orderDetails => {
+
+    const Item = application.app.models.Item
+    Item.getAll(orderDetails.orderId, application, (error, Items) => {
+      application.config.connect().end()
+      if (error) {
+        console.error(error)
+        req.session.error = `Error trying get items: ${error.sqlMessage}`
+        res.redirect('/admin')
+      } else {
+        res.render('admin/order/order_details.ejs', {
+          'user': req.session.user,
+          'order': orderDetails,
+          'fixDate': require('../utils/utilsOrder').fixDate,
+          'Items': Items
+        })
+      }
+    })
+    
+  }).catch(error => {
+
+    console.error(error)
+    req.session.error = `Error trying get order details: ${error.sqlMessage}`
+    res.redirect('/admin')
+    
   })
   
 }
