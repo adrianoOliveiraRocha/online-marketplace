@@ -2,23 +2,14 @@ class Order {
 
   constructor(userId, total, money) {
     this.userId = userId
-    this.date = this.getDate()
     this.total = total
     this.money = money
   }
 
-  getDate() {
-    let today = new Date()
-    var dd = today.getDate()
-    var mm = today.getMonth() + 1
-    var yyyy = today.getFullYear()
-    return `${yyyy}-${mm}-${dd}`
-  }
-
   save(application, callback) {
     let stm = `
-    insert into _order (userId, orderDate, total, money)
-    values(${this.userId}, '${this.date}', ${this.total}, ${this.money})`
+    insert into _order (userId, total, money)
+    values(${this.userId}, ${this.total}, ${this.money})`
     
     application.config.connect().query(stm, callback)
   }
@@ -36,7 +27,8 @@ class Order {
     let stm = `
     select 
     _order.id as orderId, _order.orderDate as date, _order.total as total,
-    _order.status as status, user.id as userId, user.email as userEmail, 
+    _order.status as status, _order.money, user.id as userId, 
+    user.email as userEmail, 
     client.address as address, client.add_number as number, 
     client.phone as phone, client.name as name
     from _order, user, client

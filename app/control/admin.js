@@ -149,7 +149,7 @@ module.exports.orderDetails = function(req, res, application) {
   }
 
   getItems().then(orderDetails => {
-
+    
     const Item = application.app.models.Item
     Item.getAll(orderDetails.orderId, application, (error, Items) => {
       application.config.connect().end()
@@ -162,7 +162,7 @@ module.exports.orderDetails = function(req, res, application) {
           'user': req.session.user,
           'order': orderDetails,
           'fixDate': require('../utils/utilsOrder').fixDate,
-          'Items': Items
+          'items': Items
         })
       }
     })
@@ -172,7 +172,7 @@ module.exports.orderDetails = function(req, res, application) {
     console.error(error)
     req.session.error = `Error trying get order details: ${error.sqlMessage}`
     res.redirect('/admin')
-    
+
   })
   
 }
