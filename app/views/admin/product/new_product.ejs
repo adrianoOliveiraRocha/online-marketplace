@@ -9,7 +9,9 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%-include('./../admin_includes/index/links.ejs')%>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body
+  onload="JavaScript:updateData()"
+  class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -123,9 +125,8 @@
 <!-- ./wrapper -->
 
 <%-include('./../admin_includes/index/scripts.ejs')%>
-<script src="admin/utilsProduct.js">
-  
-</script>
+<script src="admin/utilsProduct.js"></script>
+<script src="/admin/notifications.js"></script>
 
 </body>
 </html>

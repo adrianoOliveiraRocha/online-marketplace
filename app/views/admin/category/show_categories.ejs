@@ -11,7 +11,11 @@
   <%-include('./../admin_includes/show_dt/links.ejs')%>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+
+<body
+  onload="JavaScript:updateData()"
+  class="hold-transition skin-blue sidebar-mini">
+
 <div class="wrapper">
 
   <%-include('./../admin_includes/header.ejs')%>
@@ -98,5 +102,7 @@
 <!-- ./wrapper -->
 
 <%-include('./../admin_includes/show_dt/scripts.ejs')%>
+<script src="/admin/notifications.js"></script>
+
 </body>
 </html>

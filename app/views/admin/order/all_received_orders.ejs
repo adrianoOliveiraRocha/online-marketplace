@@ -8,7 +8,9 @@
   <%-include('../../client_area/client_includes/index/dt_links.ejs')%>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body
+  onload="JavaScript:updateData()"
+  class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <%-include('../../admin/admin_includes/header.ejs')%>
@@ -127,6 +129,7 @@
   <!-- /.content-wrapper -->
   <%-include('../../admin/admin_includes/footer.ejs')%>
   <script src="/order/utilsOrder.js"></script>
+  <script src="/admin/notifications.js"></script>
   
 </div>
 <!-- ./wrapper -->

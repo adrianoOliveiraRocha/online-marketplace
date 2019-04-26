@@ -179,9 +179,9 @@ module.exports.orderDetails = function(req, res, application) {
   
 }
 
-module.exports.notification = function(req, res, application) {
+module.exports.notificationPendingOrder = (req, res, application) => {
   let data = new Date().getSeconds()
-  res.render('admin/notification.ejs', {
+  res.render('admin/notification_po.ejs', {
     'data': data
   })
 }
