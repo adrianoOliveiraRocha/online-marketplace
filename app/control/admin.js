@@ -178,3 +178,10 @@ module.exports.orderDetails = function(req, res, application) {
   })
   
 }
+
+module.exports.notification = function(req, res, application) {
+  let data = new Date().getSeconds()
+  res.render('admin/notification.ejs', {
+    'data': data
+  })
+}

@@ -8,7 +8,9 @@
   <%-include('admin_includes/index/links.ejs')%>
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body
+  onload="JavaScript:updateData()"
+  class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <%-include('admin_includes/header.ejs')%>
@@ -66,5 +68,16 @@
 <!-- ./wrapper -->
 
 <%-include('admin_includes/index/scripts.ejs')%>
+
+<script>
+  function updateData() {
+    setInterval(() => {
+      updatePendingOrders()
+    }, 1000 * 10);
+  }
+</script>
+
+<script src="/admin/utilsUser.js"></script>
+
 </body>
 </html>

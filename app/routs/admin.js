@@ -32,4 +32,8 @@ module.exports = (application) => {
     application.app.control.admin.orderDetails(req, res, application)
   })
 
+  application.get('/notification', (req, res) => {
+    application.app.control.admin.notification(req, res, application)
+  })
+
 }
