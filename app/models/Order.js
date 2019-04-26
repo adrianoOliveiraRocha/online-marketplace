@@ -6,23 +6,23 @@ class Order {
     this.money = money
   }
 
-  save(application, callback) {
+  save(connect, callback) {
     let stm = `
     insert into _order (userId, total, money)
     values(${this.userId}, ${this.total}, ${this.money})`
     
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
-  static getAll(userId, application, callback) {
+  static getAll(userId, connect, callback) {
     // orders of this specific user
     let stm = `
     select * from _order
     where userId = ${userId}`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
-  static orderDetails(orderId, application, callback) {
+  static orderDetails(orderId, connect, callback) {
     // Orders of all users
     let stm = `
     select 
@@ -36,48 +36,58 @@ class Order {
     user.id = client.user_id 
     and _order.id = ${orderId} 
     `
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
-  static getAllOrders(application, callback) {
+  static getAllOrders(connect, callback) {
     // Orders of all users
     let stm = `select * from _order`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
-  static getAllPendingOrders(application, callback) {
+  static getAllPendingOrders(connect, callback) {
     // Pending orders of all users
     let stm = `select * from _order where status = 0`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
-  static getAllReceivedOrders(application, callback) {
+  static getAllReceivedOrders(connect, callback) {
     // Received orders of all users
     let stm = `select * from _order where status = 1`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
-  static getThis(orderId, application, callback) {
+  static getThis(orderId, connect, callback) {
     let stm = `
     select * from _order
     where id = ${orderId}`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
   
-  static getPending(userId, application, callback) {
+  static getPending(userId, connect, callback) {
     let stm = `
     select * from _order 
     where status = 0
      and userId = ${userId}`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
-  static getReceived(userId, application, callback) {
+  static getReceived(userId, connect, callback) {
     let stm = `
     select * from _order 
     where status = 1
      and userId = ${userId}`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
+  }
+
+  static getQuantityPendingOrders(connect, callback) {
+    // Used to notify the admin about the quantity of pending orders 
+    let stm = `
+    select count(*) as quantity from _order
+    where status = 0
+    `
+    connect.query(stm, callback)
+        
   }
 
 }

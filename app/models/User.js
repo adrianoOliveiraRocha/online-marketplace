@@ -7,10 +7,10 @@ class User {
     this.admin = admin
   }
 
-  save(application, callback) {
+  save(connect, callback) {
     let stm = `insert into user (email, password, image, admin) 
     values('${this.email}', '${this.password}', '${this.imageName}', ${this.admin})`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
  
   getEmail() {
@@ -21,14 +21,14 @@ class User {
     return this.password;
   }
 
-  static verify(data, application, callback) {
+  static verify(data, connect, callback) {
     var stm = `select * from user where email = '${data.email}' 
     and password = '${data.password}'`;
-    console.log(stm);
-    application.config.connect().query(stm, callback);
+    
+    connect.query(stm, callback);
   }
 
-  static update(user, data, application, imageName, callback) {
+  static update(user, data, connect, imageName, callback) {
     var stm = ``;
     if (imageName == null) {
       stm = `update user set email = '${data.email}', 
@@ -40,12 +40,12 @@ class User {
       image='${imageName}' 
       where id = ${user.id}`;
     }    
-    application.config.connect().query(stm, callback);
+    connect.query(stm, callback);
   }
 
-  static getThis(userId, application, callback) {
+  static getThis(userId, connect, callback) {
     let stm = `select * from user where id = ${userId}`;
-    application.config.connect().query(stm, callback);
+    connect.query(stm, callback);
   }
 
 }

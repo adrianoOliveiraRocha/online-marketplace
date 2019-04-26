@@ -1,14 +1,10 @@
-// helpers
-
-// end helpers
-
-
 module.exports.all_orders = (req, res, application) => {
   const userId = req.session.user.id  
   const Order = application.app.models.Order
-
-  Order.getAll(userId, application, (error, result) => {
+  var connect = application.config.connect()
+  Order.getAll(userId, connect, (error, result) => {
     if (error) {
+      connect.end()
       console.error(error.sqlMessage)
       req.session.error = `Error trying get all orders: ${error.sqlMessage}`
       res.redirect('/client_area')
@@ -19,8 +15,7 @@ module.exports.all_orders = (req, res, application) => {
         'allOrders': result
       })
     }
-  })
-  
+  }) 
 
 }
 
@@ -30,9 +25,9 @@ module.exports.order_details = (req, res, application) => {
   const Order = application.app.models.Order
 
   const pOrder = new Promise((resolve, reject) => {
-
-    Order.getThis(orderId, application, (error, result) => {
-      application.config.connect().end()
+    var connect = application.config.connect()
+    Order.getThis(orderId, connect, (error, result) => {
+      connect.end()
       
       if (error) {
         reject(error)        
@@ -46,9 +41,9 @@ module.exports.order_details = (req, res, application) => {
   pOrder.then((order) => {
     
    const Item = application.app.models.Item
-    
-    Item.getAll(order.id, application, (error, result) => {
-      application.config.connect().end()
+   var connect = application.config.connect()
+    Item.getAll(order.id, connect, (error, result) => {
+      connect.end()
 
       if (error) {
         console.error(error.sqlMessage);
@@ -76,8 +71,9 @@ module.exports.order_details = (req, res, application) => {
 
 module.exports.pending_orders = function(req, res, application) {
   const Order = application.app.models.Order
-  Order.getPending(req.session.user.id, application, (error, result) => {
-    application.config.connect().end()
+  var connect = application.config.connect()
+  Order.getPending(req.session.user.id, connect, (error, result) => {
+    connect.end()
     if (error) {
       console.error(error.sqlMessage)
       req.session.error = `Error: ${error.sqlMessage}`
@@ -93,8 +89,9 @@ module.exports.pending_orders = function(req, res, application) {
 
 module.exports.received_orders = function(req, res, application) {
   const Order = application.app.models.Order
-  Order.getReceived(req.session.user.id, application, (error, result) => {
-    application.config.connect().end()
+  var connect = application.config.connect()
+  Order.getReceived(req.session.user.id, connect, (error, result) => {
+    connect.end()
     if (error) {
       console.error(error.sqlMessage)
       req.session.error = `Error: ${error.sqlMessage}`

@@ -6,13 +6,14 @@ function editProfile(req, res, application) {
 
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
-    helper.deleteOldeImage(User, data.userId, 'user', application);      
+    var connect = application.config.connect()
+    helper.deleteOldeImage(User, data.userId, 'user', connect);      
     imageName = helper.uploadImage(req.files.image, 'user');
   }
-
-  User.update(req.session.user, data, application, imageName, 
+  var connect = application.config.connect()
+  User.update(req.session.user, data, connect, imageName, 
     (error, result) => {
-    application.config.connect().end()
+    connect.end()
     if (error) {
       res.send(error.sqlMessage);
     } else {
@@ -22,8 +23,9 @@ function editProfile(req, res, application) {
   });
 
   function updateSession() {
-    User.getThis(req.session.user.id, application, (err, result) => {
-      application.config.connect().end()
+    var connect = application.config.connect()
+    User.getThis(req.session.user.id, connect, (err, result) => {
+      connect.end()
       if (err) {
         console.error(err.sqlMessage);
       } else {
@@ -68,7 +70,9 @@ module.exports.profile = (req, res, application) => {
 module.exports.all_orders = function(req, res, application) {
   
   const Order = application.app.models.Order
-  Order.getAllOrders(application, (error, result) => {
+  var connect = application.config.connect()
+  Order.getAllOrders(connect, (error, result) => {
+    connect.end()
     if (error) {
       console.error(error.sqlMessage)
       req.session.error = `Error trying get all orders: ${error.sqlMessage}`
@@ -86,8 +90,9 @@ module.exports.all_orders = function(req, res, application) {
 module.exports.pending_orders = function(req, res, application) {
   
   const Order = application.app.models.Order
-  Order.getAllPendingOrders(application, (error, result) => {
-    application.config.connect().end()
+  var connect = application.config.connect()
+  Order.getAllPendingOrders(connect, (error, result) => {
+    connect.end()
     
     if (error) {
       console.error(error.sqlMessage)
@@ -107,8 +112,9 @@ module.exports.pending_orders = function(req, res, application) {
 module.exports.received_orders = function(req, res, application) {
 
   const Order = application.app.models.Order
-  Order.getAllReceivedOrders(application, (error, result) => {
-    application.config.connect().end()
+  var connect = application.config.connect()
+  Order.getAllReceivedOrders(connect, (error, result) => {
+    connect.end()
     if (error) {
       console.error(error.sqlMessage)
       req.session.error = `Error trying get all orders: ${error.sqlMessage}`
@@ -131,8 +137,9 @@ module.exports.orderDetails = function(req, res, application) {
   function getOrderDetails() {
 
     return new Promise((resolve, reject) => {
-      Order.orderDetails(orderId, application, (error, result) => {
-        application.config.connect().end()
+      var connect = application.config.connect()
+      Order.orderDetails(orderId, connect, (error, result) => {
+        connect.end()
         if (error) {
           reject(error)
         } else {
@@ -151,8 +158,9 @@ module.exports.orderDetails = function(req, res, application) {
   getItems().then(orderDetails => {
     
     const Item = application.app.models.Item
-    Item.getAll(orderDetails.orderId, application, (error, Items) => {
-      application.config.connect().end()
+    var connect = application.config.connect()
+    Item.getAll(orderDetails.orderId, connect, (error, Items) => {
+      connect.end()
       if (error) {
         console.error(error)
         req.session.error = `Error trying get items: ${error.sqlMessage}`
@@ -180,8 +188,21 @@ module.exports.orderDetails = function(req, res, application) {
 }
 
 module.exports.notificationPendingOrder = (req, res, application) => {
-  let data = new Date().getSeconds()
-  res.render('admin/notification_po.ejs', {
-    'data': data
-  })
+  
+  const Order = application.app.models.Order
+  var connect = application.config.connect()
+  Order.getQuantityPendingOrders(connect, (error, result) => {
+    connect.end()
+    if (error) {
+      console.log(`Error trying notificationPendingOrder: ${error.sqlMessage}`)
+      res.session.error = `Error trying notificationPendingOrder: ${error.sqlMessage}`
+      res.redirect('/admin')
+    } else {
+      res.render('admin/notification_po.ejs', {
+        'data': result[0].quantity
+      })
+    }
+    
+  }) 
+  
 }

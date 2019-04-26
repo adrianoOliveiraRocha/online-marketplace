@@ -7,7 +7,7 @@ class Item {
     this.subtotal = dataItem.subtotal
   }
 
-  static saveItems(allItems, orderId, application, callback) {
+  static saveItems(allItems, orderId, connect, callback) {
 
     function getFloat(strValue) {
       let response = strValue.replace('R$', '')
@@ -30,11 +30,11 @@ class Item {
       }      
     }) 
 
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
 
   }  
   
-  static getAll(orderId, application, callback) {
+  static getAll(orderId, connect, callback) {
     
     let stm = `
     select item.price as price, item.quantity as quantity,
@@ -43,7 +43,7 @@ class Item {
     where item.productId = product.id
     and item.orderId = ${orderId}
     `
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
 
 }

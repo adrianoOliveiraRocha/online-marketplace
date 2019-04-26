@@ -1,5 +1,6 @@
-function deleteOldeImage(Class, objectId, folder, application) {
-  Class.getThis(objectId, application, (err, result) => {
+function deleteOldeImage(Class, objectId, folder, connect) {
+  Class.getThis(objectId, connect, (err, result) => {
+    connect.end()
     if (err) {
       throw new Error(`Error trying get the object (${Class}) to delete old image: ${err}`);
     } else {

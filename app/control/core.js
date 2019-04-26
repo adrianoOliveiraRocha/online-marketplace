@@ -4,10 +4,10 @@ module.exports.index = (req, res, application) => {
   var error = req.session.error
   req.session.error = ''
   var idCategory = req.query.idCategory;
-
-  application.app.models.Product.getAll(application, idCategory, 
+  var connect = application.config.connect()
+  application.app.models.Product.getAll(connect, idCategory, 
     (errProduct, result) => {
-      application.config.connect().end()
+      connect.end()
       if (errProduct) {
         console.error(`Error tryong get product: ${errProduct.sqlMessage}`);
         req.session.error = `Error tryong get product: ${errProduct.sqlMessage}`;
@@ -20,9 +20,10 @@ module.exports.index = (req, res, application) => {
   });
 
   function getAllCategories(products) {
-    application.app.models.Category.getAll(application, 
+    var connect = application.config.connect()
+    application.app.models.Category.getAll(connect, 
       (errCategory, categories) => {
-      application.config.connect().end()      
+      connect.end()      
       if (errCategory) {
         console.error(`Error: ${errCategory.sqlMessage}`);
         req.session.error = `Error tryong get all categories: ${errCategory.sqlMessage}`;
@@ -90,8 +91,9 @@ module.exports.login = (req, res, application) => {
 
   function post() {
     const User = application.app.models.User;
-    User.verify(req.body, application, (error, result) => {
-      application.config.connect().end()
+    var connect = application.config.connect()
+    User.verify(req.body, connect, (error, result) => {
+      connect.end()
       if (error) {
         console.error(error.sqlMessage);
         req.session.error = `Error trying verify user: ${error.sqlMessage}`;
@@ -144,9 +146,9 @@ module.exports.register = (req, res, application) => {
 
       const Client = application.app.models.Client
       var client = new Client(data, imageName)
-      
-      client.createUser(application, (errorUser, resultUser) => {
-        application.config.connect().end()
+      var connect = application.config.connect()
+      client.createUser(connect, (errorUser, resultUser) => {
+        connect.end()
         if (errorUser) {
           reject(errorUser)
         } else {
@@ -163,8 +165,9 @@ module.exports.register = (req, res, application) => {
     saveUser.then(response => {
       const client = response.client
       const userId = response.userId
-      client.createClient(userId, application, (errorClient, resultClient) => {
-        application.config.connect().end()
+      var connect = application.config.connect()
+      client.createClient(userId, connect, (errorClient, resultClient) => {
+        connect.end()
         if (errorClient) {
           console.error(errorClient.sqlMessage);
           req.session.error = `Error trying save a new client: ${errorClient.sqlMessage}`;
@@ -189,8 +192,10 @@ module.exports.add_to_cart = (req, res, application) => {
   if (typeof req.session.cart == 'undefined') { // the cart is created here
     req.session.cart = []
     req.session.money = 0
-    application.app.models.Product.getThis(req.query.productId, application, 
+    var connect = application.config.connect()
+    application.app.models.Product.getThis(req.query.productId, connect, 
       (err, result) => {
+        connect.end()
         if(err) {
           console.error(err.sqlMessage);
           req.session.error = `Error trying pu the product whiten the cart: ${err.sqlMessage}`;
@@ -208,9 +213,10 @@ module.exports.add_to_cart = (req, res, application) => {
     // test whether the product was added
     
     if(!productWasAdded(req.query.productId, req.session.cart)) {
-      application.app.models.Product.getThis(req.query.productId, application, 
+      var connect = application.config.connect()
+      application.app.models.Product.getThis(req.query.productId, connect, 
         (err, result) => {
-          application.config.connect().end()
+          connect.end()
           if(err) {
             console.error(err.sqlMessage);
             req.session.error = `Error trying pu the product whiten the cart: ${err.sqlMessage}`;

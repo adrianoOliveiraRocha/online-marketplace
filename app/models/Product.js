@@ -8,14 +8,14 @@ class Product {
     this.image = image;    
   }
 
-  save(application, callback) {
+  save(connect, callback) {
     let stm = `insert into product (name, description, category, price, image) 
     values('${this.name}', '${this.description.trim()}', ${this.category}, ${this.price}, 
     '${this.image}')`;
-    application.config.connect().query(stm, callback);
+    connect.query(stm, callback);
   }
 
-  static getAll(application, idCategory, callback) {
+  static getAll(connect, idCategory, callback) {
     var stm = ``
     if (typeof idCategory == 'undefined') {
       stm = `select * from product`;
@@ -23,22 +23,22 @@ class Product {
       stm = `select * from product where category = ${idCategory}`;
     }
 
-    application.config.connect().query(stm, callback);
+    connect.query(stm, callback);
     
   }
 
-  static showProducts(application, callback) {
+  static showProducts(connect, callback) {
     // This method get take all products to show in the admin
     var stm = `select * from product`    
-    application.config.connect().query(stm, callback);    
+    connect.query(stm, callback);    
   }
 
-  static getThis(productId, application, callback) {
+  static getThis(productId, connect, callback) {
     let stm = `select * from product where id = '${productId}'`;
-    application.config.connect().query(stm, callback); 
+    connect.query(stm, callback); 
   }
 
-  static edit(data, imageName, application, callback) {
+  static edit(data, imageName, connect, callback) {
     var stm = null;   
     var name = data.name.replace(/'/g, '"');
     var description = data.description.replace(/'/g, '"');
@@ -59,19 +59,19 @@ class Product {
       price = ${data.price}
       where id = ${data.idProduct}`;
     }
-    application.config.connect().query(stm, callback);
+    connect.query(stm, callback);
   }
 
-  static delete(idProduct, application, callback) {
+  static delete(idProduct, connect, callback) {
     const stm = `delete from product where id = ${idProduct}`;
-    application.config.connect().query(stm, callback);
+    connect.query(stm, callback);
   }
 
-  static getName(productId, application, callback) {
+  static getName(productId, connect, callback) {
     let stm = `
     select name from product
     where id = ${productId}`
-    application.config.connect().query(stm, callback)
+    connect.query(stm, callback)
   }
   
 }

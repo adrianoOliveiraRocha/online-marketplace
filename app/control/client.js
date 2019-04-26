@@ -7,13 +7,15 @@ function editProfile(req, res, application) {
 
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
-    helper.deleteOldeImage(User, data.userId, 'user', application);      
+    var connect = application.config.connect()
+    helper.deleteOldeImage(User, data.userId, 'user', connect);      
     imageName = helper.uploadImage(req.files.image, 'user');
   }
 
-  User.update(req.session.user, data, application, imageName, 
+  var connect = application.config.connect()
+  User.update(req.session.user, data, connect, imageName, 
     (error, result) => {
-    application.config.connect().end()
+    connect.end()
     if (error) {
       res.send(error.sqlMessage);
     } else {
@@ -22,8 +24,9 @@ function editProfile(req, res, application) {
   });
 
   function updateSession() {
-    User.getThis(req.session.user.id, application, (err, result) => {
-      application.config.connect().end()
+    var connect = application.config.connect()
+    User.getThis(req.session.user.id, connect, (err, result) => {
+      connect.end()
       if (err) {
         console.error(error.sqlMessage);
         req.session.error = `Error trying update the session: ${error.sqlMessage}`;
@@ -36,9 +39,10 @@ function editProfile(req, res, application) {
   }  
 
   function updateClient() {
-    application.app.models.Client.update(data, application, 
+    var connect = application.config.connect()
+    application.app.models.Client.update(data, connect, 
       (error, result) => {
-        application.config.connect().end()
+        connect.end()
         if (error) {
           console.error(error.sqlMessage);
           req.session.error = `Error trying update client: ${error.sqlMessage}`;
@@ -141,9 +145,10 @@ module.exports.client_area = (req, res, application) => {
 
 module.exports.client_profile = (req, res, application) => {
   if (req.method == 'GET') {
-    application.app.models.Client.getThis(req.session.user.id, application, 
+    var connect = application.config.connect()
+    application.app.models.Client.getThis(req.session.user.id, connect, 
       (error, result) => {
-        application.config.connect().end()
+        connect.end()
         if(error) {
           console.error(error.sqlMessage);
           req.session.error = `Error trying get the client: ${error.sqlMessage}`;
@@ -204,8 +209,9 @@ module.exports.finalize = (req, res, application) => {
   var save = new Promise((resolve, reject) => {
     const Order = application.app.models.Order
     var order = new Order(req.session.user.id, total, req.body.money)
-    order.save(application, (orderError, result) => {
-      application.config.connect().end()
+    var connect = application.config.connect()
+    order.save(connect, (orderError, result) => {
+      connect.end()
       if (orderError) {
         reject(orderError)
       } else {
@@ -217,8 +223,9 @@ module.exports.finalize = (req, res, application) => {
 
   save.then((orderId) => {
     const Item = application.app.models.Item
-    Item.saveItems(allItems, orderId, application, (itemsError, result) => {
-        application.config.connect().end()
+    var connect = application.config.connect()
+    Item.saveItems(allItems, orderId, connect, (itemsError, result) => {
+        connect.end()
         if (itemsError) {
           console.error(itemsError.sqlMessage);
           req.session.error = `Error trying save items: ${itemsError.sqlMessage}`;
@@ -237,12 +244,3 @@ module.exports.finalize = (req, res, application) => {
   })
   
 }
-
-
-
-
-
-
-
-
-

@@ -4,9 +4,9 @@ function saveCategory(req, res, application) {
   
   const Category = application.app.models.Category;
   var category = new Category(data.name);
-
-  category.save(application, (err, result) => {
-    application.config.connect().end()
+  var connect = application.config.connect()
+  category.save(connect, (err, result) => {
+    connect.end()
     if(err) {
       console.error(err.sqlMessage);
       req.session.error = `Error trying save the category: ${err.sqlMessage}`;
@@ -34,8 +34,9 @@ module.exports.new_category = (req, res, application) => {
 }
 
 module.exports.show_categories = (req, res, application) => {
-  application.app.models.Category.getAll(application, (err, result) => {
-    application.config.connect().end()
+  var connect = application.config.connect()
+  application.app.models.Category.getAll(connect, (err, result) => {
+    connect.end()
     if(err) {
       console.error(err.sqlMessage);
       req.session.error = `Error trying get all categories: ${err.sqlMessage}`;
@@ -52,9 +53,10 @@ module.exports.show_categories = (req, res, application) => {
 module.exports.category_details = (req, res, application) => {
   var msg = req.session.message;
   req.session.message = '';
-  application.app.models.Category.getThis(req.query.idCategory, application, 
+  var connect = application.config.connect()
+  application.app.models.Category.getThis(req.query.idCategory, connect, 
     (err, result) => {
-    application.config.connect().end()
+    connect.end()
     if(err) {
       console.error(`Error trying get this category: ${err.sqlMessage}`);
       req.session.error = `Error trying get this category: ${err.sqlMessage}`;
@@ -71,10 +73,10 @@ module.exports.category_details = (req, res, application) => {
 module.exports.edit_category = (req, res, application) => {
   var data = req.body;
   const Category = application.app.models.Category;
-
-  Category.edit(data, application,  
+  var connect = application.config.connect()
+  Category.edit(data, connect,  
     (err, result) => {
-    application.config.connect().end()
+    connect.end()
     if(err) {
       console.error(err.sqlMessage);   
       req.session.error = `Error trying edit the category: ${err.sqlMessage}`;
@@ -91,9 +93,9 @@ module.exports.edit_category = (req, res, application) => {
 module.exports.delete_category = (req, res, application) => {
   const categoryId = req.query.categoryId;
   const Category = application.app.models.Category;
-
-  Category.doesHasProductAttached(categoryId, application, (errdhpa, result) => {
-    application.config.connect().end()
+  var connect = application.config.connect()
+  Category.doesHasProductAttached(categoryId, connect, (errdhpa, result) => {
+    connect.end()
     if (errdhpa) {
       console.error(`Error verifying whether exists products 
       attached to the category: ${err.sqlMessage}`);
@@ -113,8 +115,9 @@ module.exports.delete_category = (req, res, application) => {
   });
 
   function delCategory() {
-    Category.delete(categoryId, application, (err, result) => {
-      application.config.connect().end()
+    var connect = application.config.connect()
+    Category.delete(categoryId, connect, (err, result) => {
+      connect.end()
       if(err) {
         console.error(`Error trying delete the category: ${err.sqlMessage}`);
         req.session.error = `Error trying delete the category: ${err.sqlMessage}`;
