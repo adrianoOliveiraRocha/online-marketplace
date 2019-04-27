@@ -191,16 +191,21 @@ module.exports.notificationPendingOrder = (req, res, application) => {
   
   const Order = application.app.models.Order
   var connect = application.config.connect()
-  Order.getQuantityPendingOrders(connect, (error, result) => {
+  Order.getAllPendingOrders(connect, (error, result) => {
     connect.end()
     if (error) {
       console.log(`Error trying notificationPendingOrder: ${error.sqlMessage}`)
       res.session.error = `Error trying notificationPendingOrder: ${error.sqlMessage}`
       res.redirect('/admin')
     } else {
+
       res.render('admin/notification_po.ejs', {
-        'quantity': result[0].quantity
+        'quantity': result.length,
+        'orders': result,
+        'fixDate': require('../utils/utilsOrder').fixDate,
+        'fixHour': require('../utils/utilsOrder').fixHour,
       })
+
     }
     
   }) 

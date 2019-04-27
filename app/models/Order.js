@@ -80,16 +80,6 @@ class Order {
     connect.query(stm, callback)
   }
 
-  static getQuantityPendingOrders(connect, callback) {
-    // Used to notify the admin about the quantity of pending orders 
-    let stm = `
-    select count(*) as quantity from _order
-    where status = 0
-    `
-    connect.query(stm, callback)
-        
-  }
-
 }
 
 module.exports = () => {

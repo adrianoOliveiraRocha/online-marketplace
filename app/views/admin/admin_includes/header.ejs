@@ -18,41 +18,8 @@
       <ul class="nav navbar-nav">
           
         <!-- Notifications: style can be found in dropdown.less -->
-        <li class="dropdown notifications-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span 
-              class="label label-warning" id="pendingOrders">
-
-              <%# notification about pending orders %>
-              
-            </span>
-          </a>
-          <ul class="dropdown-menu">
-
-            <li class="header">Você tem 2 novos pedidos</li>
-
-            <li>
-              <!-- inner menu: contains the actual data -->
-              <ul class="menu">
-                
-                <li>
-                  <a href="/admin_order_details?orderId=6">
-                    <i class="fa fa-shopping-cart text-green"></i> 
-                    25/4/2019 10:34:56
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-cart text-green"></i> 
-                    25/4/2019 10:44:30
-                  </a>
-                </li>
-                
-              </ul>
-            </li>
-            <li class="footer"><a href="/admin_pending_orders">Ver todos</a></li>
-          </ul>
+        <li class="dropdown notifications-menu" id="pendingOrders">
+          <%# new orders notifications %>
         </li>
         <%# notifications %>
         
