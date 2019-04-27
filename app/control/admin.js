@@ -199,7 +199,7 @@ module.exports.notificationPendingOrder = (req, res, application) => {
       res.redirect('/admin')
     } else {
       res.render('admin/notification_po.ejs', {
-        'data': result[0].quantity
+        'quantity': result[0].quantity
       })
     }
     
