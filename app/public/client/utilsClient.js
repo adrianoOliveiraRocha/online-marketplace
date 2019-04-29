@@ -39,11 +39,10 @@ function updateQuantidy(productId, quantity) {
   const stringStock = document.getElementById(`stock${productId}`).value
   const floatPrice = getFloatPrice(stringPrice)
   const intStock = getIntStock(stringStock)
-  const newQuantity = getQuantity(quantity, productId, intStock)
+  const newQuantity = updateQuantity(quantity, intStock, productId)
   const newSubtotal = newQuantity * floatPrice
   subtotalInput.value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(newSubtotal)  
   const newTotal = updateTotal()
-  console.log(document.getElementById('total'))
   document.getElementById('total').value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(newTotal)
 }
 
@@ -69,21 +68,30 @@ function getFloatPrice(stringPrice) {
   return response
 }
 
-function getQuantity(strQuantity, productId, stock) {
+function updateQuantity(strQuantity, stock, productId) {
   var newQuantity = parseInt(strQuantity)
-    
+  console.log(`
+  newQuantity: ${newQuantity}
+  stock: ${stock}`)
   try {    
     if (newQuantity <= 0) {
       newQuantity = 1
-      // document.getElementById(`quantity${productId}`).value = 1
-      // return 1      
-    } else if(newQuantity >= stock) {
-      newQuantity = stock
+    } else {// if newQuantity <= stock , it's ok. It means I have stock
+      if (newQuantity > stock) {
+        newQuantity = stock
+        let productName = document.getElementById(`productName${productId}`).value
+        let msg = `
+        No momento nos só temos ${stock} unidade(s) 
+        do produto ${productName} no estoque
+        `
+        alert(msg)
+      }
     }
   } catch (error) {
     console.error(`Erro: ${error}`)        
   }
   
+  document.getElementById(`quantity${productId}`).value = newQuantity
   return newQuantity
 }
 

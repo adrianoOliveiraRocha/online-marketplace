@@ -90,7 +90,6 @@ function getAllIds(data) {
 }
 
 function getAllItems(allIds, data) {
-
   var response = []
   allIds.forEach(id => {
     let item = {}
@@ -98,6 +97,7 @@ function getAllItems(allIds, data) {
     item['price'] = data[`price${id}`]
     item['quantity'] = data[`quantity${id}`]
     item['subtotal'] = data[`subtotal${id}`]
+    item['stock'] = data[`stock${id}`]
     response.push(item)
   })
 
@@ -231,6 +231,9 @@ module.exports.finalize = (req, res, application) => {
           req.session.error = `Error trying save items: ${itemsError.sqlMessage}`;
           res.redirect('\client_area');
         } else {
+          // update stock
+          updateStock(allItems) 
+
           req.session.message = 'Pedido realizado com sucesso';
           req.session.cart = undefined
           req.session.money = undefined
@@ -242,5 +245,10 @@ module.exports.finalize = (req, res, application) => {
     req.session.error = `Error trying save order: ${orderError.sqlMessage}`
     res.redirect('\client_area')
   })
+
+  function updateStock(allItems) {
+    console.log('allItems')
+    console.log(allItems)
+  }
   
 }

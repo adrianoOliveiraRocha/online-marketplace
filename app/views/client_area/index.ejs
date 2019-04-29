@@ -74,10 +74,17 @@
               <% for(product of cart) { %>
 
               <% if(product != null) { %>
+
               <div class="container" id="container<%=product.id%>">
 
               <input type="hidden" name="idProduct<%=product.id%>" value="<%=product.id%>">
-              <input type="hidden" name="stock<%=product.id%>" value="<%=product.stock%>">
+
+              <input type="hidden" 
+                id="stock<%=product.id%>"
+                name="stock<%=product.id%>" 
+                value="<%=product.stock%>">
+                
+              <input type="hidden" id="productName<%=product.id%>" value="<%=product.name%>">
                 
                 <table class="table">
                   <thead>
@@ -105,7 +112,9 @@
                           style="text-align: center"
                           onchange="updateQuantidy(<%=product.id%>, this.value)"
                           value="<%=product.quantity%>">
-                      </td>                      
+                        
+                      </td> 
+                                         
                     </tr>
 
                     <tr>
