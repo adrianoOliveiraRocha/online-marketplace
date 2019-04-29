@@ -247,8 +247,12 @@ module.exports.finalize = (req, res, application) => {
   })
 
   function updateStock(allItems) {
-    console.log('allItems')
-    console.log(allItems)
+    var queryArray = []
+    allItems.forEach(item => {
+      let query = `update product set stock = ${item.stock - item.quantity} where id = ${item.id};`
+      queryArray.push(query)
+    })
+    console.log(queryArray)
   }
   
 }
