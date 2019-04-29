@@ -18,9 +18,13 @@ class Product {
   static getAll(connect, idCategory, callback) {
     var stm = ``
     if (typeof idCategory == 'undefined') {
-      stm = `select * from product`;
+      stm = `
+      select * from product
+      where stock > 0`;
     } else {
-      stm = `select * from product where category = ${idCategory}`;
+      stm = `
+      select * from product where category = ${idCategory}
+      and stock > 0`;
     }
 
     connect.query(stm, callback);

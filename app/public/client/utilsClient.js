@@ -36,13 +36,26 @@ function editProfile() {
 function updateQuantidy(productId, quantity) {
   const subtotalInput = document.getElementById(`subtotal${productId}`)
   const stringPrice = document.getElementById(`price${productId}`).value
+  const stringStock = document.getElementById(`stock${productId}`).value
   const floatPrice = getFloatPrice(stringPrice)
-  const newQuantity = getQuantity(quantity, productId)
+  const intStock = getIntStock(stringStock)
+  const newQuantity = getQuantity(quantity, productId, intStock)
   const newSubtotal = newQuantity * floatPrice
   subtotalInput.value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(newSubtotal)  
   const newTotal = updateTotal()
   console.log(document.getElementById('total'))
   document.getElementById('total').value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(newTotal)
+}
+
+function getIntStock(stringStock) {
+  var response = stringStock.replace('R$', '')
+  response = response.replace(',', '.')
+  try {
+    response = parseInt(response)
+  } catch (error) {
+    console.error(error)
+  }
+  return response
 }
 
 function getFloatPrice(stringPrice) {
@@ -56,18 +69,22 @@ function getFloatPrice(stringPrice) {
   return response
 }
 
-function getQuantity(strQuantity, productId) {
-  const response = parseInt(strQuantity)
+function getQuantity(strQuantity, productId, stock) {
+  var newQuantity = parseInt(strQuantity)
+    
   try {    
-    if (response <= 0) {
-      document.getElementById(`quantity${productId}`).value = 1
-      return 1      
+    if (newQuantity <= 0) {
+      newQuantity = 1
+      // document.getElementById(`quantity${productId}`).value = 1
+      // return 1      
+    } else if(newQuantity >= stock) {
+      newQuantity = stock
     }
   } catch (error) {
     console.error(`Erro: ${error}`)        
   }
   
-  return response
+  return newQuantity
 }
 
 function updateTotal() {
