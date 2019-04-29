@@ -60,11 +60,22 @@
 </header>
 
 <script>
-  function updateData() {
+  /*
+    The first calling is made in 1 second. After, the callings are done each 1 minute.
+    This way, the number of connections with the data base will be deeply decreased
+  */
 
+  function callNotifications() {
     setInterval(() => {
       updatePendingOrders()
-    }, 2000)
-    
+    }, 1000 * 60)
   }
+
+  function updateData() {
+    setTimeout(() => {
+      updatePendingOrders()
+      callNotifications()
+    }, 1000)    
+  }
+  
 </script>
