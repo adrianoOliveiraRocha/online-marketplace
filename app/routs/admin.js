@@ -36,4 +36,8 @@ module.exports = (application) => {
     application.app.control.admin.notificationPendingOrder(req, res, application)
   })
 
+  application.get('/low_stock', (req, res) => {
+    application.app.control.admin.lowStockNotification(req, res, application)
+  })
+
 }

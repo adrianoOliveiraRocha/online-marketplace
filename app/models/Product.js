@@ -81,6 +81,14 @@ class Product {
   static updateStock(stm, connect, callback) {
     connect.query(stm, callback)
   }
+
+  static getLowStockProducts(connect, callback) {
+    let stm = `
+    select id, name 
+    from product
+    where stock < 10`
+    connect.query(stm, callback)
+  }
   
 }
 

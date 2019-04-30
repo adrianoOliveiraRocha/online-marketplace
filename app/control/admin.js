@@ -211,3 +211,19 @@ module.exports.notificationPendingOrder = (req, res, application) => {
   }) 
   
 }
+
+
+module.exports.lowStockNotification = function(req, res, application) {
+  const Product = application.app.models.Product
+  var connect = application.config.connect()
+  Product.getLowStockProducts(connect, (error, result) => {
+    if(error) {
+      console.error(`Error trying get low stock products: ${error.sqlMessage}`)
+    } else {
+      res.render('admin/notification_lowstock.ejs', {
+        'products': result,
+        'quantity': Object.keys(result).length
+      })
+    }
+  })  
+}

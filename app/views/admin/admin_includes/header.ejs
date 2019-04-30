@@ -16,7 +16,12 @@
     <div class="navbar-custom-menu">
 
       <ul class="nav navbar-nav">
+
+        <li class="dropdown notifications-menu" id="lowStock">
+
           
+        </li>
+
         <!-- Notifications: style can be found in dropdown.less -->
         <li class="dropdown notifications-menu" id="pendingOrders">
           <%# new orders notifications %>
@@ -66,16 +71,25 @@
   */
 
   function callNotifications() {
+
     setInterval(() => {
-      updatePendingOrders()
+      updatePendingOrders()      
     }, 1000 * 60)
+
+    setInterval(() => {
+      lowStock()
+    }, 1000 * 60)
+    
   }
 
   function updateData() {
+    /* The first calling happen in 1 second. After, it happen each 1 minute */
     setTimeout(() => {
       updatePendingOrders()
+      lowStock()
       callNotifications()
-    }, 1000)    
+    }, 1000)  
+
   }
   
 </script>

@@ -18,12 +18,13 @@ class Order {
     // orders of this specific user
     let stm = `
     select * from _order
-    where userId = ${userId}`
+    where userId = ${userId}
+    order by orderDate desc`
     connect.query(stm, callback)
   }
 
   static orderDetails(orderId, connect, callback) {
-    // Orders of all users
+    
     let stm = `
     select 
     _order.id as orderId, _order.orderDate as date, _order.total as total,
@@ -41,7 +42,7 @@ class Order {
 
   static getAllOrders(connect, callback) {
     // Orders of all users
-    let stm = `select * from _order`
+    let stm = `select * from _order order by orderDate desc`
     connect.query(stm, callback)
   }
 

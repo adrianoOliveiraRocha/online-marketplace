@@ -234,7 +234,9 @@ module.exports.finalize = (req, res, application) => {
           // update stock
           updateStock(allItems) 
 
-          req.session.message = 'Pedido realizado com sucesso';
+          req.session.message = `
+          Pedido realizado com sucesso. Iremos atendê-lo em instantes.
+          Por favor Aguarde!`;
           req.session.cart = undefined
           req.session.money = undefined
           res.redirect('\client_area')

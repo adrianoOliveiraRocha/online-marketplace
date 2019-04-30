@@ -1,0 +1,28 @@
+<% if(quantity > 0) { %>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+  <i class="fa fa-bell-o"></i>
+  <span class="label label-danger"><%=quantity%></span>
+</a>
+
+
+<ul class="dropdown-menu">
+
+  <li class="header">Você tem <%=quantity%> produto(s) com estoque baixo</li>
+
+  <li>
+    <!-- inner menu: contains the actual data -->
+    <ul class="menu">
+      <% for(let product of products) {%>
+      <li>
+        <a href="/detalhes_produto?idProduct=<%=product.id%>">
+          <i class="fa fa-flag text-red"></i>           
+          <%=product.name%>    
+        </a>
+      </li>
+      <% } %>
+      
+    </ul>
+  </li>
+  <li class="footer"><a href="/admin_pending_orders">Ver todos</a></li>
+</ul>
+<% } %>
