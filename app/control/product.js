@@ -153,3 +153,36 @@ module.exports.delete_product = (req, res, application) => {
     }
   }); 
 }
+
+module.exports.lowStock = function(req, res, application) {
+  const Product = application.app.models.Product
+  var connect = application.config.connect()
+  Product.getLowStockProducts(connect, (error, result) => {
+    if (error) {
+      let msg = `Error trying get low stock products: ${error.sqlMessage}`
+      console.error(msg)
+      req.session.message = msg
+    } else {
+      res.render('admin/product/low_stock_products.ejs', {
+        'user': req.session.user,
+        'products': result
+      })
+    }
+  })
+}
+
+module.exports.lowStockNotification = function(req, res, application) {
+  const Product = application.app.models.Product
+  var connect = application.config.connect()
+  Product.getLowStockProducts(connect, (error, result) => {
+    if(error) {
+      console.error(`Error trying get low stock products: ${error.sqlMessage}`)
+    } else {
+      res.render('admin/notification_lowstock.ejs', {
+        'products': result,
+        'quantity': Object.keys(result).length
+      })
+    }
+  })  
+}
+

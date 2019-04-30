@@ -89,6 +89,11 @@ class Product {
     where stock < 10`
     connect.query(stm, callback)
   }
+
+  static getLowStockProducts(connect, callback) {
+    let stm = 'select * from product where stock < 10'
+    connect.query(stm, callback)
+  }
   
 }
 

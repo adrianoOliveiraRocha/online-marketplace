@@ -14,6 +14,10 @@ module.exports = (application) => {
 
   application.get('/received_orders', (req, res) => {
     application.app.control.order.received_orders(req, res, application)
-  })
+  })  
+
+  application.get('/notification_pending_order', (req, res) => {
+    application.app.control.order.notificationPendingOrder(req, res, application)
+  })  
 
 }

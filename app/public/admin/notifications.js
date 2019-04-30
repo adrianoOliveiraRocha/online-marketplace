@@ -10,7 +10,7 @@ function updatePendingOrders() {
 		
 	}
 
-	xhttp.open("GET", '/notification_po', true);
+	xhttp.open("GET", '/notification_pending_order', true);
 	xhttp.send()
 
 }
@@ -27,7 +27,7 @@ function lowStock() {
 		
 	}
 
-	xhttp.open("GET", '/low_stock', true);
+	xhttp.open("GET", '/notification_low_stock', true);
 	xhttp.send()
 
 }
