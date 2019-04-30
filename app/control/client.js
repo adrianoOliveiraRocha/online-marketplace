@@ -247,12 +247,23 @@ module.exports.finalize = (req, res, application) => {
   })
 
   function updateStock(allItems) {
-    var queryArray = []
+
+    var joinedQueries = ``
     allItems.forEach(item => {
       let query = `update product set stock = ${item.stock - item.quantity} where id = ${item.id};`
-      queryArray.push(query)
+      joinedQueries += query
     })
-    console.log(queryArray)
+
+    const Product = application.app.models.Product
+    var connect = application.config.connect()
+    Product.updateStock(joinedQueries, connect, (error, result) => {
+      connect.end()
+      if (error) {
+        console.error(error.sqlMessage)        
+      } else {
+        console.log(result)
+      }
+    })    
   }
   
 }

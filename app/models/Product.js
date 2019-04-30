@@ -77,6 +77,10 @@ class Product {
     where id = ${productId}`
     connect.query(stm, callback)
   }
+
+  static updateStock(stm, connect, callback) {
+    connect.query(stm, callback)
+  }
   
 }
 

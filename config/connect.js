@@ -6,7 +6,8 @@ var connect = function () {
     host: 'localhost',
     user: 'adriano',
     password: '453231',
-    database: 'onlinemarketplace'
+    database: 'onlinemarketplace',
+    multipleStatements: true,
   });
 }
 
