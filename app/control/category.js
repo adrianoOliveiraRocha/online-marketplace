@@ -94,40 +94,51 @@ module.exports.delete_category = (req, res, application) => {
   const categoryId = req.query.categoryId;
   const Category = application.app.models.Category;
   var connect = application.config.connect()
-  Category.doesHasProductAttached(categoryId, connect, (errdhpa, result) => {
-    connect.end()
-    if (errdhpa) {
-      console.error(`Error verifying whether exists products 
-      attached to the category: ${err.sqlMessage}`);
-      req.session.error = `Error verifying whether exists products 
-      attached to the category: ${err.sqlMessage}`;
-      res.redirect('\admin');
-    } else {
-      if (Object.keys(result).length > 0) {
-        console.log(result);
-        req.session.message = `Você não pode deletar essa categoria porque existem 
-        ${Object.keys(result).length} produtos ligados a ela!`;
-        res.redirect('\admin');
-      } else {
-        delCategory();
-      }
-    }
-  });
 
-  function delCategory() {
-    var connect = application.config.connect()
-    Category.delete(categoryId, connect, (err, result) => {
-      connect.end()
-      if(err) {
-        console.error(`Error trying delete the category: ${err.sqlMessage}`);
-        req.session.error = `Error trying delete the category: ${err.sqlMessage}`;
-        res.redirect('\admin');
-      } else {      
-        console.log(result);
-        req.session.message = 'Categoria deletada com sucesso!';
-        res.redirect('\admin');
-      }
-    });
+  function verifyProductAttached() {
+    return new Promise((resolve, reject) => {      
+      Category.doesHasProductAttached(categoryId, connect, (error, result) => {
+        if (error) {
+          reject(error.sqlMessage)
+        } else {
+          var quantityProducts = Object.keys(result).length
+          var response = {}
+          if (quantityProducts > 0) {// I cannot delete
+            response.canDelete = false
+            response.quantityProducts = quantityProducts
+          } else {// I can delete
+            response.canDelete = true            
+          }
+          resolve(response)
+        }          
+      })
+    })
   }
 
+  verifyProductAttached()
+  .then(response => {
+    if (response.canDelete) {
+      Category.delete(categoryId, connect, (error, result) => {
+        if(error) {
+          throw new Error(
+            `Erro tentando deletar a categoria. 
+            por favor, entre em contato com o desenvolvedor`)
+        } else {      
+          console.log(result)
+          req.session.message = 'Categoria deletada com sucesso!'
+          res.redirect('\admin')
+        }
+      })
+    } else {
+      throw new Error(
+        `Existem ${response.quantityProducts} produtos(s) nessa categoria. 
+        Por isso, ela não pode ser deletada`)
+    }   
+  })
+  .catch(error => {
+    console.error(`Error trying delete the category: ${error}`);
+    req.session.error = `${error}`
+    res.redirect('\admin')
+  })
+  
 }
