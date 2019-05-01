@@ -133,6 +133,7 @@ module.exports.orderDetails = function(req, res, application) {
   
   const orderId = req.query.orderId
   const Order = application.app.models.Order
+  const Item = application.app.models.Item
   var connect = application.config.connect()
 
   function getOrderDetails() {
@@ -148,27 +149,30 @@ module.exports.orderDetails = function(req, res, application) {
   }
 
   getOrderDetails()
-  .then(orderDetails => {    
-    const Item = application.app.models.Item
+  .then(orderDetails => {        
     return new Promise((resolve, reject) => {
       Item.getAll(orderDetails.orderId, connect, (error, Items) => {
         if (error) {
           reject(error)
         } else {
-          resolve(Items, orderDetails)
+          response = {
+            'Items': Items,
+            'orderDetails': orderDetails
+          }
+          resolve(response)
         }
       })
     })    
   })
-  .then((Items, orderDetails) => {
+  .then((response) => {
     connect.end()
     res.render('admin/order/order_details.ejs', {
       'user': req.session.user,
-      'order': orderDetails,
+      'order': response.orderDetails,
       'fixDate': require('../utils/utilsOrder').fixDate,
       'fixHour': require('../utils/utilsOrder').fixHour,
       'getRest': require('../utils/utilsOrder').getRest,
-      'items': Items
+      'items': response.Items
     })
   })  
   .catch(error => {
