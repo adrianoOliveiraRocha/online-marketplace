@@ -198,74 +198,78 @@ module.exports.cancel_cart = (req, res) => {
 }
 
 module.exports.finalize = (req, res, application) => {
+
   const data = req.body
   const allIds = getAllIds(data)  
-
-  /* here I have a array with all items
-  Each item is a object */
+  var connect = application.config.connect()
   const allItems = getAllItems(allIds, data) 
   var total = getTotal(allItems)
 
-  var save = new Promise((resolve, reject) => {
-    const Order = application.app.models.Order
-    var order = new Order(req.session.user.id, total, req.body.money)
-    var connect = application.config.connect()
-    order.save(connect, (orderError, result) => {
-      connect.end()
-      if (orderError) {
-        reject(orderError)
-      } else {
-        const orderId = result['insertId']
-        resolve(orderId)
-      }
-    })
-  })
-
-  save.then((orderId) => {
-    const Item = application.app.models.Item
-    var connect = application.config.connect()
-    Item.saveItems(allItems, orderId, connect, (itemsError, result) => {
-        connect.end()
-        if (itemsError) {
-          console.error(itemsError.sqlMessage);
-          req.session.error = `Error trying save items: ${itemsError.sqlMessage}`;
-          res.redirect('\client_area');
+  function saveOrder() {
+    return new Promise((resolve, reject) => {
+      const Order = application.app.models.Order
+      var order = new Order(req.session.user.id, total, req.body.money)
+      order.save(connect, (orderError, result) => {
+        if (orderError) {
+          reject(orderError.sqlMessage) 
         } else {
-          // update stock
-          updateStock(allItems) 
-
-          req.session.message = `
-          Pedido realizado com sucesso. Iremos atendê-lo em instantes.
-          Por favor Aguarde!`;
-          req.session.cart = undefined
-          req.session.money = undefined
-          res.redirect('\client_area')
+          resolve(result['insertId'])
         }
-      }) 
-  }).catch((orderError) => {
-    console.error(orderError.sqlMessage)
-    req.session.error = `Error trying save order: ${orderError.sqlMessage}`
-    res.redirect('\client_area')
+      })
+    })    
+  }
+
+  saveOrder()
+  .then(orderId => {// save items
+    const Item = application.app.models.Item
+    return new Promise((resolve, reject) => {
+      Item.saveItems(allItems, orderId, connect, (itemsError, result) => {
+        if (itemsError) {
+          reject(itemsError.sqlMessage)
+        } else {
+          resolve(result)        
+        }
+      })
+    })    
   })
-
-  function updateStock(allItems) {
-
+  .then(result => {// update stock
+    console.log('Items ok')
+    console.log(result, '/n')
+    
     var joinedQueries = ``
     allItems.forEach(item => {
       let query = `update product set stock = ${item.stock - item.quantity} where id = ${item.id};`
       joinedQueries += query
     })
 
-    const Product = application.app.models.Product
-    var connect = application.config.connect()
-    Product.updateStock(joinedQueries, connect, (error, result) => {
-      connect.end()
-      if (error) {
-        console.error(error.sqlMessage)        
-      } else {
-        console.log(result)
-      }
-    })    
-  }
+    return new Promise((resolve, reject) => {
+      const Product = application.app.models.Product
+      var connect = application.config.connect()
+      Product.updateStock(joinedQueries, connect, (error, result) => {
+        if (error) {
+          reject(error.sqlMessage)        
+        } else {
+          resolve(result)
+        }
+      })
+    }) 
+  })
+  .then((result) => {
+    console.log('stock updated:')
+    console.log(result, '/n')
+
+    req.session.message = `
+    Pedido realizado com sucesso. Iremos atendê-lo em instantes.
+    Por favor Aguarde!`;
+    connect.end()
+    req.session.cart = undefined
+    req.session.money = undefined
+    res.redirect('\client_area')
+  })
+  .catch(error => {
+    console.error(error.sqlMessage)
+    req.session.error = `Error trying save order: ${error}`
+    res.redirect('\client_area')
+  }) 
   
 }

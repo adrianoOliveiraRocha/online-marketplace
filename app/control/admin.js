@@ -133,13 +133,11 @@ module.exports.orderDetails = function(req, res, application) {
   
   const orderId = req.query.orderId
   const Order = application.app.models.Order
+  var connect = application.config.connect()
 
   function getOrderDetails() {
-
-    return new Promise((resolve, reject) => {
-      var connect = application.config.connect()
+    return new Promise((resolve, reject) => {      
       Order.orderDetails(orderId, connect, (error, result) => {
-        connect.end()
         if (error) {
           reject(error)
         } else {
@@ -147,42 +145,36 @@ module.exports.orderDetails = function(req, res, application) {
         }
       })
     })
-
   }
 
-  async function getItems() {
-    const orderDetails = await getOrderDetails()
-    return orderDetails
-  }
-
-  getItems().then(orderDetails => {
-    
+  getOrderDetails()
+  .then(orderDetails => {    
     const Item = application.app.models.Item
-    var connect = application.config.connect()
-    Item.getAll(orderDetails.orderId, connect, (error, Items) => {
-      connect.end()
-      if (error) {
-        console.error(error)
-        req.session.error = `Error trying get items: ${error.sqlMessage}`
-        res.redirect('/admin')
-      } else {
-        res.render('admin/order/order_details.ejs', {
-          'user': req.session.user,
-          'order': orderDetails,
-          'fixDate': require('../utils/utilsOrder').fixDate,
-          'fixHour': require('../utils/utilsOrder').fixHour,
-          'getRest': require('../utils/utilsOrder').getRest,
-          'items': Items
-        })
-      }
+    return new Promise((resolve, reject) => {
+      Item.getAll(orderDetails.orderId, connect, (error, Items) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(Items, orderDetails)
+        }
+      })
+    })    
+  })
+  .then((Items, orderDetails) => {
+    connect.end()
+    res.render('admin/order/order_details.ejs', {
+      'user': req.session.user,
+      'order': orderDetails,
+      'fixDate': require('../utils/utilsOrder').fixDate,
+      'fixHour': require('../utils/utilsOrder').fixHour,
+      'getRest': require('../utils/utilsOrder').getRest,
+      'items': Items
     })
-    
-  }).catch(error => {
-
+  })  
+  .catch(error => {
     console.error(error)
     req.session.error = `Error trying get order details: ${error.sqlMessage}`
     res.redirect('/admin')
-
   })
   
 }
