@@ -1,11 +1,15 @@
 module.exports = (application) => {
 
-  application.get('/novo_produto', (req, res) => {
-    application.app.control.product.new_product(req, res, application)
+  application.get('/insert_product', (req, res) => {
+    application.app.control.product.insertProduct(req, res, application)
   })
 
-  application.post('/novo_produto', (req, res) => {
-    application.app.control.product.new_product(req, res, application)
+  application.post('/insert_product', (req, res) => {
+    application.app.control.product.insertProduct(req, res, application)
+  })
+
+  application.post('/new_product', (req, res) => {
+    application.app.control.product.newProduct(req, res, application)
   }) 
 
   application.get('/exibir_produtos', (req, res) => {

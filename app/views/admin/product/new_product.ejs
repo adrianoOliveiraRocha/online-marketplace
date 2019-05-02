@@ -52,16 +52,29 @@
         <div class="box-body">
           <!-- form start -->
           <form role="form" 
-            action="/novo_produto"
+            action="/new_product"
             id="form"
             method="POST"
             enctype="multipart/form-data">
             
             <div class="box-body">
+
+              <div class="form-group">
+                <label for="name">Código de Barras</label>
+                <input 
+                  class="form-control"
+                  type="text" class="form-control" 
+                  id="barcode" name="barcode" 
+                  placeholder="Código de Barras" 
+                  value="<%=barcode%>" readonly
+                  style="text-align: center">
+              </div>
+
               <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" class="form-control" id="name" name="name" 
-                  placeholder="Nome do Produto">
+                <input type="text" class="form-control" 
+                  id="name" name="name" 
+                  placeholder="Nome do Produto" class="form-control">
               </div>
 
               <div class="form-group">
@@ -69,7 +82,8 @@
                 <textarea class="form-control" 
                   id="description" 
                   name="description"
-                  maxlength="200">
+                  maxlength="200"
+                  class="form-control">
                 </textarea>
               </div>
 
@@ -84,8 +98,19 @@
 
               <div class="form-group">
                 <label for="name">Preço</label>
-                <input type="text" class="form-control" id="price" name="price" 
+                <input type="text" class="form-control" 
+                  id="price" name="price" 
                   placeholder="Preço">
+              </div>
+
+              <div class="form-group">
+                <label for="name">Quantidade</label>
+                <input 
+                  type="number" class="form-control" 
+                  id="quantity" name="quantity" 
+                  placeholder="Quantidade" 
+                  min="0" required
+                  value="0">
               </div>
 
               <div class="form-group">

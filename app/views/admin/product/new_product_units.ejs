@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Área Administrativa</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <%-include('./../admin_includes/index/links.ejs')%>
+</head>
+<body
+  onload="JavaScript:updateData()"
+  class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+  <%-include('./../admin_includes/header.ejs')%>
+
+  <%-include('./../admin_includes/left_side_column.ejs')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Inserir Unidades do Produto
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Início</a></li>
+        <li><a href="#">Produto</a></li>
+        <li class="active">Inserir Unidades</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <form action="/insert_product" method="post">
+
+        <div class="form-group">
+
+          <div class="row" >          
+            <div class="col-sm-2" 
+              style="text-align:center">
+              <label for="barcode" class="form-control">Código de Barras</label>
+            </div> 
+            <div class="col-sm-6">
+              <input 
+                class="form-control"
+                type="text" 
+                name="barcode"
+                style="text-align:center" 
+                readonly
+                value="<%=product.barcode%>">
+            </div>                      
+          </div> 
+
+          <div class="row" >          
+            <div class="col-sm-2" 
+              style="text-align:center">
+              <label for="name" class="form-control">Nome</label>
+            </div> 
+            <div class="col-sm-6">
+              <input 
+                class="form-control"
+                type="text" 
+                name="name"
+                style="text-align:center" 
+                readonly
+                value="<%=product.name%>">
+            </div>                      
+          </div>
+
+          <div class="row" >          
+            <div class="col-sm-2" 
+              style="text-align:center">
+              <label for="name" class="form-control">Estoque</label>
+            </div> 
+            <div class="col-sm-6">
+              <input 
+                class="form-control"
+                type="text" 
+                name="stock"
+                style="text-align:center" 
+                readonly
+                value="<%=product.stock%>">
+            </div>                      
+          </div>
+
+          <div class="row" >          
+            <div class="col-sm-2" 
+              style="text-align:center">
+              <label for="units" class="form-control">Unidades</label>
+            </div> 
+            <div class="col-sm-6">
+              <input 
+                title="test"
+                class="form-control"
+                type="number" 
+                name="units"
+                style="text-align:center" 
+                min="0">
+            </div>                      
+          </div>
+
+        </div>
+
+      </form>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <%-include('./../admin_includes/footer.ejs')%>
+
+  
+</div>
+<!-- ./wrapper -->
+
+<%-include('./../admin_includes/index/scripts.ejs')%>
+<script src="admin/utilsProduct.js"></script>
+<script src="/admin/notifications.js"></script>
+
+</body>
+</html>

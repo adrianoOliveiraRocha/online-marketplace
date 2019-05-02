@@ -1,53 +1,99 @@
-// helpers
-function saveProduct(req, res, application) {
-  
-  var data = req.body;
-  var imageName = 'null';
+module.exports.insertProduct = (req, res, application) => {
+  if(req.method == 'GET') {
+    res.render('admin/product/insert_product.ejs', {
+      'user': req.session.user
+    })
+  } else {// post
+    const barcode = req.body.barcode
+    const Product = application.app.models.Product
+    const Category = application.app.models.Category
+    var connect = application.config.connect()
+
+    function getForBarcode() {
+
+      return new Promise((resolve, reject) => {
+        Product.getForBarcode(barcode, connect, (errorProduct, resultProduct) => {
+          if (errorProduct) {
+            reject(errorProduct.sqlMessage)
+          } else {
+            resolve({
+              'product': resultProduct,
+              'barcode': barcode
+            })     
+          }
+        })
+      })
+
+    }
+
+    getForBarcode()
+    .then(response => {
+
+      return new Promise((resolve, reject) => {
+        Category.getAll(connect, (errorCategory, resultCategory) => {
+          if (errorCategory) {
+            reject(`Error trying get categories: ${error.sqlMessage}`)
+          } else {
+            response.categories = resultCategory
+            resolve(response)
+          }
+        })
+      })
+      
+    })
+    .then(response => {
+      
+      if (Object.keys(response.product).length == 0) {
+        res.render('admin/product/new_product.ejs', {
+          'user': req.session.user,
+          'allCategories': response.categories,
+          'barcode': response.barcode
+        })
+      } else {
+        res.render('admin/product/new_product_units.ejs', {
+          'user': req.session.user,
+          'allCategories': response.categories,
+          'product': response.product[0],
+          'barcode': response.barcode
+        })
+        // res.send(response.product)
+      }
+      
+    }).catch(error => {
+      console.log(error)
+      req.session.error = `Error: ${error}`
+      res.redirect('\admin')
+    }).then(() => {
+      connect.end()
+    })
+        
+  }
+}
+
+module.exports.newProduct = (req, res, application) => {   
+
+  var data = req.body
+  var imageName = 'null'
   if (Object.keys(req.files).length > 0) {// image sended
-    const helper = require('./../utils/helper');
-    var imageName = helper.uploadImage(req.files.image, 'product');
+    const helper = require('./../utils/helper')
+    var imageName = helper.uploadImage(req.files.image, 'product')
   }
   
-  const Product = application.app.models.Product;
-  var product = new Product(data, imageName);
+  const Product = application.app.models.Product
+  var product = new Product(data, imageName)
   var connect = application.config.connect()
   product.save(connect, (err, result) => {
     connect.end()
     if(err) {
-      console.error(err.sqlMessage);
-      req.session.error = `Error trying save a new product: ${err.sqlMessage}`;
-      res.redirect('\admin');
+      console.error(err.sqlMessage)
+      req.session.error = `Error trying save a new product: ${err.sqlMessage}`
+      res.redirect('\admin')
     } else {
-      console.log(`Saved with id ${result['insertId']}`);
-      req.session.message = 'Novo Product salvo com sucesso!';
-      res.redirect('\admin');
+      console.log(`Saved with id ${result['insertId']}`)
+      req.session.message = 'Novo Product salvo com sucesso!'
+      res.redirect('\admin')
     }
-  });
-
-}
-// end helpers
-
-module.exports.new_product = (req, res, application) => {
-  var msg = req.session.message;
-  req.session.message = '';
-  
-  if (req.method == 'GET') {
-    var connect = application.config.connect()
-    application.app.models.Category.getAll(connect, 
-      (err, result) => {
-        connect.end()
-        if (err) {
-          console.error(`Error trying get all categories: ${err.sqlMessage}`);
-        } else {
-          res.render('admin/product/new_product.ejs', {
-            'user': req.session.user,
-            'allCategories': result
-          });
-        }        
-      });    
-  } else {
-    saveProduct(req, res, application);
-  }
+  })
 }
 
 module.exports.show_products = (req, res, application) => {
@@ -55,16 +101,16 @@ module.exports.show_products = (req, res, application) => {
   application.app.models.Product.showProducts(connect, (err, result) => {
     connect.end()
     if(err) {
-      console.error(`Error trying get all products: ${err.sqlMessage}`);
-      req.session.error = `Error trying get all products: ${err.sqlMessage}`;
-      req.redirect('\admin');
+      console.error(`Error trying get all products: ${err.sqlMessage}`)
+      req.session.error = `Error trying get all products: ${err.sqlMessage}`
+      req.redirect('\admin')
     } else {
       res.render('admin/product/show_products.ejs', {
         'products': result,
         'user': req.session.user,
-      });
+      })
     }
-  });
+  })
 }
 
 module.exports.products_details = (req, res, application) => {
@@ -73,45 +119,45 @@ module.exports.products_details = (req, res, application) => {
     (err, result) => {
       connect.end()
       if (err) {
-        console.error(`Error tryong get product: ${err.sqlMessage}`);
-        req.session.error = `Error tryong get product: ${err.sqlMessage}`;
-        res.redirect('\admin');
+        console.error(`Error tryong get product: ${err.sqlMessage}`)
+        req.session.error = `Error tryong get product: ${err.sqlMessage}`
+        res.redirect('\admin')
       } else {
-        getAllCategories(result[0]);        
+        getAllCategories(result[0])        
       }
-  });
+  })
 
   function getAllCategories(product) {
     var connect = application.config.connect()
     application.app.models.Category.getAll(connect, (err, categories) => {
       connect.end()
       if (err) {
-        console.error(`Error: ${err.sqlMessage}`);
-        req.session.error = `Error tryong get all categories: ${err.sqlMessage}`;
-        res.redirect('\admin');
+        console.error(`Error: ${err.sqlMessage}`)
+        req.session.error = `Error tryong get all categories: ${err.sqlMessage}`
+        res.redirect('\admin')
       } else {
         res.render('admin/product/product_details.ejs', {
           'product': product,
           'user': req.session.user,
           'allCategories': categories
-        });
+        })
       }
-    });    
+    })    
   }
 
 }
 
 module.exports.edit_product = (req, res, application) => {
   
-  var data = req.body;
-  var imageName = 'null';
-  const Product = application.app.models.Product;
+  var data = req.body
+  var imageName = 'null'
+  const Product = application.app.models.Product
     
   if (Object.keys(req.files).length > 0) {// image sended
-    const helper = require('./../utils/helper');
+    const helper = require('./../utils/helper')
     var connect = application.config.connect()
-    helper.deleteOldeImage(Product, data.idProduct, 'product', connect);      
-    var imageName = helper.uploadImage(req.files.image, 'product');
+    helper.deleteOldeImage(Product, data.idProduct, 'product', connect)      
+    var imageName = helper.uploadImage(req.files.image, 'product')
   }
   
   var connect = application.config.connect()
@@ -119,39 +165,39 @@ module.exports.edit_product = (req, res, application) => {
     (err, result) => {
     connect.end()
     if(err) {
-      console.error(`Error trying edit the product: ${err.sqlMessage}`);  
-      req.session.error = `Error trying edit the product: ${err.sqlMessage}`;
-      res.redirect('\admin');
+      console.error(`Error trying edit the product: ${err.sqlMessage}`)  
+      req.session.error = `Error trying edit the product: ${err.sqlMessage}`
+      res.redirect('\admin')
     } else {
-      console.log(`Success ${result}`);
-      req.session.message = 'Produto editado com sucesso!';
-      res.redirect('\admin');
+      console.log(`Success ${result}`)
+      req.session.message = 'Produto editado com sucesso!'
+      res.redirect('\admin')
     }
-  });
+  })
 
 }
 
 module.exports.delete_product = (req, res, application) => {
-  const idProduct = req.query.idProduct;
-  const Product = application.app.models.Product;
+  const idProduct = req.query.idProduct
+  const Product = application.app.models.Product
 
-  const helper = require('../utils/helper');
+  const helper = require('../utils/helper')
   var connect = application.config.connect()
-  helper.deleteOldeImage(Product, idProduct, 'product', connect); 
+  helper.deleteOldeImage(Product, idProduct, 'product', connect) 
 
   var connect = application.config.connect()
   Product.delete(idProduct, connect, (err, result) => {
     connect.end()
     if(err) {
-      console.error(`Error trying delete the product: ${err.sqlMessage}`);
-      req.session.error = `Error trying delete the product: ${err.sqlMessage}`;
-      res.redirect('\admin');
+      console.error(`Error trying delete the product: ${err.sqlMessage}`)
+      req.session.error = `Error trying delete the product: ${err.sqlMessage}`
+      res.redirect('\admin')
     } else {      
-      console.log(result);
-      req.session.message = 'Produto deletado com sucesso!';
-      res.redirect('\admin');
+      console.log(result)
+      req.session.message = 'Produto deletado com sucesso!'
+      res.redirect('\admin')
     }
-  }); 
+  }) 
 }
 
 module.exports.lowStock = function(req, res, application) {
@@ -171,7 +217,7 @@ module.exports.lowStock = function(req, res, application) {
   })
 }
 
-module.exports.lowStockNotification = function(req, res, application) {
+module.exports.lowStockNotification = (req, res, application) => {
   const Product = application.app.models.Product
   var connect = application.config.connect()
   Product.getLowStockProducts(connect, (error, result) => {
@@ -185,4 +231,3 @@ module.exports.lowStockNotification = function(req, res, application) {
     }
   })  
 }
-
