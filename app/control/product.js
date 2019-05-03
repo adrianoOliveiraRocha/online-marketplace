@@ -70,6 +70,26 @@ module.exports.insertProduct = (req, res, application) => {
   }
 }
 
+module.exports.insertUnits = function(req, res, application) {
+  const newStock = parseInt(req.body.stock) + parseInt(req.body.units)
+  const productId = req.body.productId
+  const Product = application.app.models.Product
+  const connect = application.config.connect()
+  Product.insertUnits(newStock, connect, productId, (error, result) => {
+    connect.end()
+    if (error) {
+      console.error(`Error trying update stock: ${error.sqlMessage}`)
+      req.session.error = `Error trying update stock: ${error.sqlMessage}`
+      res.redirect('\admin')
+    } else {
+      console.log(result)
+      req.session.message = 'Estoque atualizado com sucesso!'
+      res.redirect('\admin')
+    }
+  })
+  
+}
+
 module.exports.newProduct = (req, res, application) => {   
 
   var data = req.body
@@ -147,33 +167,33 @@ module.exports.products_details = (req, res, application) => {
 
 }
 
-module.exports.edit_product = (req, res, application) => {
-  
-  var data = req.body
-  var imageName = 'null'
-  const Product = application.app.models.Product
+module.exports.editProduct = (req, res, application) => {
+  res.send(`price here: ${req.body.price}`)
+  // var data = req.body
+  // var imageName = 'null'
+  // const Product = application.app.models.Product
     
-  if (Object.keys(req.files).length > 0) {// image sended
-    const helper = require('./../utils/helper')
-    var connect = application.config.connect()
-    helper.deleteOldeImage(Product, data.idProduct, 'product', connect)      
-    var imageName = helper.uploadImage(req.files.image, 'product')
-  }
+  // if (Object.keys(req.files).length > 0) {// image sended
+  //   const helper = require('./../utils/helper')
+  //   var connect = application.config.connect()
+  //   helper.deleteOldeImage(Product, data.idProduct, 'product', connect)      
+  //   var imageName = helper.uploadImage(req.files.image, 'product')
+  // }
   
-  var connect = application.config.connect()
-  Product.edit(data, imageName, connect,  
-    (err, result) => {
-    connect.end()
-    if(err) {
-      console.error(`Error trying edit the product: ${err.sqlMessage}`)  
-      req.session.error = `Error trying edit the product: ${err.sqlMessage}`
-      res.redirect('\admin')
-    } else {
-      console.log(`Success ${result}`)
-      req.session.message = 'Produto editado com sucesso!'
-      res.redirect('\admin')
-    }
-  })
+  // var connect = application.config.connect()
+  // Product.edit(data, imageName, connect,  
+  //   (err, result) => {
+  //   connect.end()
+  //   if(err) {
+  //     console.error(`Error trying edit the product: ${err.sqlMessage}`)  
+  //     req.session.error = `Error trying edit the product: ${err.sqlMessage}`
+  //     res.redirect('\admin')
+  //   } else {
+  //     console.log(`Success ${result}`)
+  //     req.session.message = 'Produto editado com sucesso!'
+  //     res.redirect('\admin')
+  //   }
+  // })
 
 }
 

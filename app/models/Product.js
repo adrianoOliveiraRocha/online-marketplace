@@ -65,6 +65,7 @@ class Product {
       price = ${data.price}
       where id = ${data.idProduct}`
     }
+    console.log(stm)
     connect.query(stm, callback)
   }
 
@@ -99,6 +100,13 @@ class Product {
 
   static getForBarcode(barcode, connect, callback) {
     let stm = `select * from product where barcode = ${barcode}`
+    connect.query(stm, callback)
+  }  
+
+  static insertUnits(newStock, connect, productId, callback) {
+    let stm = `
+    update product set stock = ${newStock}
+    where id = ${productId}`
     connect.query(stm, callback)
   }
   

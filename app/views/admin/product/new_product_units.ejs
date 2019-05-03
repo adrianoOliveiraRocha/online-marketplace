@@ -34,8 +34,8 @@
 
     <!-- Main content -->
     <section class="content">
-      <form action="/insert_product" method="post">
-
+      <form action="/insert_units" method="post">
+        <input type="hidden" name="productId" value="<%=product.id%>">
         <div class="form-group">
 
           <div class="row" >          
@@ -98,8 +98,24 @@
                 type="number" 
                 name="units"
                 style="text-align:center" 
+                required
                 min="0">
             </div>                      
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-2" 
+              style="text-align:center">
+              <button type="submit" class="form-control btn btn-primary">
+                Enviar
+              </button>
+            </div>
+            <div class="col-sm-2" 
+              style="text-align:center">
+              <a href="/admin" class="form-control btn btn-danger">
+                Cancelar
+              </a>
+            </div>
           </div>
 
         </div>

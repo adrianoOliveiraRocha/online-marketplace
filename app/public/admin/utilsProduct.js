@@ -61,11 +61,26 @@ function validateProduct() {
   }
 }
 
+
+function editProduct() {
+  var price = chekPrice(document.getElementById('price').value)
+  console.log(`price: ${price}`)
+  if (!price) {
+    let msg = `
+    <div class="alert alert-warning" >
+      Por favor, preencha o campo <strong>preço</strong> corretamente.      
+    </div>`
+    document.getElementById('messages').innerHTML = msg
+  } else {
+    document.getElementById('messages').innerHTML = ''
+    document.getElementById('price').value = price
+    document.getElementById('form').submit()
+  }  
+}
+
+
 function deleteProduct() {
   const idProduct = document.getElementById('idProduct').value
   location.href = "/delete_product?idProduct=" + idProduct
 }
-
-
-
 

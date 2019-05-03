@@ -8,6 +8,10 @@ module.exports = (application) => {
     application.app.control.product.insertProduct(req, res, application)
   })
 
+  application.post('/insert_units', (req, res) => {
+    application.app.control.product.insertUnits(req, res, application)
+  })
+
   application.post('/new_product', (req, res) => {
     application.app.control.product.newProduct(req, res, application)
   }) 
@@ -20,8 +24,8 @@ module.exports = (application) => {
     application.app.control.product.products_details(req, res, application)
   })
 
-  application.post('/editar_produto', (req, res) => {
-    application.app.control.product.edit_product(req, res, application)
+  application.post('/edit_product', (req, res) => {
+    application.app.control.product.editProduct(req, res, application)
   })
 
   application.get('/delete_product', (req, res) => {

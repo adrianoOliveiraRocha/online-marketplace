@@ -52,7 +52,7 @@
         <div class="box-body">
           <!-- form start -->
           <form role="form" 
-            action="/editar_produto"
+            action="/edit_product"
             id="form"
             method="POST"
             enctype="multipart/form-data">
@@ -63,20 +63,30 @@
 
               <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" class="form-control" id="name" name="name" 
-                  placeholder="Nome do Produto" value="<%=product.name.trim()%>">
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name" name="name" 
+                  placeholder="Nome do Produto"
+                  required 
+                  value="<%=product.name.trim()%>">
               </div>
 
               <div class="form-group">
                 <label for="name">Nome</label>
-                <textarea class="form-control" id="description" name="description">
+                <textarea 
+                  class="form-control" 
+                  id="description" name="description"
+                  required>
                   <%=product.description.trim()%>
                 </textarea>
               </div>
 
               <div class="form-group">
                 <label for="name">Categoria</label>
-                <select class="form-control" name="category">
+                <select 
+                  class="form-control" 
+                  name="category" required>
                 <% for(let category of allCategories) {%>
                   <% if(category.id == product.category) {%>
                   <option value="<%=category.id%>" selected="selected"><%=category.name%></option>
@@ -89,16 +99,18 @@
 
               <div class="form-group">
                 <label for="name">Preço</label>
-                <input type="text" class="form-control" id="price" name="price" 
-                  placeholder="Preço"
+                <input 
+                  type="text" class="form-control" 
+                  id="price" name="price" 
+                  placeholder="Preço" 
                   value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%>">
               </div>
 
               <div class="form-group">
                 <label for="name">Estoque</label>
-                <input type="text" class="form-control" id="price" name="price" 
+                <input type="text" class="form-control" id="stock" name="stock" 
                   placeholder="Estoque"
-                  readonly
+                  readonly 
                   value="<%=product.stock%>">
               </div>
 
@@ -128,8 +140,9 @@
             <!-- /.box-body -->
             <hr>
             <div class="box-footer">
-              <button type="button" class="btn btn-primary"
-                onClick='validateProduct();'>
+              <button 
+                type="button" onClick="editProduct()" 
+                class="btn btn-primary">
                 Editar
               </button>
               <button type="button" class="btn btn-danger"
@@ -143,8 +156,8 @@
         
         <!-- /.box-body -->
         <div class="box-footer">
-          <div class="control-group">
-            <div class="controls"  id='messages'></div>
+          <div class="control-group" id="messages">
+            <%#messages%>
           </div>
         </div>
         <!-- /.box-footer-->
