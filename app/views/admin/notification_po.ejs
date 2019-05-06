@@ -17,7 +17,7 @@
     <ul class="menu">
       <% for(let order of orders) { %>
       <li>
-        <a href="/admin_order_details?orderId=6">
+        <a href="/admin_order_details?orderId=<%=order.id%>">
           <i class="fa fa-shopping-cart text-green"></i>           
             <%=fixDate(order.orderDate)%> <%=fixHour(order.orderDate)%>          
         </a>

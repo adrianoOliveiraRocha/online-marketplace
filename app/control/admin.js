@@ -142,43 +142,45 @@ module.exports.orderDetails = function(req, res, application) {
         if (error) {
           reject(error)
         } else {
-          resolve(result[0])          
+          resolve(result[0])//I have informations about the order and the client        
         }
       })
     })
   }
-
   getOrderDetails()
-  .then(orderDetails => {        
+  .then(order => {  
     return new Promise((resolve, reject) => {
-      Item.getAll(orderDetails.orderId, connect, (error, Items) => {
+      Item.getAll(order.orderId, connect, (error, items) => {
         if (error) {
           reject(error)
         } else {
           response = {
-            'Items': Items,
-            'orderDetails': orderDetails
+            'items': items, // Items from this order
+            'order': order
           }
           resolve(response)
         }
       })
-    })    
+    })     
   })
-  .then((response) => {
-    connect.end()
+  .then((response) => { 
     res.render('admin/order/order_details.ejs', {
       'user': req.session.user,
-      'order': response.orderDetails,
+      'order': response.order,
       'fixDate': require('../utils/utilsOrder').fixDate,
       'fixHour': require('../utils/utilsOrder').fixHour,
       'getRest': require('../utils/utilsOrder').getRest,
-      'items': response.Items
+      'items': response.items,
+      'client': response.client
     })
-  })  
+  })
   .catch(error => {
     console.error(error)
     req.session.error = `Error trying get order details: ${error.sqlMessage}`
     res.redirect('/admin')
+  }).then(() => {
+    connect.end()
+    console.log('connection closed')
   })
   
 }

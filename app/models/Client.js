@@ -25,6 +25,7 @@ class Client extends User{
 
   static getThis(userId, connect, callback) {
     let stm = `select * from client where user_id = ${userId}`
+    console.log(stm)
     connect.query(stm, callback)
   }
 

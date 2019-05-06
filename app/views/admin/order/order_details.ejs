@@ -211,7 +211,9 @@
                   </table>
                 </div>
                        
-              </div>              
+              </div>  
+              
+              
 
               <hr>
               
@@ -248,6 +250,62 @@
               </div>
                             
             </div>
+            <!-- End items of the order -->
+
+            <hr>
+
+            <!-- Client details -->
+            <div class="box-body">
+              
+              <div class="box-header">
+                <h3 class="box-title">Informações do Cliente</h3>
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Código</label></td>
+                      <td><input readonly value="<%=order.orderId%>" style="text-align: center"></td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Data</label></td>
+                      <td>
+                        <input 
+                        style="text-align: center"
+                        readonly
+                        value="<%=fixDate(order.date)%>"/>                      
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-sm-4">
+                  <table class="table">
+                    <tr>
+                      <td><label>Hora</label></td>
+                      <td>
+                        <input 
+                        style="text-align: center"
+                        readonly 
+                        value="<%=fixHour(order.date)%>">
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                       
+              </div>
+              
+                            
+            </div>
+            <!-- End client details -->
+
 
           </div>
           <!-- /.box -->

@@ -99,7 +99,8 @@ class Product {
   }
 
   static getForBarcode(barcode, connect, callback) {
-    let stm = `select * from product where barcode = ${barcode}`
+    let stm = `select * from product where barcode = '${barcode}'`
+    console.log(stm)
     connect.query(stm, callback)
   }  
 
