@@ -168,32 +168,32 @@ module.exports.products_details = (req, res, application) => {
 }
 
 module.exports.editProduct = (req, res, application) => {
-  res.send(`price here: ${req.body.price}`)
-  // var data = req.body
-  // var imageName = 'null'
-  // const Product = application.app.models.Product
-    
-  // if (Object.keys(req.files).length > 0) {// image sended
-  //   const helper = require('./../utils/helper')
-  //   var connect = application.config.connect()
-  //   helper.deleteOldeImage(Product, data.idProduct, 'product', connect)      
-  //   var imageName = helper.uploadImage(req.files.image, 'product')
-  // }
   
-  // var connect = application.config.connect()
-  // Product.edit(data, imageName, connect,  
-  //   (err, result) => {
-  //   connect.end()
-  //   if(err) {
-  //     console.error(`Error trying edit the product: ${err.sqlMessage}`)  
-  //     req.session.error = `Error trying edit the product: ${err.sqlMessage}`
-  //     res.redirect('\admin')
-  //   } else {
-  //     console.log(`Success ${result}`)
-  //     req.session.message = 'Produto editado com sucesso!'
-  //     res.redirect('\admin')
-  //   }
-  // })
+  var data = req.body
+  var imageName = 'null'
+  const Product = application.app.models.Product
+  var connect = application.config.connect()
+    
+  if (Object.keys(req.files).length > 0) {// image sended
+    const helper = require('./../utils/helper')
+    helper.deleteOldeImage(Product, data.idProduct, 'product', connect)      
+    var imageName = helper.uploadImage(req.files.image, 'product')
+  }
+  
+ 
+  Product.edit(data, imageName, connect,  
+    (err, result) => {
+    connect.end()
+    if(err) {
+      console.error(`Error trying edit the product: ${err.sqlMessage}`)  
+      req.session.error = `Error trying edit the product: ${err.sqlMessage}`
+      res.redirect('\admin')
+    } else {
+      console.log(`Success ${result}`)
+      req.session.message = 'Produto editado com sucesso!'
+      res.redirect('\admin')
+    }
+  })
 
 }
 
@@ -205,7 +205,6 @@ module.exports.delete_product = (req, res, application) => {
   var connect = application.config.connect()
   helper.deleteOldeImage(Product, idProduct, 'product', connect) 
 
-  var connect = application.config.connect()
   Product.delete(idProduct, connect, (err, result) => {
     connect.end()
     if(err) {
@@ -224,6 +223,7 @@ module.exports.lowStock = function(req, res, application) {
   const Product = application.app.models.Product
   var connect = application.config.connect()
   Product.getLowStockProducts(connect, (error, result) => {
+    connect.end()
     if (error) {
       let msg = `Error trying get low stock products: ${error.sqlMessage}`
       console.error(msg)
@@ -241,6 +241,7 @@ module.exports.lowStockNotification = (req, res, application) => {
   const Product = application.app.models.Product
   var connect = application.config.connect()
   Product.getLowStockProducts(connect, (error, result) => {
+    connect.end()
     if(error) {
       console.error(`Error trying get low stock products: ${error.sqlMessage}`)
     } else {

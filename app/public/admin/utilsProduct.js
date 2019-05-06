@@ -78,7 +78,6 @@ function editProduct() {
   }  
 }
 
-
 function deleteProduct() {
   const idProduct = document.getElementById('idProduct').value
   location.href = "/delete_product?idProduct=" + idProduct

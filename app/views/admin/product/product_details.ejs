@@ -73,10 +73,12 @@
               </div>
 
               <div class="form-group">
-                <label for="name">Nome</label>
+                <label for="name">Descrição</label>
                 <textarea 
                   class="form-control" 
                   id="description" name="description"
+                  placeholder="Escreva uma descrição curta. Máximo de 20 palavras"
+                  maxlength="100"
                   required>
                   <%=product.description.trim()%>
                 </textarea>
