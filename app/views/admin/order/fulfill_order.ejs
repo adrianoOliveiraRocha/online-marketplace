@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Imprimir</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <% if(order != undefined) { %>
+    <h2>Detalhes do Pedido</h2>
+    <table class="table">
+      <tr>
+        <th>Código do pedido</th>
+        <td><%=order.orderId%></td>
+      </tr>
+      <tr>
+        <th>Data</th>
+        <td><%=fixDate(order.date)%></td>
+      </tr>
+
+      <tr>
+        <th style="cols='2"><button id="test" onclick="print()"> Imprimir </button></th>
+        
+      </tr>
+
+    </table>
+
+    
+
+    <% } else { %>
+      <div class="container">
+        Nada para exibir
+      </div>
+    <% } %>
+  </body>
+</html>

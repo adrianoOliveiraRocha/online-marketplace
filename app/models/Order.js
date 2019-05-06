@@ -31,7 +31,7 @@ class Order {
     _order.status as status, _order.money, user.id as userId, 
     user.email as userEmail, 
     client.address as address, client.add_number as number, 
-    client.phone as phone, client.name as name
+    client.phone as phone, client.name as clientName
     from _order, user, client
     where _order.userId = user.id and
     user.id = client.user_id 

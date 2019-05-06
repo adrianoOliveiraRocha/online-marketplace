@@ -164,6 +164,8 @@ module.exports.orderDetails = function(req, res, application) {
     })     
   })
   .then((response) => { 
+    req.session.orderImpress = response
+    console.log(req.session.orderImpress)
     res.render('admin/order/order_details.ejs', {
       'user': req.session.user,
       'order': response.order,
@@ -183,4 +185,16 @@ module.exports.orderDetails = function(req, res, application) {
     console.log('connection closed')
   })
   
+}
+
+module.exports.fulfillOrder = function(req, res, application) {
+  const fulfillOrder = req.session.orderImpress
+  // req.session.orderImpress = undefined
+  res.render('admin/order/fulfill_order.ejs', {
+    'order': fulfillOrder.order,
+    'items': fulfillOrder.items,
+    'fixDate': require('../utils/utilsOrder').fixDate,
+    'fixHour': require('../utils/utilsOrder').fixHour,
+    'getRest': require('../utils/utilsOrder').getRest    
+  })
 }

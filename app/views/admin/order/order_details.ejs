@@ -263,43 +263,87 @@
 
               <div class="row">
 
-                <div class="col-sm-4">
-                  <table class="table">
+                <div class="col-sm-6">
+                  <table class="table" style="text-align: center">
                     <tr>
-                      <td><label>Código</label></td>
-                      <td><input readonly value="<%=order.orderId%>" style="text-align: center"></td>
+                      <td><label class="form-control">Name</label></td>
+                      <td>
+                        <input 
+                          class="form-control"
+                          readonly 
+                          value="<%=order.clientName%>" 
+                          style="text-align: center">
+                        </td>
                     </tr>
                   </table>
                 </div>
 
-                <div class="col-sm-4">
-                  <table class="table">
+                <div class="col-sm-6">
+                  <table class="table" style="text-align: center">
                     <tr>
-                      <td><label>Data</label></td>
+                      <td><label class="form-control">Telefone</label></td>
                       <td>
                         <input 
-                        style="text-align: center"
-                        readonly
-                        value="<%=fixDate(order.date)%>"/>                      
-                      </td>
+                          class="form-control"
+                          readonly 
+                          value="<%=order.phone%>" 
+                          style="text-align: center">
+                        </td>
                     </tr>
                   </table>
-                </div>
-
-                <div class="col-sm-4">
-                  <table class="table">
-                    <tr>
-                      <td><label>Hora</label></td>
-                      <td>
-                        <input 
-                        style="text-align: center"
-                        readonly 
-                        value="<%=fixHour(order.date)%>">
-                      </td>
-                    </tr>
-                  </table>
-                </div>
+                </div>                             
                        
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-6">
+                  <table class="table" style="text-align: center">
+                    <tr>
+                      <td><label class="form-control">Endereço</label></td>
+                      <td>
+                        <input 
+                          class="form-control"
+                          readonly 
+                          value="<%=order.address%>" 
+                          style="text-align: center">
+                        </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-sm-6">
+                  <table class="table" style="text-align: center">
+                    <tr>
+                      <td><label class="form-control">Número</label></td>
+                      <td>
+                        <input 
+                          class="form-control"
+                          readonly 
+                          value="<%=order.number%>" 
+                          style="text-align: center">
+                        </td>
+                    </tr>
+                  </table>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <table class="table" style="text-align: center">
+                    <tr>
+                      <td><label class="form-control">E-Mail</label></td>
+                      <td>
+                        <input 
+                          class="form-control"
+                          readonly 
+                          value="<%=order.userEmail%>" 
+                          style="text-align: center">
+                        </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
               
                             
@@ -310,10 +354,17 @@
           </div>
           <!-- /.box -->
 
-          <div class="box-footer">
-            <button type="button" class="btn btn-primary">
-              Atender
-            </button>
+          <div class="box-footer"> 
+                       
+            <a 
+              href="/fulfill_order"
+              class="btn btn-primary">
+              <% if(order.status == 0) { %>
+                Atender
+              <% } else { %>
+                Imprimir
+              <% } %>
+            </a>
           </div>
 
           
