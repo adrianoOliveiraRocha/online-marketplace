@@ -202,7 +202,6 @@ module.exports.done = function(req, res, application) {
   req.session.orderImpress = undefined
   const Order = application.app.models.Order
   var connect = application.config.connect()
-  // you need test if the order is really not answered in this point
   Order.MarkAsAnswered(fulfillOrder.order.orderId, connect, (error, result) => {
     if (error) {
       console.log(`Error trying mark order as answered: ${error.sqlMessage}`)
