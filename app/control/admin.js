@@ -165,7 +165,6 @@ module.exports.orderDetails = function(req, res, application) {
   })
   .then((response) => { 
     req.session.orderImpress = response
-    console.log(req.session.orderImpress)
     res.render('admin/order/order_details.ejs', {
       'user': req.session.user,
       'order': response.order,
@@ -187,9 +186,8 @@ module.exports.orderDetails = function(req, res, application) {
   
 }
 
-module.exports.fulfillOrder = function(req, res, application) {
+module.exports.fulfillOrder = function(req, res) {
   const fulfillOrder = req.session.orderImpress
-  // req.session.orderImpress = undefined
   res.render('admin/order/fulfill_order.ejs', {
     'order': fulfillOrder.order,
     'items': fulfillOrder.items,
@@ -197,4 +195,21 @@ module.exports.fulfillOrder = function(req, res, application) {
     'fixHour': require('../utils/utilsOrder').fixHour,
     'getRest': require('../utils/utilsOrder').getRest    
   })
+}
+
+module.exports.done = function(req, res, application) {
+  const fulfillOrder = req.session.orderImpress
+  req.session.orderImpress = undefined
+  const Order = application.app.models.Order
+  var connect = application.config.connect()
+  // you need test if the order is really not answered in this point
+  Order.MarkAsAnswered(fulfillOrder.order.orderId, connect, (error, result) => {
+    if (error) {
+      console.log(`Error trying mark order as answered: ${error.sqlMessage}`)
+    } else {
+      console.log(result)
+      req.session.message = `O pedido ${fulfillOrder.order.orderId} foi marcado como atendido`
+      res.redirect('/admin')
+    }
+  })  
 }

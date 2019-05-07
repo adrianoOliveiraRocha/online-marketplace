@@ -33,7 +33,11 @@ module.exports = (application) => {
   })  
 
   application.get('/fulfill_order', (req, res) => {
-    application.app.control.admin.fulfillOrder(req, res, application)
+    application.app.control.admin.fulfillOrder(req, res)
   }) 
+
+  application.get('/done', (req, res) => {
+    application.app.control.admin.done(req, res, application)
+  })
 
 }

@@ -8,32 +8,102 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   </head>
-  <body>
-    <% if(order != undefined) { %>
-    <h2>Detalhes do Pedido</h2>
-    <table class="table">
-      <tr>
-        <th>Código do pedido</th>
-        <td><%=order.orderId%></td>
-      </tr>
-      <tr>
-        <th>Data</th>
-        <td><%=fixDate(order.date)%></td>
-      </tr>
-
-      <tr>
-        <th style="cols='2"><button id="test" onclick="print()"> Imprimir </button></th>
-        
-      </tr>
-
-    </table>
-
+  <body onload="print(); comeBack()">
+    <div class="container">     
     
+      <% if(order != undefined) { %>
+      
+      <table class="table">
+        <tr>
+          <th>Código do pedido</th>
+          <td><%=order.orderId%></td>
+        </tr>
+        <tr>
+          <th>Data</th>
+          <td><%=fixDate(new Date(order.date))%></td>
+        </tr>
+        <tr>
+          <th>Hora</th>
+          <td><%=fixHour(new Date(order.date))%></td>
+        </tr>      
 
-    <% } else { %>
-      <div class="container">
-        Nada para exibir
-      </div>
-    <% } %>
+      </table>
+
+      <hr>
+      <strong>Ítems</strong>
+      <table class="table">
+        <% for(item of items) { %>
+        <tr>
+          <th><%=item.productName%></th>
+        </tr>
+        <tr>
+          <td>Preço</td>
+          <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)%></td>
+        </tr>
+        <tr>
+          <td>Quantidade</td>
+          <td><%=item.quantity%></td>
+        </tr>
+        <tr>
+          <td>Subtotal</td>
+          <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.subtotal)%></td>
+        </tr>
+        <% } %>      
+      </table>
+
+      <hr>
+
+      <table class="table">
+        <tr>
+          <th>Total R$</th>
+          <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%></td>
+        </tr>
+        <tr>
+          <th>Dinheiro R$</th>
+          <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.money)%></td>
+        </tr>
+        <tr>
+          <th>Troco R$</th>
+          <td><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(getRest(order.money, order.total))%></td>
+        </tr>
+      </table>
+
+      <hr>
+
+      <table class="table">
+        <tr>
+          <th>Cliente</th>
+          <td><%=order.clientName%></td>
+        </tr>
+        <tr>
+          <th>Telefone</th>
+          <td><%=order.phone%></td>
+        </tr>
+        <tr>
+          <th>Endereço</th>
+          <td><%=order.address%>, <%=order.number%></td>
+        </tr>
+        <tr>
+          <th>E-Mail</th>
+          <td><%=order.userEmail%></td>
+        </tr>
+        
+      </table>
+
+      <hr>
+
+      <script>
+        function comeBack() {
+          window.location.href = '\done'
+        }
+      </script>
+
+      <% } else { %>
+        <div class="container">
+          Nada para exibir
+        </div>
+      <% } %>
+    
+    </div>
   </body>
 </html>

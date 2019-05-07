@@ -81,6 +81,11 @@ class Order {
     connect.query(stm, callback)
   }
 
+  static MarkAsAnswered(orderId, connect, callback) {
+    let stm = `update _order set status = 1 where id = ${orderId}`
+    connect.query(stm, callback)
+  }
+
 }
 
 module.exports = () => {
