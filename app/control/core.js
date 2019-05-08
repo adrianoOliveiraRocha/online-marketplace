@@ -3,9 +3,16 @@ module.exports.index = (req, res, application) => {
   req.session.message = ''
   var error = req.session.error
   req.session.error = ''
-  var idCategory = req.query.idCategory;
+  var continueThisCategory = req.session.categoryId
+  req.session.categoryId = undefined
+
+  var categoryId = req.query.categoryId
+  if (categoryId == undefined) {
+    categoryId = continueThisCategory
+  }
+
   var connect = application.config.connect()
-  application.app.models.Product.getAll(connect, idCategory, 
+  application.app.models.Product.getAll(connect, categoryId, 
     (errProduct, result) => {
       connect.end()
       if (errProduct) {
@@ -50,7 +57,7 @@ module.exports.index = (req, res, application) => {
           'msg': msg,
           'error': error,
           'whatCategory': whatCategory,
-          'currentCategory': idCategory,
+          'currentCategory': categoryId,
           'cart': req.session.cart,
           'money': req.session.money
         })
@@ -188,7 +195,8 @@ module.exports.register = (req, res, application) => {
 }
 
 module.exports.add_to_cart = (req, res, application) => {
-
+  
+  req.session.categoryId = req.query.categoryId
   if (typeof req.session.cart == 'undefined') { // the cart is created here
     req.session.cart = []
     req.session.money = 0
@@ -198,7 +206,7 @@ module.exports.add_to_cart = (req, res, application) => {
         connect.end()
         if(err) {
           console.error(err.sqlMessage);
-          req.session.error = `Error trying pu the product whiten the cart: ${err.sqlMessage}`;
+          req.session.error = `Error trying push the product whiten the cart: ${err.sqlMessage}`;
           res.render('core/index.ejs', {
             'error': error
           })
@@ -210,8 +218,7 @@ module.exports.add_to_cart = (req, res, application) => {
         }
       })
   } else { // the cart already exists 
-    // test whether the product was added
-    
+    // test whether the product was added    
     if(!productWasAdded(req.query.productId, req.session.cart)) {
       var connect = application.config.connect()
       application.app.models.Product.getThis(req.query.productId, connect, 
