@@ -17,18 +17,17 @@ class Product {
     connect.query(stm, callback)
   }
 
-  static getAll(connect, idCategory, callback) {
+  static getAll(connect, categoryId, callback) {
     var stm = ``
-    if (typeof idCategory == 'undefined') {
+    if (categoryId === undefined) {
       stm = `
       select * from product
       where stock > 0`
     } else {
       stm = `
-      select * from product where category = ${idCategory}
+      select * from product where category = ${categoryId}
       and stock > 0`
     }
-
     connect.query(stm, callback)
     
   }

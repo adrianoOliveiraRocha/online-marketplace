@@ -7,8 +7,14 @@ module.exports.index = (req, res, application) => {
   req.session.categoryId = undefined
 
   var categoryId = req.query.categoryId
-  if (categoryId == undefined) {
-    categoryId = continueThisCategory
+  
+  if (categoryId === undefined) {
+    if(continueThisCategory !== undefined) {
+      var newCategoryId = parseInt(continueThisCategory)
+      if (!isNaN(newCategoryId)) {
+        categoryId = newCategoryId
+      }
+    }
   }
 
   var connect = application.config.connect()
@@ -18,9 +24,7 @@ module.exports.index = (req, res, application) => {
       if (errProduct) {
         console.error(`Error tryong get product: ${errProduct.sqlMessage}`);
         req.session.error = `Error tryong get product: ${errProduct.sqlMessage}`;
-        res.render('core/index.ejs', {
-          'error': error
-        })
+        res.redirect('/')
       } else {
         getAllCategories(result)      
       }
@@ -46,7 +50,7 @@ module.exports.index = (req, res, application) => {
             }
           }
         }
-
+        
         let page = req.query.page
         paginator = application.app.utils.paginator(products, page)
         
@@ -58,14 +62,13 @@ module.exports.index = (req, res, application) => {
           'error': error,
           'whatCategory': whatCategory,
           'currentCategory': categoryId,
+          'page': page,
           'cart': req.session.cart,
           'money': req.session.money
         })
       }
     })  
-  } 
-
-  
+  }   
 }
 
 module.exports.login = (req, res, application) => {
