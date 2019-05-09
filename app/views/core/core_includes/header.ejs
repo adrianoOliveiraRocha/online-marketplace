@@ -55,20 +55,24 @@
 					<div class="list-menu">
 						<ul>
 							<li><a href="/">Home</a></li>
-							
+
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categoria
 								<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<% for(let category of categories) { %>
+									<% for(let category of categories) { %>									
 									<li>
-										<a href="/?categoryId=<%=category.id%>">
-												<%=category.name%>
+										<a 
+											href="/?categoryId=<%=category.id%>">
+											<%=category.name%> 
 										</a>
 									</li>
+									
 									<% } %>                                
 								</ul>
 							</li>
+
+							
 							<li><a href="product-detail.html">Contato</a></li>
 						</ul>
 					</div> <!-- /.list-menu -->
