@@ -1,93 +1,93 @@
 <header class="site-header">
   <div class="top-header">
-      <div class="container">
-          <div class="row">
-              <div class="col-md-6 col-sm-6">
-                  <div class="top-header-left">
-                      <a href="/register">Cadastrar-se</a>
-                      <a href="/login">Entrar</a>
-                  </div> <!-- /.top-header-left -->
-              </div> <!-- /.col-md-6 -->
-              <div class="col-md-6 col-sm-6">
-                  <div class="social-icons">
-                      <ul>
-                          <li><a href="#" class="fa fa-facebook"></a></li>
-                          <li><a href="#" class="fa fa-dribbble"></a></li>
-                          <li><a href="#" class="fa fa-twitter"></a></li>
-                          <li><a href="#" class="fa fa-linkedin"></a></li>
-                      </ul>
-                      <div class="clearfix"></div>
-                  </div> <!-- /.social-icons -->
-              </div> <!-- /.col-md-6 -->
-          </div> <!-- /.row -->
-      </div> <!-- /.container -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6">
+					<div class="top-header-left">
+							<a href="/register">Cadastrar-se</a>
+							<a href="/login">Entrar</a>
+					</div> <!-- /.top-header-left -->
+				</div> <!-- /.col-md-6 -->
+				<div class="col-md-6 col-sm-6">
+					<div class="social-icons">
+						<ul>
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-dribbble"></a></li>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-linkedin"></a></li>
+						</ul>
+						<div class="clearfix"></div>
+					</div> <!-- /.social-icons -->
+				</div> <!-- /.col-md-6 -->
+			</div> <!-- /.row -->
+		</div> <!-- /.container -->
   </div> <!-- /.top-header -->
   <div class="main-header">
-      <div class="container">
-          <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-8">
-                  <div class="logo">
-                      <h1><a href="/">Mercadinho On-Line</a></h1>
-                  </div> <!-- /.logo -->
-              </div> <!-- /.col-md-4 -->
-              <div class="col-md-6 col-sm-6 col-xs-4">                        
-                  <div class="main-menu">
-                      <a href="#" class="toggle-menu">
-                          <i class="fa fa-bars"></i>
-                      </a>
-                      <ul class="menu">
-                          <li><a href="/">Home</a></li>
-                          <li><a href="#">Catalogs</a></li>
-                          <li><a href="#">FAQs</a></li>
-                          <li><a href="#">Policies</a></li>
-                          <li><a href="#">About</a></li>
-                      </ul>
-                  </div> <!-- /.main-menu -->
-              </div> <!-- /.col-md-8 -->
-          </div> <!-- /.row -->
-      </div> <!-- /.container -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-8">
+					<div class="logo">
+						<h1><a href="/">Mercadinho On-Line</a></h1>
+					</div> <!-- /.logo -->
+				</div> <!-- /.col-md-4 -->
+				<div class="col-md-6 col-sm-6 col-xs-4">                        
+					<div class="main-menu">
+						<a href="#" class="toggle-menu">
+								<i class="fa fa-bars"></i>
+						</a>
+						<ul class="menu">
+								<li><a href="/">Home</a></li>
+								<li><a href="#">Catalogs</a></li>
+								<li><a href="#">FAQs</a></li>
+								<li><a href="#">Policies</a></li>
+								<li><a href="#">About</a></li>
+						</ul>
+					</div> <!-- /.main-menu -->
+				</div> <!-- /.col-md-8 -->
+			</div> <!-- /.row -->
+		</div> <!-- /.container -->
   </div> <!-- /.main-header -->
   <div class="main-nav">
-      <div class="container">
-          <div class="row">
-              <div class="col-md-6 col-sm-7">
-                  
-                  <div class="list-menu">
-                      <ul>
-                          <li><a href="/">Home</a></li>
-                          
-                          <li class="dropdown">
-                              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categoria
-                              <span class="caret"></span></a>
-                              <ul class="dropdown-menu">
-                                <% for(let category of categories) { %>
-                                <li>
-                                    <a href="/?categoryId=<%=category.id%>">
-                                        <%=category.name%>
-                                    </a>
-                                </li>
-                                <% } %>                                
-                              </ul>
-                          </li>
-                          <li><a href="product-detail.html">Contato</a></li>
-                      </ul>
-                  </div> <!-- /.list-menu -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-7">
+						
+					<div class="list-menu">
+						<ul>
+							<li><a href="/">Home</a></li>
+							
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categoria
+								<span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<% for(let category of categories) { %>
+									<li>
+										<a href="/?categoryId=<%=category.id%>">
+												<%=category.name%>
+										</a>
+									</li>
+									<% } %>                                
+								</ul>
+							</li>
+							<li><a href="product-detail.html">Contato</a></li>
+						</ul>
+					</div> <!-- /.list-menu -->
 
-              </div> <!-- /.col-md-6 -->
-              <div class="col-md-6 col-sm-5">
-                <div class="notification">
-									<a 
-										href="/access_cart"
-										title="Click para acessar o carrinho!">
-										<span class="glyphicon glyphicon-shopping-cart">
-												<% if(typeof cart != 'undefined') { %>
-													<%=cart.length%> produtos
-												<% } %>
-										</span>
-									</a>                    
-                </div>
-              </div> <!-- /.col-md-6 -->
-          </div> <!-- /.row -->
-      </div> <!-- /.container -->
+				</div> <!-- /.col-md-6 -->
+				<div class="col-md-6 col-sm-5">
+					<div class="notification">
+						<a 
+							href="/access_cart"
+							title="Click para acessar o carrinho!">
+							<span class="glyphicon glyphicon-shopping-cart">
+								<% if(typeof cart != 'undefined') { %>
+										<%=cart.length%> produtos
+								<% } %>
+							</span>
+						</a>                    
+					</div>
+				</div> <!-- /.col-md-6 -->
+			</div> <!-- /.row -->
+		</div> <!-- /.container -->
   </div> <!-- /.main-nav -->
 </header> <!-- /.site-header -->
