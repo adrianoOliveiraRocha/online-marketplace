@@ -10,7 +10,7 @@ var options = {
   port: 3306,
   user: 'adriano',
   password: '453231',
-  database: 'blog',
+  database: 'onlinemarketplace',
   createDatabaseTable: true,
   endConnectionOnClose: true,
   clearExpired: true,
@@ -58,5 +58,5 @@ consign()
   .then('app/control')
   .then('app/utils')
   .into(app);
-  
+
 module.exports = app;

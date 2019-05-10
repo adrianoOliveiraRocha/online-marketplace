@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `onlinemarketplace` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `onlinemarketplace`;
--- MySQL dump 10.13  Distrib 5.7.25, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.26, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: onlinemarketplace
 -- ------------------------------------------------------
--- Server version	5.7.25-0ubuntu0.18.04.2
+-- Server version	5.7.26-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -145,6 +143,7 @@ CREATE TABLE `product` (
   `category` int(11) NOT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `image` varchar(500) DEFAULT NULL,
+  `stock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `category` (`category`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`id`)
@@ -157,8 +156,33 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (14,'Produto 1','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,5.60,'1554286552617_Product.jpg'),(16,'Product 2 ','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,6.50,'1554286897868_Product.jpg'),(17,'Produto 3','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554286919657_Product.jpg'),(18,'Produto 4','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,4.50,'1554286952465_Product.jpg'),(19,'Produto 5','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554286980076_Product.jpg'),(20,'Produto 6','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287002182_Product.jpg'),(21,'Produto 7','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,12.90,'1554287022166_Product.jpg'),(22,'Produto 8','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,5.80,'1554287043899_Product.jpg'),(23,'Produto 9','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',10,4.50,'1554287067008_Product.jpg'),(24,'Produto 10','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554287088160_Product.jpg'),(25,'Produto 11','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287110207_Product.jpg'),(26,'Produto 12','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,23.43,'1554287130384_Product.jpg'),(27,'Produto 13','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554287151627_Product.jpg'),(28,'Produto 14','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',11,5.80,'1554541645569_Product.jpg'),(29,'Produto 15','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541677095_Product.jpg'),(30,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541705613_Product.jpg'),(31,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,4.50,'1554541730992_Product.jpg'),(32,'Produto 17','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541756125_Product.jpg'),(33,'Produto 18','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,12.90,'1554541782850_Product.jpg'),(34,'Produto 19','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,5.60,'1554541810127_Product.jpg'),(35,'Produto 20','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,6.50,'1554541852665_Product.jpg'),(36,'Produto 21','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,5.80,'1554541881336_Product.jpg'),(37,'Produto 22','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,3.90,'1554541917272_Product.jpg'),(38,'Produto 23','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,12.90,'1554541957694_Product.jpg'),(39,'Produto 24','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,5.60,'1554541984513_Product.jpg');
+INSERT INTO `product` VALUES (14,'Produto 1','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,5.60,'1554286552617_Product.jpg',0),(16,'Product 2 ','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,6.50,'1554286897868_Product.jpg',0),(17,'Produto 3','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554286919657_Product.jpg',0),(18,'Produto 4','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,4.50,'1554286952465_Product.jpg',0),(19,'Produto 5','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554286980076_Product.jpg',0),(20,'Produto 6','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287002182_Product.jpg',0),(21,'Produto 7','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,12.90,'1554287022166_Product.jpg',0),(22,'Produto 8','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,5.80,'1554287043899_Product.jpg',0),(23,'Produto 9','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',10,4.50,'1554287067008_Product.jpg',0),(24,'Produto 10','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554287088160_Product.jpg',0),(25,'Produto 11','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287110207_Product.jpg',0),(26,'Produto 12','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,23.43,'1554287130384_Product.jpg',0),(27,'Produto 13','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554287151627_Product.jpg',0),(28,'Produto 14','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',11,5.80,'1554541645569_Product.jpg',0),(29,'Produto 15','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541677095_Product.jpg',0),(30,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541705613_Product.jpg',0),(31,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,4.50,'1554541730992_Product.jpg',0),(32,'Produto 17','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541756125_Product.jpg',0),(33,'Produto 18','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,12.90,'1554541782850_Product.jpg',0),(34,'Produto 19','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,5.60,'1554541810127_Product.jpg',0),(35,'Produto 20','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,6.50,'1554541852665_Product.jpg',0),(36,'Produto 21','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,5.80,'1554541881336_Product.jpg',0),(37,'Produto 22','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,3.90,'1554541917272_Product.jpg',0),(38,'Produto 23','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,12.90,'1554541957694_Product.jpg',0),(39,'Produto 24','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,5.60,'1554541984513_Product.jpg',0);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `expires` int(11) unsigned NOT NULL,
+  `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sessions`
+--
+
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES ('CvbZtHIVSnglGYKEpZfZoyTPtrUwZVJp',1557595001,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true,\"orderImpress\":{\"items\":[{\"price\":5.6,\"quantity\":1,\"subtotal\":5.6,\"productName\":\"Produto 1\"},{\"price\":6.5,\"quantity\":1,\"subtotal\":6.5,\"productName\":\"Product 2 \"},{\"price\":5.8,\"quantity\":1,\"subtotal\":5.8,\"productName\":\"Produto 3\"}],\"order\":{\"orderId\":7,\"date\":\"2019-03-06T03:00:00.000Z\",\"total\":17.9,\"status\":0,\"money\":null,\"userId\":21,\"userEmail\":\"fulane@email.com\",\"address\":\"Av. Lagoa Central\",\"number\":330,\"phone\":\"85-7756-3738\",\"clientName\":\"Fulane Bastos\"}}}');
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -205,4 +229,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-24 14:42:14
+-- Dump completed on 2019-05-10 14:18:09
