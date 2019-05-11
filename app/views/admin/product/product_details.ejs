@@ -51,31 +51,33 @@
         </div>
         <div class="box-body">
           <!-- form start -->
-          <form role="form" 
+          <form role="form"
             action="/edit_product"
             id="form"
             method="POST"
             enctype="multipart/form-data">
 
             <input type="hidden" name="idProduct" id="idProduct" value="<%=product.id%>">
+            <%# I will need of this to delete the image %>
+            <input type="hidden" name="imageName" id="imageName" value="<%=product.image%>">
 
             <div class="box-body">
 
               <div class="form-group">
                 <label for="name">Nome</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="name" name="name" 
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name" name="name"
                   placeholder="Nome do Produto"
-                  required 
+                  required
                   value="<%=product.name.trim()%>">
               </div>
 
               <div class="form-group">
                 <label for="name">Descrição</label>
-                <textarea 
-                  class="form-control" 
+                <textarea
+                  class="form-control"
                   id="description" name="description"
                   placeholder="Escreva uma descrição curta. Máximo de 20 palavras"
                   maxlength="100"
@@ -86,8 +88,8 @@
 
               <div class="form-group">
                 <label for="name">Categoria</label>
-                <select 
-                  class="form-control" 
+                <select
+                  class="form-control"
                   name="category" required>
                 <% for(let category of allCategories) {%>
                   <% if(category.id == product.category) {%>
@@ -101,18 +103,18 @@
 
               <div class="form-group">
                 <label for="name">Preço</label>
-                <input 
-                  type="text" class="form-control" 
-                  id="price" name="price" 
-                  placeholder="Preço" 
+                <input
+                  type="text" class="form-control"
+                  id="price" name="price"
+                  placeholder="Preço"
                   value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%>">
               </div>
 
               <div class="form-group">
                 <label for="name">Estoque</label>
-                <input type="text" class="form-control" id="stock" name="stock" 
+                <input type="text" class="form-control" id="stock" name="stock"
                   placeholder="Estoque"
-                  readonly 
+                  readonly
                   value="<%=product.stock%>">
               </div>
 
@@ -121,14 +123,14 @@
 							<div class="control-group">
 								<label class="control-label" for="image">Imagem</label>
 								<div class="controls">
-								<input class="input-xlarge" name="image" type="file">
+								  <input class="input-xlarge" name="image" type="file">
 								</div>
 							</div>
 							<% } else { %>
               <div class="control-group">
                 <label class="control-label">Imagem</label>
 								<div class="controls">
-								<img src="upload/product/<%=product.image %>" width="240px;">
+                  <img src="upload/product/<%=product.image %>" width="240px;">
 								</div>
               </div>
               <hr>
@@ -142,8 +144,8 @@
             <!-- /.box-body -->
             <hr>
             <div class="box-footer">
-              <button 
-                type="button" onClick="editProduct()" 
+              <button
+                type="button" onClick="editProduct()"
                 class="btn btn-primary">
                 Editar
               </button>
@@ -151,11 +153,11 @@
                 onClick='deleteProduct();'>
                 Delete
               </button>
-              
+
             </div>
           </form>
         </div>
-        
+
         <!-- /.box-body -->
         <div class="box-footer">
           <div class="control-group" id="messages">
@@ -173,7 +175,7 @@
 
   <%-include('./../admin_includes/footer.ejs')%>
 
-  
+
 </div>
 <!-- ./wrapper -->
 

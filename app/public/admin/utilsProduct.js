@@ -17,7 +17,7 @@ function validateProduct() {
     var description = document.getElementById('description').value.trim()
     var price = document.getElementById('price').value
     var quantity = document.getElementById('quantity').value
-    
+
     let errors = []
 
     if (name == '') {
@@ -48,8 +48,8 @@ function validateProduct() {
         </div>
         `
       })
-      document.getElementById('messages').innerHTML = msgErrors     
-      
+      document.getElementById('messages').innerHTML = msgErrors
+
     } else {
       document.getElementById('messages').innerHTML = ''
       // alert('all rigth')
@@ -68,18 +68,19 @@ function editProduct() {
   if (!price) {
     let msg = `
     <div class="alert alert-warning" >
-      Por favor, preencha o campo <strong>preço</strong> corretamente.      
+      Por favor, preencha o campo <strong>preço</strong> corretamente.
     </div>`
     document.getElementById('messages').innerHTML = msg
   } else {
     document.getElementById('messages').innerHTML = ''
     document.getElementById('price').value = price
     document.getElementById('form').submit()
-  }  
+  }
 }
 
 function deleteProduct() {
   const idProduct = document.getElementById('idProduct').value
-  location.href = "/delete_product?idProduct=" + idProduct
+  const imageName = document.getElementById('imageName').value
+  location.href = `/delete_product?idProduct=${idProduct}&imageName=${imageName}`
+  // location.href = "/delete_product?idProduct=" + idProduct
 }
-

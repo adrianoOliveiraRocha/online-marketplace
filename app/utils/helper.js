@@ -14,20 +14,30 @@ function deleteOldeImage(Class, objectId, folder, connect) {
           const fs = require('fs');
           fs.unlink(oldFile, (errOldFile) => {
             if (errOldFile) {
-              throw new Error(`Error trying delete old image of the object (${Class}): ${err}`);
+              console.error(`Error trying delete old image of the object ${err}`);
             } else {
-              console.error('Image deleted with success!');
+              console.log('Image deleted with success!');
             }
-          }); 
+          });
         }
       } catch (error) {
         console.log('This error happen probably because for any \
         reason this object had not a image attached in');
         console.error(error);
-      }     
+      }
 
     }
-  });
+  })
+}
+
+function deleteProductImage(imageName) {
+  const fs = require('fs')
+  let oldImage = __dirname + `/../public/upload/product/${imageName}`
+  fs.unlink(oldImage, (errOldImage) => {
+    if (errOldImage) {
+      console.error(`Error trying delete old image: ${errOldImage}`)
+    }
+  })
 }
 
 function uploadImage(image, folder) {
@@ -41,21 +51,22 @@ function uploadImage(image, folder) {
   return imageName;
 }
 
-function getTotal(cart){    
+function getTotal(cart){
   if(typeof cart != 'undefined') {// I have a shoping cart
     var response = 0
     cart.forEach(product => {
       if(product != null) {
         response += parseFloat(product.subTotal)
-      }        
+      }
     })
     return response
   } else {
     return undefined
-  }    
+  }
 }
 
 
 module.exports.deleteOldeImage = deleteOldeImage
 module.exports.uploadImage = uploadImage
 module.exports.getTotal = getTotal
+module.exports.deleteProductImage = deleteProductImage

@@ -27,15 +27,15 @@ class Item {
       } else {
         stm = stm + `
         (${item.id}, ${getFloat(item.price)}, ${item.quantity}, ${getFloat(item.subtotal)}, ${orderId})`
-      }      
-    }) 
+      }
+    })
 
     connect.query(stm, callback)
 
-  }  
-  
+  }
+
   static getAll(orderId, connect, callback) {
-    
+
     let stm = `
     select item.price as price, item.quantity as quantity,
     item.subtotal as subtotal, product.name as productName
@@ -43,6 +43,14 @@ class Item {
     where item.productId = product.id
     and item.orderId = ${orderId}
     `
+    connect.query(stm, callback)
+  }
+
+  static thisProductIsItem(productId, connect, callback) {
+    let stm = `
+    select count(id) as nItems
+    from item
+    where productId = ${productId}`
     connect.query(stm, callback)
   }
 

@@ -19,7 +19,7 @@ module.exports.insertProduct = (req, res, application) => {
             resolve({
               'product': resultProduct,
               'barcode': barcode
-            })     
+            })
           }
         })
       })
@@ -39,10 +39,10 @@ module.exports.insertProduct = (req, res, application) => {
           }
         })
       })
-      
+
     })
     .then(response => {
-      
+
       if (Object.keys(response.product).length == 0) {
         res.render('admin/product/new_product.ejs', {
           'user': req.session.user,
@@ -58,7 +58,7 @@ module.exports.insertProduct = (req, res, application) => {
         })
         // res.send(response.product)
       }
-      
+
     }).catch(error => {
       console.log(error)
       req.session.error = `Error: ${error}`
@@ -66,7 +66,7 @@ module.exports.insertProduct = (req, res, application) => {
     }).then(() => {
       connect.end()
     })
-        
+
   }
 }
 
@@ -87,18 +87,19 @@ module.exports.insertUnits = function(req, res, application) {
       res.redirect('\admin')
     }
   })
-  
+
 }
 
-module.exports.newProduct = (req, res, application) => {   
+module.exports.newProduct = (req, res, application) => {
 
   var data = req.body
   var imageName = 'null'
-  if (Object.keys(req.files).length > 0) {// image sended
+  console.log(req.files !== null)
+  if (req.files !== null) { // image sended
     const helper = require('./../utils/helper')
     var imageName = helper.uploadImage(req.files.image, 'product')
   }
-  
+
   const Product = application.app.models.Product
   var product = new Product(data, imageName)
   var connect = application.config.connect()
@@ -135,7 +136,7 @@ module.exports.show_products = (req, res, application) => {
 
 module.exports.products_details = (req, res, application) => {
   var connect = application.config.connect()
-  application.app.models.Product.getThis(req.query.idProduct, connect, 
+  application.app.models.Product.getThis(req.query.idProduct, connect,
     (err, result) => {
       connect.end()
       if (err) {
@@ -143,7 +144,7 @@ module.exports.products_details = (req, res, application) => {
         req.session.error = `Error tryong get product: ${err.sqlMessage}`
         res.redirect('\admin')
       } else {
-        getAllCategories(result[0])        
+        getAllCategories(result[0])
       }
   })
 
@@ -162,30 +163,30 @@ module.exports.products_details = (req, res, application) => {
           'allCategories': categories
         })
       }
-    })    
+    })
   }
 
 }
 
 module.exports.editProduct = (req, res, application) => {
-  
+
   var data = req.body
   var imageName = 'null'
   const Product = application.app.models.Product
   var connect = application.config.connect()
-    
+
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper')
-    helper.deleteOldeImage(Product, data.idProduct, 'product', connect)      
+    helper.deleteOldeImage(Product, data.idProduct, 'product', connect)
     var imageName = helper.uploadImage(req.files.image, 'product')
   }
-  
- 
-  Product.edit(data, imageName, connect,  
+
+
+  Product.edit(data, imageName, connect,
     (err, result) => {
     connect.end()
     if(err) {
-      console.error(`Error trying edit the product: ${err.sqlMessage}`)  
+      console.error(`Error trying edit the product: ${err.sqlMessage}`)
       req.session.error = `Error trying edit the product: ${err.sqlMessage}`
       res.redirect('\admin')
     } else {
@@ -197,26 +198,42 @@ module.exports.editProduct = (req, res, application) => {
 
 }
 
-module.exports.delete_product = (req, res, application) => {
-  const idProduct = req.query.idProduct
+module.exports.deleteProduct = (req, res, application) => {
+  const productId = req.query.idProduct
+  const imageName = req.query.imageName
   const Product = application.app.models.Product
-
-  const helper = require('../utils/helper')
   var connect = application.config.connect()
-  helper.deleteOldeImage(Product, idProduct, 'product', connect) 
 
-  Product.delete(idProduct, connect, (err, result) => {
-    connect.end()
-    if(err) {
-      console.error(`Error trying delete the product: ${err.sqlMessage}`)
-      req.session.error = `Error trying delete the product: ${err.sqlMessage}`
-      res.redirect('\admin')
-    } else {      
-      console.log(result)
-      req.session.message = 'Produto deletado com sucesso!'
-      res.redirect('\admin')
-    }
-  }) 
+  function deleteProduct() {
+
+    return new Promise((resolve, reject) => {
+      Product.delete(productId, connect, (err, result) => {
+        connect.end()
+        if (err) {
+          reject(err)
+        } else {
+          // delete old image
+          const helper = require('./../utils/helper')
+          helper.deleteProductImage(imageName)
+          resolve(result)
+        }
+      })
+    })
+
+  }
+
+  deleteProduct().then(result => {
+    console.log(result)
+    req.session.message = 'Produto deletado com sucesso!'
+    res.redirect('\admin')
+  }).catch(error => {
+    console.error(`Error trying delete the product: ${error.sqlMessage}`)
+    req.session.error = `
+      Você não pode deletar esse produto
+      porque ele é ítem de pelo menos um pedido`
+    res.redirect('\admin')
+  })
+
 }
 
 module.exports.lowStock = function(req, res, application) {
@@ -250,5 +267,5 @@ module.exports.lowStockNotification = (req, res, application) => {
         'quantity': Object.keys(result).length
       })
     }
-  })  
+  })
 }

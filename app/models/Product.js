@@ -7,11 +7,11 @@ class Product {
     this.category = data.category
     this.price = data.price
     this.image = image
-    this.quantity = data.quantity        
+    this.quantity = data.quantity
   }
 
   save(connect, callback) {// insert new product
-    let stm = `insert into product (barcode, name, description, category, price, image, stock) 
+    let stm = `insert into product (barcode, name, description, category, price, image, stock)
     values('${this.barcode}', '${this.name}', '${this.description.trim()}', ${this.category},
     ${this.price}, '${this.image}', ${this.quantity})`
     connect.query(stm, callback)
@@ -29,35 +29,35 @@ class Product {
       and stock > 0`
     }
     connect.query(stm, callback)
-    
+
   }
 
   static showProducts(connect, callback) {
     // This method get take all products to show in the admin
-    var stm = `select * from product`    
-    connect.query(stm, callback)    
+    var stm = `select * from product`
+    connect.query(stm, callback)
   }
 
   static getThis(productId, connect, callback) {
     let stm = `select * from product where id = '${productId}'`
-    connect.query(stm, callback) 
+    connect.query(stm, callback)
   }
 
   static edit(data, imageName, connect, callback) {
-    var stm = null   
+    var stm = null
     var name = data.name.replace(/'/g, '"')
     var description = data.description.replace(/'/g, '"')
-    
-    if (imageName != 'null') { 
-      stm = `update product 
+
+    if (imageName != 'null') {
+      stm = `update product
       set name = '${name}',
       description = '${description.trim()}',
       category = ${data.category},
-      price = ${data.price}, 
+      price = ${data.price},
       image = '${imageName}'
       where id = ${data.idProduct}`
     } else {
-      stm = `update product 
+      stm = `update product
       set name = '${name}',
       description = '${description.trim()}',
       category = ${data.category},
@@ -68,8 +68,9 @@ class Product {
     connect.query(stm, callback)
   }
 
-  static delete(idProduct, connect, callback) {
-    const stm = `delete from product where id = ${idProduct}`
+  static delete(productId, connect, callback) {
+    const stm = `delete from product where id = ${productId}`
+    console.log(stm)
     connect.query(stm, callback)
   }
 
@@ -86,7 +87,7 @@ class Product {
 
   static getLowStockProducts(connect, callback) {
     let stm = `
-    select id, name 
+    select id, name
     from product
     where stock < 10`
     connect.query(stm, callback)
@@ -101,7 +102,7 @@ class Product {
     let stm = `select * from product where barcode = '${barcode}'`
     console.log(stm)
     connect.query(stm, callback)
-  }  
+  }
 
   static insertUnits(newStock, connect, productId, callback) {
     let stm = `
@@ -109,7 +110,7 @@ class Product {
     where id = ${productId}`
     connect.query(stm, callback)
   }
-  
+
 }
 
 module.exports = () => {
