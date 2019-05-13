@@ -7,7 +7,7 @@ module.exports.index = (req, res, application) => {
   req.session.categoryId = undefined
 
   var categoryId = req.query.categoryId
-  
+
   if (categoryId === undefined) {
     if(continueThisCategory !== undefined) {
       var newCategoryId = parseInt(continueThisCategory)
@@ -18,7 +18,7 @@ module.exports.index = (req, res, application) => {
   }
 
   var connect = application.config.connect()
-  application.app.models.Product.getAll(connect, categoryId, 
+  application.app.models.Product.getAll(connect, categoryId,
     (errProduct, result) => {
       connect.end()
       if (errProduct) {
@@ -26,15 +26,15 @@ module.exports.index = (req, res, application) => {
         req.session.error = `Error tryong get product: ${errProduct.sqlMessage}`;
         res.redirect('/')
       } else {
-        getAllCategories(result)      
+        getAllCategories(result)
       }
   });
 
   function getAllCategories(products) {
     var connect = application.config.connect()
-    application.app.models.Category.getAll(connect, 
+    application.app.models.Category.getAll(connect,
       (errCategory, categories) => {
-      connect.end()      
+      connect.end()
       if (errCategory) {
         console.error(`Error: ${errCategory.sqlMessage}`);
         req.session.error = `Error tryong get all categories: ${errCategory.sqlMessage}`;
@@ -50,10 +50,10 @@ module.exports.index = (req, res, application) => {
             }
           }
         }
-        
+
         let page = req.query.page
         paginator = application.app.utils.paginator(products, page)
-        
+
         res.render('core/index.ejs', {
           'paginator': paginator,
           'user': req.session.user,
@@ -67,8 +67,8 @@ module.exports.index = (req, res, application) => {
           'money': req.session.money
         })
       }
-    })  
-  }   
+    })
+  }
 }
 
 module.exports.login = (req, res, application) => {
@@ -81,11 +81,11 @@ module.exports.login = (req, res, application) => {
 
     if (req.session.user.admin == 1) { // it is admin
       req.session.message = `Você está logado(a) como ${req.session.user.email}`;
-      res.redirect('/admin'); 
+      res.redirect('/admin');
     } else { // it is not admin
       req.session.message = `Bem-Vindo! Você está logado(a) como ${req.session.user.email}`;
-      res.redirect('/client_area'); 
-    }    
+      res.redirect('/client_area');
+    }
 
   } else { // not loged
     if (req.method == 'GET') {
@@ -93,7 +93,7 @@ module.exports.login = (req, res, application) => {
         'msg': msg,
         'error': error
       });
-    } else {         
+    } else {
       post()
     }
 
@@ -108,7 +108,7 @@ module.exports.login = (req, res, application) => {
         console.error(error.sqlMessage);
         req.session.error = `Error trying verify user: ${error.sqlMessage}`;
         res.redirect(req.originalUrl);
-      } else { 
+      } else {
         if(Object.keys(result).length > 0) {
 
           req.session.user = result[0];
@@ -116,15 +116,15 @@ module.exports.login = (req, res, application) => {
           req.session.loged = true;
 
           if (req.session.user.admin == 1) {
-            res.redirect('/admin')  
+            res.redirect('/admin')
           } else {
             res.redirect('/client_area');
-          }          
+          }
         } else {
           res.render('error404/index', {
             'msg': 'Usuário não encontrado!'
           });
-        }          
+        }
       }
     });
   }
@@ -132,7 +132,7 @@ module.exports.login = (req, res, application) => {
 }
 
 module.exports.register = (req, res, application) => {
-  
+
   var msg = req.session.message
   req.session.message = ''
   var error = req.session.error
@@ -145,7 +145,7 @@ module.exports.register = (req, res, application) => {
   } else {
 
     var data = req.body;
-    
+
     var imageName = 'null';
     if (Object.keys(req.files).length > 0) {// image sended
       const helper = require('./../utils/helper')
@@ -164,7 +164,7 @@ module.exports.register = (req, res, application) => {
         } else {
           response = {
             'userId': resultUser['insertId'],
-            'client': client 
+            'client': client
           }
           resolve(response)
         }
@@ -198,13 +198,13 @@ module.exports.register = (req, res, application) => {
 }
 
 module.exports.add_to_cart = (req, res, application) => {
-  
+
   req.session.categoryId = req.query.categoryId
   if (typeof req.session.cart == 'undefined') { // the cart is created here
     req.session.cart = []
     req.session.money = 0
     var connect = application.config.connect()
-    application.app.models.Product.getThis(req.query.productId, connect, 
+    application.app.models.Product.getThis(req.query.productId, connect,
       (err, result) => {
         connect.end()
         if(err) {
@@ -220,11 +220,11 @@ module.exports.add_to_cart = (req, res, application) => {
           res.redirect('/')
         }
       })
-  } else { // the cart already exists 
-    // test whether the product was added    
+  } else { // the cart already exists
+    // test whether the product was added
     if(!productWasAdded(req.query.productId, req.session.cart)) {
       var connect = application.config.connect()
-      application.app.models.Product.getThis(req.query.productId, connect, 
+      application.app.models.Product.getThis(req.query.productId, connect,
         (err, result) => {
           connect.end()
           if(err) {
@@ -242,7 +242,7 @@ module.exports.add_to_cart = (req, res, application) => {
         })
     } else {
       res.redirect('/');
-    }    
+    }
   }
 
   function productWasAdded(productId, cart) {
@@ -251,17 +251,58 @@ module.exports.add_to_cart = (req, res, application) => {
       if(product.id == productId) {
         resp = true
       }
-    }) 
+    })
     return resp
   }
-  
+
 }
 
 module.exports.access_cart = (req, res) => {
   req.session.message = `
     Você precisa estar logado antes de acessar o carrinho de compras.
-    Se você ainda não é registrado, click em registrar-se. 
+    Se você ainda não é registrado, click em registrar-se.
     É fácil e rápido :-)
   `
   res.redirect('/login')
+}
+
+module.exports.productDetails = (req, res, application) => {
+  const Category = application.app.models.Category
+  const Product = application.app.models.Product
+  const connect = application.config.connect()
+  const productId = req.query.productId
+
+  var getCategpries = new Promise((resolve, reject) => {
+    Category.getAll(connect, (error, categories) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(categories)
+      }
+    })
+  })
+
+  var getProduct = new Promise((resolve, reject) => {
+    Product.getThis(productId, connect, (error, result) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(result[0])
+      }
+    })
+  })
+
+  Promise.all([getCategpries, getProduct])
+  .then(([categories, product]) => {
+    res.render('core/product_details.ejs', {
+      'user': req.session.user,
+      'categories': categories,
+      'product': product
+    })
+  }).catch(error => {
+    console.error(error.sqlMessage);
+    req.session.error = `Error: ${error.sqlMessage}`;
+    res.redirect('/');
+  })
+
 }

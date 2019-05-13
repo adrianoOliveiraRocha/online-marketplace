@@ -28,4 +28,8 @@ module.exports = (application) => {
     application.app.control.core.access_cart(req, res)
   })
 
+  application.get('/core_product_details', (req, res) => {
+    application.app.control.core.productDetails(req, res, application)
+  })
+
 }

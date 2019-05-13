@@ -1,0 +1,10 @@
+.product-description {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.show-name-category {
+  color: red
+}

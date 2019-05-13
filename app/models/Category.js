@@ -1,11 +1,11 @@
 class Category {
-  
+
   constructor(name) {
-    this.name = name.replace(/'/g, '"');    
-  } 
+    this.name = name.replace(/'/g, '"');
+  }
 
   save(connect, callback) {
-    let stm = `insert into category(name) 
+    let stm = `insert into category(name)
     values('${this.name}')`;
     connect.query(stm, callback);
   }
@@ -23,8 +23,8 @@ class Category {
   static edit(data, connect, callback) {
     var stm = null;
     var name = data.name.replace(/'/g, '"'); // it replaces all ocurrences
-    stm = `update category 
-    set name = '${name}' 
+    stm = `update category
+    set name = '${name}'
     where id = ${data.categoryId}`;
     connect.query(stm, callback);
   }

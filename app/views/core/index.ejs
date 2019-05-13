@@ -4,7 +4,7 @@
 <!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-<!-- 
+<!--
 Kool Store Template
 http://www.templatemo.com/preview/templatemo_428_kool_store
 -->
@@ -21,15 +21,15 @@ http://www.templatemo.com/preview/templatemo_428_kool_store
   <!--[if lt IE 7]>
   <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
   <![endif]-->
-  
+
   <%-include('core_includes/header.ejs')%>
 
   <div class="content-section">
 
     <div class="container">
-    
+
       <div class="row-fluid">
-                      
+
         <% if(typeof msg != "undefined" && msg != ""){ %>
         <div class="alert alert-success alert-dismissible">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -43,49 +43,63 @@ http://www.templatemo.com/preview/templatemo_428_kool_store
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h2>Ops! Tivemos um problema técnico. Por favor, entre em contato com o desenvolvedor</h2>
             <p>Desculpe o incoveniente :-(</p>
-            <br>
+            <br/>
             <strong>Error: </strong>
             <%=error%>
         </div>
         <% } %>
-        
-      </div>        
+
+      </div>
 
       <div class="row">
         <% for(product of paginator.content) { %>
         <div class="col-md-3">
           <div class="product-item-1">
-              <div class="product-thumb">
-                <img src="upload/product/<%=product.image %>" width="200px">
-              </div> <!-- /.product-thumb -->
-              <div class="product-content">
-                <h5><a href="#"><%=product.name%></a></h5>
-                <span class="tagline"><%=whatCategory(product.category)%></span>
-                <span class="price"><%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%></span>
-                <p><%=product.description%></p>
-                <p>
-                  <a 
-                  class="btn btn-default"
-                  href="/add_to_cart?productId=<%=product.id%>&categoryId=<%=currentCategory%>">
-                  Colocar no Carrinho
-                  </a>
-                </p>
-
-              </div> <!-- /.product-content -->
+            <div class="product-thumb">
+              <a href="/core_product_details?productId=<%=product.id%>&categoryId=<%=product.category%>"
+                title="Detalhes do Produto">
+              <img src="upload/product/<%=product.image %>" width="180px"/>
+              </a>
+            </div> <!-- /.product-thumb -->
+            <div class="product-content">
+              <h5>
+                <a
+                  href="/core_product_details?productId=<%=product.id%>&categoryId=<%=product.category%>"
+                  title="Detalhes do Produto">
+                  <%=product.name%>
+                </a>
+              </h5>
+              <span class="tagline">
+                <%=whatCategory(product.category)%>
+              </span>
+              <span class="price">
+                <%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%>
+              </span>
+              <p class="product-description">
+                <%=product.description%>
+              </p>
+              <p>
+                <a
+                class="btn btn-primary"
+                href="/add_to_cart?productId=<%=product.id%>&categoryId=<%=currentCategory%>">
+                Colocar no Carrinho
+                </a>
+              </p>
+            </div> <!-- /.product-content -->
           </div> <!-- /.product-item -->
         </div> <!-- /.col-md-3 -->
         <% } %>
       </div> <!-- /.row -->
-      
+
       <% if(paginator.nPages < 7){ %>
       <%-include('core_includes/pagination/few_pages.ejs')%>
       <% } else {%>
       <%-include('core_includes/pagination/many_pages.ejs')%>
       <% } %>
-        
+
     </div> <!-- /.container -->
   </div> <!-- /.content-section -->
-  
+
   <div class="content-section">
     <div class="container">
       May be you will want place something here
@@ -93,7 +107,7 @@ http://www.templatemo.com/preview/templatemo_428_kool_store
   </div> <!-- /.content-section -->
 
   <%-include('core_includes/footer.ejs')%>
-  
+
   <%-include('core_includes/bottom_scripts.ejs')%>
 
 </body>

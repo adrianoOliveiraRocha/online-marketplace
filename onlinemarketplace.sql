@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `onlinemarketplace` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `onlinemarketplace`;
 -- MySQL dump 10.13  Distrib 5.7.26, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: onlinemarketplace
+-- Host: localhost    Database: onlinemarketplace
 -- ------------------------------------------------------
 -- Server version	5.7.26-0ubuntu0.18.04.1
 
@@ -16,6 +14,14 @@ USE `onlinemarketplace`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `onlinemarketplace`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `onlinemarketplace` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `onlinemarketplace`;
 
 --
 -- Table structure for table `_order`
@@ -43,7 +49,6 @@ CREATE TABLE `_order` (
 
 LOCK TABLES `_order` WRITE;
 /*!40000 ALTER TABLE `_order` DISABLE KEYS */;
-INSERT INTO `_order` VALUES (6,21,'2019-03-04',53.7,0,NULL),(7,21,'2019-03-06',17.9,0,NULL),(8,21,'2019-04-20',12.1,0,NULL),(9,21,'2019-04-20',18.7,0,NULL),(10,21,'2019-04-20',22.6,0,NULL),(11,32,'2019-04-24',113.22,0,NULL);
 /*!40000 ALTER TABLE `_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +72,6 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Categoria 1'),(2,'Categoria 2'),(3,'Categoria 3'),(4,'Categoria 4'),(5,'Categoria 5'),(6,'Categoria 6'),(7,'Categoria 7'),(8,'Categoria 8'),(9,'Categoria 9'),(10,'Categoria 10'),(11,'Categoria 11'),(16,'Categoria 12');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +131,6 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (10,14,5.6,3,16.8,6),(11,16,6.5,3,19.5,6),(12,17,5.8,3,17.4,6),(13,14,5.6,1,5.6,7),(14,16,6.5,1,6.5,7),(15,17,5.8,1,5.8,7),(16,14,5.6,1,5.6,8),(17,16,6.5,1,6.5,8),(18,20,5.8,1,5.8,9),(19,21,12.9,1,12.9,9),(20,36,5.8,1,5.8,10),(21,37,3.9,1,3.9,10),(22,38,12.9,1,12.9,10),(23,16,6.5,3,19.5,11),(24,26,23.43,4,93.72,11);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +153,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `category` (`category`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +162,6 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (14,'Produto 1','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,5.60,'1554286552617_Product.jpg',0,NULL),(16,'Product 2 ','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,6.50,'1554286897868_Product.jpg',0,NULL),(17,'Produto 3','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554286919657_Product.jpg',0,NULL),(18,'Produto 4','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,4.50,'1554286952465_Product.jpg',0,NULL),(19,'Produto 5','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554286980076_Product.jpg',0,NULL),(20,'Produto 6','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287002182_Product.jpg',0,NULL),(21,'Produto 7','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,12.90,'1554287022166_Product.jpg',0,NULL),(22,'Produto 8','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,5.80,'1554287043899_Product.jpg',0,NULL),(23,'Produto 9','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',10,4.50,'1554287067008_Product.jpg',0,NULL),(24,'Produto 10','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,6.50,'1554287088160_Product.jpg',0,NULL),(25,'Produto 11','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,5.80,'1554287110207_Product.jpg',0,NULL),(26,'Produto 12','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',8,23.43,'1554287130384_Product.jpg',0,NULL),(27,'Produto 13','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,5.80,'1554287151627_Product.jpg',0,NULL),(28,'Produto 14','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',11,5.80,'1554541645569_Product.jpg',0,NULL),(29,'Produto 15','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541677095_Product.jpg',0,NULL),(30,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541705613_Product.jpg',0,NULL),(31,'Produto 16','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',6,4.50,'1554541730992_Product.jpg',0,NULL),(32,'Produto 17','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,6.50,'1554541756125_Product.jpg',0,NULL),(33,'Produto 18','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',9,12.90,'1554541782850_Product.jpg',0,NULL),(34,'Produto 19','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,5.60,'1554541810127_Product.jpg',0,NULL),(35,'Produto 20','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',3,6.50,'1554541852665_Product.jpg',0,NULL),(36,'Produto 21','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',7,5.80,'1554541881336_Product.jpg',0,NULL),(37,'Produto 22','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,3.90,'1554541917272_Product.jpg',0,NULL),(38,'Produto 23','Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Suspendisse potenti.',1,12.90,'1554541957694_Product.jpg',0,NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +186,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('CvbZtHIVSnglGYKEpZfZoyTPtrUwZVJp',1557595001,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true,\"orderImpress\":{\"items\":[{\"price\":5.6,\"quantity\":1,\"subtotal\":5.6,\"productName\":\"Produto 1\"},{\"price\":6.5,\"quantity\":1,\"subtotal\":6.5,\"productName\":\"Product 2 \"},{\"price\":5.8,\"quantity\":1,\"subtotal\":5.8,\"productName\":\"Produto 3\"}],\"order\":{\"orderId\":7,\"date\":\"2019-03-06T03:00:00.000Z\",\"total\":17.9,\"status\":0,\"money\":null,\"userId\":21,\"userEmail\":\"fulane@email.com\",\"address\":\"Av. Lagoa Central\",\"number\":330,\"phone\":\"85-7756-3738\",\"clientName\":\"Fulane Bastos\"}}}'),('LxBOmh2EeyCpmG8RqgKgHupYvyYXQxn_',1557660581,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\"}'),('NIS_6PftNQzugDVZKhDpvuRo8Qnx4hlp',1557659712,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}'),('WrcG0oxKzVnJa8NMJvR-7guN_3TQrIh5',1557660582,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('ll9ogxv8cx35OGNbvvAntdGA8qZiTTlS',1557668981,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}');
+INSERT INTO `sessions` VALUES ('CvbZtHIVSnglGYKEpZfZoyTPtrUwZVJp',1557595001,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true,\"orderImpress\":{\"items\":[{\"price\":5.6,\"quantity\":1,\"subtotal\":5.6,\"productName\":\"Produto 1\"},{\"price\":6.5,\"quantity\":1,\"subtotal\":6.5,\"productName\":\"Product 2 \"},{\"price\":5.8,\"quantity\":1,\"subtotal\":5.8,\"productName\":\"Produto 3\"}],\"order\":{\"orderId\":7,\"date\":\"2019-03-06T03:00:00.000Z\",\"total\":17.9,\"status\":0,\"money\":null,\"userId\":21,\"userEmail\":\"fulane@email.com\",\"address\":\"Av. Lagoa Central\",\"number\":330,\"phone\":\"85-7756-3738\",\"clientName\":\"Fulane Bastos\"}}}'),('LX7CBysKyy1nYE6uBxrMirAn2jDtd_am',1557831674,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}'),('LxBOmh2EeyCpmG8RqgKgHupYvyYXQxn_',1557660581,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\"}'),('NIS_6PftNQzugDVZKhDpvuRo8Qnx4hlp',1557659712,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}'),('WrcG0oxKzVnJa8NMJvR-7guN_3TQrIh5',1557660582,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('ll9ogxv8cx35OGNbvvAntdGA8qZiTTlS',1557668981,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,14 +216,6 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'admin@email.com','453231','1554230246449_user-male.png',1),(21,'fulane@email.com','fu123','1555066605070_user-female.jpeg',0),(32,'cicrano@email.com','ci123','1556106629398_client_user.png',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'onlinemarketplace'
---
-
---
--- Dumping routines for database 'onlinemarketplace'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -232,4 +226,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-11 10:53:28
+-- Dump completed on 2019-05-13  8:01:26

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+<!--
+Kool Store Template
+http://www.templatemo.com/preview/templatemo_428_kool_store
+-->
+  <meta charset="utf-8">
+  <title>Bem Vindo!</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <%-include('core_includes/top_links.ejs')%>
+
+</head>
+<body>
+  <!--[if lt IE 7]>
+  <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  <![endif]-->
+
+  <%-include('core_includes/header.ejs')%>
+
+  <div class="content-section">
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-8">
+          <div class="product-image">
+            <img
+              src="upload/product/<%=product.image %>"
+              alt="Product image"
+              style="width: 300px;"/>
+          </div> <!-- /.product-image -->
+          <div class="product-information">
+            <h2><%=product.name%></h2>
+            <p><%=product.description%></p>
+            <p class="product-infos">
+              <span>
+                <%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price)%>
+              </span>
+            </p>
+            <p>
+              <a
+              class="btn btn-primary"
+              href="/add_to_cart?productId=<%=product.id%>">
+              Colocar no Carrinho
+              </a>
+            </p>
+          </div> <!-- /.product-information -->
+        </div> <!-- /.col-md-8 -->
+        <div class="col-md-4 col-sm-8">
+          <div class="product-item-2">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <a href="/?categoryId=<%=product.category%>">Outros produtos dessa categoria</a>
+          </div> <!-- /.product-item-2 -->
+          <div class="product-item-2">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <a href="/">Continuar comprando</a>
+          </div> <!-- /.product-item-2 -->
+          <div class="product-item-2">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            <a href="/access_cart">Carrinho de Compras</a>
+          </div> <!-- /.product-item-2 -->
+        </div> <!-- /.col-md-4 -->
+      </div> <!-- /.row -->
+
+    </div> <!-- /.container -->
+  </div> <!-- /.content-section -->
+
+  <div class="content-section">
+    <div class="container">
+      May be you will want place something here
+    </div> <!-- /.container -->
+  </div> <!-- /.content-section -->
+
+  <%-include('core_includes/footer.ejs')%>
+
+  <%-include('core_includes/bottom_scripts.ejs')%>
+
+</body>
+</html>

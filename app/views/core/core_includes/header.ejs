@@ -30,17 +30,17 @@
 						<h1><a href="/">Mercadinho On-Line</a></h1>
 					</div> <!-- /.logo -->
 				</div> <!-- /.col-md-4 -->
-				<div class="col-md-6 col-sm-6 col-xs-4">                        
+				<div class="col-md-6 col-sm-6 col-xs-4">
 					<div class="main-menu">
 						<a href="#" class="toggle-menu">
 								<i class="fa fa-bars"></i>
 						</a>
 						<ul class="menu">
-								<li><a href="/">Home</a></li>
-								<li><a href="#">Catalogs</a></li>
-								<li><a href="#">FAQs</a></li>
-								<li><a href="#">Policies</a></li>
-								<li><a href="#">About</a></li>
+							<li><a href="/">Home</a></li>
+							<li><a href="#">Catalogs</a></li>
+							<li><a href="#">FAQs</a></li>
+							<li><a href="#">Policies</a></li>
+							<li><a href="#">About</a></li>
 						</ul>
 					</div> <!-- /.main-menu -->
 				</div> <!-- /.col-md-8 -->
@@ -51,28 +51,34 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-sm-7">
-						
+
 					<div class="list-menu">
 						<ul>
+
 							<li><a href="/">Home</a></li>
 
-							<li class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categoria
-								<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<% for(let category of categories) { %>									
-									<li>
-										<a 
-											href="/?categoryId=<%=category.id%>">
-											<%=category.name%> 
-										</a>
-									</li>
-									
-									<% } %>                                
-								</ul>
+							<li>
+
+								<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categorias
+									<span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<% for(let category of categories) { %>
+										<li style="border-width: 0px">
+											<a href="/?categoryId=<%=category.id%>">
+											<%=category.name%>
+											</a>
+										</li>
+										<% } %>
+									</ul>
+								</div>
+
+
 							</li>
 
-							
+
+
+
 							<li><a href="product-detail.html">Contato</a></li>
 						</ul>
 					</div> <!-- /.list-menu -->
@@ -80,7 +86,7 @@
 				</div> <!-- /.col-md-6 -->
 				<div class="col-md-6 col-sm-5">
 					<div class="notification">
-						<a 
+						<a
 							href="/access_cart"
 							title="Click para acessar o carrinho!">
 							<span class="glyphicon glyphicon-shopping-cart">
@@ -88,7 +94,7 @@
 										<%=cart.length%> produtos
 								<% } %>
 							</span>
-						</a>                    
+						</a>
 					</div>
 				</div> <!-- /.col-md-6 -->
 			</div> <!-- /.row -->
