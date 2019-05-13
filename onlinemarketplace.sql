@@ -63,7 +63,7 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,6 +72,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (17,'Eletro Eletrônicos'),(18,'Saúde');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +154,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `category` (`category`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,6 +163,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (39,'WD-40','Elimina rangidos expulsa umidade, limpa e protege, solrta peças oxidadas, libera mecanismos travados',17,32.00,'1557745959380_wd-40.webp',23,'7898193140435'),(40,'Repelente OFF','Loção repelente de insetos. Não oleoso. 200ml. Testado dermatologicamente',18,24.50,'1557766057512_off_family_200ml.jpg',30,'7894650130070');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,7 +188,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('CvbZtHIVSnglGYKEpZfZoyTPtrUwZVJp',1557595001,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true,\"orderImpress\":{\"items\":[{\"price\":5.6,\"quantity\":1,\"subtotal\":5.6,\"productName\":\"Produto 1\"},{\"price\":6.5,\"quantity\":1,\"subtotal\":6.5,\"productName\":\"Product 2 \"},{\"price\":5.8,\"quantity\":1,\"subtotal\":5.8,\"productName\":\"Produto 3\"}],\"order\":{\"orderId\":7,\"date\":\"2019-03-06T03:00:00.000Z\",\"total\":17.9,\"status\":0,\"money\":null,\"userId\":21,\"userEmail\":\"fulane@email.com\",\"address\":\"Av. Lagoa Central\",\"number\":330,\"phone\":\"85-7756-3738\",\"clientName\":\"Fulane Bastos\"}}}'),('LX7CBysKyy1nYE6uBxrMirAn2jDtd_am',1557831674,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}'),('LxBOmh2EeyCpmG8RqgKgHupYvyYXQxn_',1557660581,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\"}'),('NIS_6PftNQzugDVZKhDpvuRo8Qnx4hlp',1557659712,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}'),('WrcG0oxKzVnJa8NMJvR-7guN_3TQrIh5',1557660582,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('ll9ogxv8cx35OGNbvvAntdGA8qZiTTlS',1557668981,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}');
+INSERT INTO `sessions` VALUES ('AlUKKR3Zbp1RngBMhflVJXP5IlhH-ftC',1557855626,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\"}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-13  8:01:26
+-- Dump completed on 2019-05-13 14:42:11
