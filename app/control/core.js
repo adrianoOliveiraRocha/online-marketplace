@@ -303,6 +303,53 @@ module.exports.productDetails = (req, res, application) => {
     console.error(error.sqlMessage);
     req.session.error = `Error: ${error.sqlMessage}`;
     res.redirect('/');
+  }).then(() => {
+    connect.end()
+    console.log('connection closed')
+  })
+
+}
+
+module.exports.contact = (req, res, application) => {
+  var msg = req.session.message
+  req.session.message = ''
+  var errorSendMessage = req.session.error
+  req.session.error = ''
+
+  const connect = application.config.connect()
+  const Category = application.app.models.Category
+
+  Category.getAll(connect, (error, result) => {
+    connect.end()
+    if (error) {
+      res.send(`Error trying show contact page: ${error.sqlMessage}`)
+    } else {
+      res.render('core/contact.ejs', {
+        'user': req.session.user,
+        'categories': result,
+        'msg': msg,
+        'error': errorSendMessage
+      })
+    }
+  })
+
+}
+
+module.exports.sendMessage = (req, res, application) => {
+  const Message = application.app.models.Message
+  const connect = application.config.connect()
+  let msg = new Message(req.body)
+  msg.save(connect, (error, result) => {
+    connect.end()
+    if (error) {
+      console.error(`Error trying send message: ${error.sqlMessage}`)
+      req.session.error = `Error trying send message: ${error.sqlMessage}`
+      res.redirect('/contact')
+    } else {
+      console.log(result)
+      req.session.message = 'Mensagem enviada com sucesso!'
+      res.redirect('/contact')
+    }
   })
 
 }

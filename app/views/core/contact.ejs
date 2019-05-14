@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+<!--
+Kool Store Template
+http://www.templatemo.com/preview/templatemo_428_kool_store
+-->
+  <meta charset="utf-8">
+  <title>Bem Vindo!</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <%-include('core_includes/top_links.ejs')%>
+
+</head>
+<body>
+  <!--[if lt IE 7]>
+  <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  <![endif]-->
+
+  <%-include('core_includes/header.ejs')%>
+
+  <div class="content-section">
+
+    <div class="container">
+
+      <div class="row-fluid">
+
+        <% if(typeof msg != "undefined" && msg != ""){ %>
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Mensagem!</strong>
+            <%=msg%>
+        </div>
+        <% } %>
+
+        <% if(typeof error != "undefined" && error != ""){ %>
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h2>Mensagem não enviada</h2>
+            <p>Desculpe o incoveniente :-(</p>
+            <br/>
+            <strong>Error: </strong>
+            <%=error%>
+        </div>
+        <% } %>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-5 col-sm-6">
+          <h3 class="widget-title">Contate-nos</h3>
+          <div class="contact-form">
+            <form name="contactform" id="contactform" action="send_message" method="post">
+              <p>
+                <input name="name" required type="text" id="name" placeholder="Seu Nome">
+              </p>
+              <p>
+                <input name="email" required type="text" id="email" placeholder="Seu Email">
+              </p>
+              <p>
+                <input name="subject" required type="text" id="subject" placeholder="Assunto">
+              </p>
+              <p>
+                <textarea name="message" required id="message" placeholder="Mensagem"></textarea>
+              </p>
+              <input type="submit" class="mainBtn" id="submit" value="Enviar Mensagem">
+            </form>
+          </div> <!-- /.contact-form -->
+        </div>
+        <div class="col-md-7 col-sm-6 map-wrapper">
+          <h3 class="widget-title">Nossa Localização</h3>
+          <div class="mapouter">
+            <div class="gmap_canvas">
+              <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=home&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+              </iframe>Google Maps Generator by
+              <a href="https://www.embedgooglemap.net">
+                embedgooglemap.net
+              </a>
+            </div>
+            <style>
+              .mapouter{position:relative;text-align:right;height:400px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;height:350px;width:600px;}
+            </style>
+          </div>
+        </div>
+
+      </div> <!-- /.row -->
+
+    </div> <!-- /.container -->
+  </div> <!-- /.content-section -->
+
+  <div class="content-section">
+    <div class="container">
+      May be you will want place something here
+    </div> <!-- /.container -->
+  </div> <!-- /.content-section -->
+
+  <%-include('core_includes/footer.ejs')%>
+
+  <%-include('core_includes/bottom_scripts.ejs')%>
+
+</body>
+</html>

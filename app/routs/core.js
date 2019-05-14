@@ -32,4 +32,12 @@ module.exports = (application) => {
     application.app.control.core.productDetails(req, res, application)
   })
 
+  application.get('/contact', (req, res) => {
+    application.app.control.core.contact(req, res, application)
+  })
+
+  application.post('/send_message', (req, res) => {
+    application.app.control.core.sendMessage(req, res, application)
+  })
+
 }
