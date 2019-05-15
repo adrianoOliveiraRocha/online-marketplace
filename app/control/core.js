@@ -338,12 +338,13 @@ module.exports.contact = (req, res, application) => {
 module.exports.sendMessage = (req, res, application) => {
   const Message = application.app.models.Message
   const connect = application.config.connect()
-  let msg = new Message(req.body)
-  msg.save(connect, (error, result) => {
-    connect.end()
+  Message.setValues(req.body)
+
+  Message.save(connect, (error, result) => {
     if (error) {
-      console.error(`Error trying send message: ${error.sqlMessage}`)
-      req.session.error = `Error trying send message: ${error.sqlMessage}`
+      connect.end()
+      console.error(`Error trying save the message: ${error.sqlMessage}`)
+      req.session.error = `Error trying save the message: ${error.sqlMessage}`
       res.redirect('/contact')
     } else {
       console.log(result)
