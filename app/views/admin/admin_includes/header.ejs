@@ -16,6 +16,9 @@
     <div class="navbar-custom-menu">
 
       <ul class="nav navbar-nav">
+        <li class="dropdown notifications-menu" id="unreadyMessages">
+          <%# unready messages %>
+        </li>
 
         <li class="dropdown notifications-menu" id="lowStock">
           <%# products with low stock %>
@@ -26,7 +29,7 @@
           <%# new orders notifications %>
         </li>
         <%# notifications %>
-        
+
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -38,11 +41,11 @@
             <li class="user-header">
               <img src="/upload/user/<%=user.image%>" class="img-circle" alt="/upload/<%=user.image%>">
               <p>
-                <%=user.email%>                
+                <%=user.email%>
               </p>
             </li>
             <!-- Menu Body -->
-            
+
             <!-- Menu Footer-->
             <li class="user-footer">
               <div class="pull-left">
@@ -72,13 +75,13 @@
   function callNotifications() {
 
     setInterval(() => {
-      updatePendingOrders()      
+      updatePendingOrders()
     }, 1000 * 60)
 
     setInterval(() => {
       lowStock()
     }, 1000 * 60)
-    
+
   }
 
   function updateData() {
@@ -87,8 +90,9 @@
       updatePendingOrders()
       lowStock()
       callNotifications()
-    }, 1000)  
+      verifyMessages()
+    }, 1000)
 
   }
-  
+
 </script>

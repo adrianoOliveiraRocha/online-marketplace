@@ -1,5 +1,5 @@
 module.exports.all_orders = (req, res, application) => {
-  const userId = req.session.user.id  
+  const userId = req.session.user.id
   const Order = application.app.models.Order
   var connect = application.config.connect()
   Order.getAll(userId, connect, (error, result) => {
@@ -15,31 +15,31 @@ module.exports.all_orders = (req, res, application) => {
         'allOrders': result
       })
     }
-  }) 
+  })
 
 }
 
 module.exports.order_details = (req, res, application) => {
 
-  const orderId = req.query.orderId 
+  const orderId = req.query.orderId
   const Order = application.app.models.Order
 
   const pOrder = new Promise((resolve, reject) => {
     var connect = application.config.connect()
     Order.getThis(orderId, connect, (error, result) => {
       connect.end()
-      
+
       if (error) {
-        reject(error)        
+        reject(error)
       } else {
-        resolve(result[0])        
+        resolve(result[0])
       }
     })
 
   })
 
   pOrder.then((order) => {
-    
+
    const Item = application.app.models.Item
    var connect = application.config.connect()
     Item.getAll(order.id, connect, (error, result) => {
@@ -57,7 +57,7 @@ module.exports.order_details = (req, res, application) => {
           'items': result,
         })
       }
-    })    
+    })
 
   }).catch(error => {
 
@@ -66,7 +66,7 @@ module.exports.order_details = (req, res, application) => {
     res.redirect('\client_area')
 
   })
-  
+
 }
 
 module.exports.pending_orders = function(req, res, application) {
@@ -106,7 +106,7 @@ module.exports.received_orders = function(req, res, application) {
 }
 
 module.exports.notificationPendingOrder = (req, res, application) => {
-  
+
   const Order = application.app.models.Order
   var connect = application.config.connect()
   Order.getAllPendingOrders(connect, (error, result) => {
@@ -116,14 +116,12 @@ module.exports.notificationPendingOrder = (req, res, application) => {
       res.session.error = `Error trying notificationPendingOrder: ${error.sqlMessage}`
       res.redirect('/admin')
     } else {
-
       res.render('admin/notification_po.ejs', {
         'quantity': result.length,
         'orders': result,
         'fixDate': require('../utils/utilsOrder').fixDate,
         'fixHour': require('../utils/utilsOrder').fixHour,
       })
-    }    
-  })   
+    }
+  })
 }
-
