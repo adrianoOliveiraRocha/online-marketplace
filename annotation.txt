@@ -1,2 +1,3 @@
-* MySQL
-1 - mysqldump --databases onlinemarketplace > onlinemarketplace.sql
+MySQL
+ - mysqldump --databases onlinemarketplace > onlinemarketplace.sql;
+ - alter table message add messageDate timestamp not null default current_timestamp;
