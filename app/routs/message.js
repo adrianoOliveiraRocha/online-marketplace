@@ -18,4 +18,8 @@ module.exports = function (application) {
   application.get('/unreaded_messages', (req, res) => {
     application.app.control.message.unreadedMessages(req, res, application)
   })
+
+  application.get('/message_detail', (req, res) => {
+    application.app.control.message.messageDetail(req, res, application)
+  })
 }

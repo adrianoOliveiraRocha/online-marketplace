@@ -30,6 +30,21 @@ const Message = (function () {
     getAllMessages: function(connect, callback) {
       let stm = `select * from message`
       connect.query(stm, callback)
+    },
+
+    getReadedMessages: function (connect, callback) {
+      let stm = `select * from message where readed = 1`
+      connect.query(stm, callback)
+    },
+
+    getUnreadedMessages: function (connect, callback) {
+      let stm = `select * from message where readed = 0`
+      connect.query(stm, callback)
+    },
+
+    getThisMessage: function(messageId, connect, callback) {
+      let stm = `select * from message where id = ${messageId}`
+      connect.query(stm, callback)
     }
 
   }

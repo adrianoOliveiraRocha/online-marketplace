@@ -12,7 +12,7 @@
 <div class="wrapper">
 
   <%-include('../client_area/client_includes/header.ejs')%>
-  
+
   <!-- Left side column. contains the logo and sidebar -->
   <%-include('../client_area/client_includes/left_side_column.ejs')%>
 
@@ -21,7 +21,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Área de Cliente        
+        Área de Cliente
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Início</a></li>
@@ -31,9 +31,9 @@
 
     <!-- Main content -->
     <section class="content">
-      
+
       <div class="row-fluid">
-                      
+
         <% if(typeof msg != "undefined" && msg != ""){ %>
           <div class="alert alert-success alert-dismissible">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -52,7 +52,7 @@
             <%=error%>
           </div>
         <% } %>
-          
+
       </div>
 
       <div class="row">
@@ -61,11 +61,11 @@
 
             <div class="box-header">
               <h3 class="box-title">Detalhes do Pedido</h3>
-            </div>            
+            </div>
             <!-- /.box-header -->
 
             <div class="box-body">
-              
+
               <div class="row">
 
                 <div class="col-sm-4">
@@ -82,10 +82,10 @@
                     <tr>
                       <td><label>Data</label></td>
                       <td>
-                        <input 
+                        <input
                         style="text-align: center"
                         readonly
-                        value="<%=fixDate(order.orderDate)%>"/>                      
+                        value="<%=fixDate(order.orderDate)%>"/>
                       </td>
                     </tr>
                   </table>
@@ -96,15 +96,15 @@
                     <tr>
                       <td><label>Total</label></td>
                       <td>
-                        <input 
+                        <input
                         style="text-align: center"
-                        readonly 
-                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%>">
+                        readonly
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(order.total)%>" />
                       </td>
                     </tr>
                   </table>
                 </div>
-                       
+
               </div>
 
               <div class="row">
@@ -114,22 +114,22 @@
                       <td><label>Status</label></td>
                       <td>
                         <% if(order.status == 0) {%>
-                        <input 
+                        <input
                         style="text-align: center; color: red"
-                        readonly 
-                        value="Não Atendido">
+                        readonly
+                        value="Não Atendido" />
                         <% } else { %>
-                        <input 
+                        <input
                         style="text-align: center; color: blue"
-                        readonly 
-                        value="Atendido">
+                        readonly
+                        value="Atendido" />
                         <% } %>
                       </td>
                     </tr>
                   </table>
                 </div>
               </div>
-             
+
             </div>
             <!-- /.box-body -->
 
@@ -137,13 +137,13 @@
 
             <!-- Items of the order -->
             <div class="box-body">
-              
+
               <div class="box-header">
                 <h3 class="box-title">Ítens do Pedido</h3>
               </div>
               <hr>
               <% for(let item of items) { %>
-              
+
               <div class="row">
                 <div class="col-sm-4">
                   <div class="box-header">
@@ -152,16 +152,16 @@
                 </div>
               </div>
               <div class="row">
-                
+
                 <div class="col-sm-4">
                   <table class="table">
                     <tr>
                       <td><label>Preço</label></td>
                       <td>
-                        <input 
+                        <input
                         style="text-align: center"
                         readonly
-                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)%>"/>                      
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)%>"/>
                       </td>
                     </tr>
                   </table>
@@ -172,32 +172,32 @@
                     <tr>
                       <td><label>Quantidade</label></td>
                       <td>
-                        <input 
+                        <input
                         style="text-align: center"
-                        readonly 
-                        value="<%=item.quantity%>">
+                        readonly
+                        value="<%=item.quantity%>" />
                       </td>
                     </tr>
                   </table>
                 </div>
 
-                <div class="col-sm-4">                
+                <div class="col-sm-4">
                   <table class="table">
                     <tr>
                       <td><label>Subtoal</label></td>
                       <td>
-                        <input 
-                        readonly 
-                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.subtotal)%>" 
-                        style="text-align: center">
+                        <input
+                        readonly
+                        value="<%=new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.subtotal)%>"
+                        style="text-align: center" />
                       </td>
                     </tr>
                   </table>
                 </div>
-                       
+
               </div>
 
-              
+
 
               <hr>
 
@@ -209,7 +209,7 @@
           </div>
           <!-- /.box -->
 
-          
+
         </div>
         <!-- /.col -->
       </div>
@@ -224,7 +224,7 @@
   <!-- /.content-wrapper -->
   <%-include('../client_area//client_includes/footer.ejs')%>
   <script src="/order/utilsOrder.js"></script>
-  
+
 </div>
 <!-- ./wrapper -->
 
