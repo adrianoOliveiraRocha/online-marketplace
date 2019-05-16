@@ -22,8 +22,8 @@ const Message = (function () {
       connect.query(stm, callback)
     },
 
-    howUnreadMessages: function(connect, callback) {
-      let stm = 'select count(email) as unreadMessages from message'
+    getUnreadedMessages: function(connect, callback) {
+      let stm = 'select * from message where readed = 0'
       connect.query(stm, callback)
     }
 
