@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Todas as Mensagens</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <%-include('./../admin_includes/show_dt/links.ejs')%>
+
+</head>
+<body
+  onload="JavaScript:updateData()"
+  class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <%-include('./../admin_includes/header.ejs')%>
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <%-include('./../admin_includes/left_side_column.ejs')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Todas as Mensagens
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> InÃ­cio</a></li>
+        <li><a href="#">Mensagem</a></li>
+        <li class="active">Todas as Mensagens</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Mensagens</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>E-Mail</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <% for(message of messages) {%>
+                <tr>
+                  <td>
+                    <a href="/message_detail?<%=message.id%>"
+                    title="Detalhes">
+                      <%=message.id%>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="/message_detail?<%=message.id%>"
+                    title="Detalhes">
+                      <%=message.clientName%>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="/message_detail?<%=message.id%>"
+                    title="Detalhes">
+                      <%=message.email%>
+                    </a>
+                  </td>
+                </tr>
+                <% } %>
+
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>E-Mail</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%-include('./../admin_includes/footer.ejs')%>
+
+</div>
+<!-- ./wrapper -->
+
+<%-include('./../admin_includes/show_dt/scripts.ejs')%>
+<script src="/admin/notifications.js"></script>
+</body>
+</html>

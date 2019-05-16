@@ -334,23 +334,3 @@ module.exports.contact = (req, res, application) => {
   })
 
 }
-
-module.exports.sendMessage = (req, res, application) => {
-  const Message = application.app.models.Message
-  const connect = application.config.connect()
-  Message.setValues(req.body)
-
-  Message.save(connect, (error, result) => {
-    if (error) {
-      connect.end()
-      console.error(`Error trying save the message: ${error.sqlMessage}`)
-      req.session.error = `Error trying save the message: ${error.sqlMessage}`
-      res.redirect('/contact')
-    } else {
-      console.log(result)
-      req.session.message = 'Mensagem enviada com sucesso!'
-      res.redirect('/contact')
-    }
-  })
-
-}

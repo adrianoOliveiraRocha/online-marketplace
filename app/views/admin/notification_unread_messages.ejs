@@ -2,7 +2,7 @@
 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
   title="Nova mensagem">
   <i class="fa fa-envelope-o"></i>
-  <span class="label label-success">3</span>
+  <span class="label label-success"><%=quantity%></span>
 </a>
 
 <ul class="dropdown-menu">
@@ -15,7 +15,7 @@
     <% for(let message of messages) {%>
       <li>
         <a href="#">
-          <i class="fa fa-flag text-red"></i>
+          <i class="fa fa-envelope-o text-red"></i>
           <%=fixDate(message.messageDate)%> - <%=fixHour(message.messageDate)%>
         </a>
       </li>
