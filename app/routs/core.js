@@ -36,4 +36,8 @@ module.exports = (application) => {
     application.app.control.core.contact(req, res, application)
   })
 
+  application.post('/newslatter', (req, res) => {
+    application.app.control.core.newslatter(req, res, application)
+  })
+
 }

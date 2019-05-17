@@ -28,7 +28,7 @@ module.exports.index = (req, res, application) => {
       } else {
         getAllCategories(result)
       }
-  });
+  })
 
   function getAllCategories(products) {
     var connect = application.config.connect()
@@ -64,7 +64,8 @@ module.exports.index = (req, res, application) => {
           'currentCategory': categoryId,
           'page': page,
           'cart': req.session.cart,
-          'money': req.session.money
+          'money': req.session.money,
+          'allProducts': products
         })
       }
     })
@@ -333,4 +334,14 @@ module.exports.contact = (req, res, application) => {
     }
   })
 
+}
+
+module.exports.newslatter = (req, res, application) => {
+  console.log(req.query)
+  const email = req.query.email
+  console.log(email)
+  const Newslatter = application.app.models.Newslatter
+  console.log(Newslatter)
+  Newslatter.setEmail(email)
+  res.send(Newslatter.test())
 }
