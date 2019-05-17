@@ -7,7 +7,6 @@ module.exports.sendMessage = (req, res, application) => {
   Message.save(connect, (error, result) => {
     connect.end()
     if (error) {
-      connect.end()
       console.error(`Error trying save the message: ${error.sqlMessage}`)
       req.session.error = `Error trying save the message: ${error.sqlMessage}`
       res.redirect('/contact')
@@ -21,7 +20,6 @@ module.exports.sendMessage = (req, res, application) => {
 }
 
 module.exports.verifyMessage = (req, res, application) => {
-
   const Message = application.app.models.Message
   const connect = application.config.connect()
 
@@ -106,17 +104,42 @@ module.exports.messageDetail = (req, res, application) => {
   const Message = application.app.models.Message
   const connect = application.config.connect()
 
-  Message.getThisMessage(messageId, connect, (error, result) => {
-    if (error) {
-      console.error('Error trying get this messages: ${error.sqlMessage}')
-      req.session.error = 'Não foi possível essa mensagem'
-      res.redirect('\admin')
-    } else {
-      res.render('admin/message/message_detail.ejs', {
-        'user': req.session.user,
-        'message': result[0]
-      })
-    }
+  const showMessage = new Promise((resolve, reject) => {
+    Message.getThisMessage(messageId, connect, (error, result) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(result[0])
+      }
+    })
+  })
+
+  const markAsRead = new Promise((resolve, reject) => {
+    Message.markAsRead(messageId, connect, (error, result) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(result)
+      }
+    })
+  })
+
+  Promise.all([showMessage, markAsRead])
+  .then(([message, marked]) => {
+    console.log(marked)
+    res.render('admin/message/message_detail.ejs', {
+      'user': req.session.user,
+      'fixDate': require('../utils/utilsOrder').fixDate,
+      'fixHour': require('../utils/utilsOrder').fixHour,
+      'message': message
+    })
+  }).catch((error) => {
+    console.error(`Error trying get this messages: ${error.sqlMessage}`)
+    req.session.error = 'Não foi possível recuperar essa mensagem'
+    res.redirect('\admin')
+  }).then(() => {
+    connect.end()
+    console.log('connection closed')
   })
 
 }

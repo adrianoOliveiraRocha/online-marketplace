@@ -45,6 +45,13 @@ const Message = (function () {
     getThisMessage: function(messageId, connect, callback) {
       let stm = `select * from message where id = ${messageId}`
       connect.query(stm, callback)
+    },
+
+    markAsRead: function (messageId, connect, callback) {
+      let stm = `
+        update message set readed = 1
+        where id = ${messageId}`
+      connect.query(stm, callback)
     }
 
   }

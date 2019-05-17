@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Ărea Administrativa</title>
+  <title>Área Administrativa</title>
 
   <%-include('../admin_includes/index/links.ejs')%>
 
@@ -42,10 +42,96 @@
 
           <div class="product-information">
             <h2>Detalhes da Mensagem</h2>
-          </div> <!-- /.product-information -->
+          </div>
+
         </div> <!-- /.col-md-8 -->
 
       </div> <!-- /.row -->
+
+      <div class="row">
+        <div class="col-md-5">
+          <table class="table">
+
+            <tr>
+              <th>
+                <label class="form-control" style="text-align: center">
+                  Enviado Por
+                </label>
+              </th>
+              <td>
+                <input class="form-control"
+                  type="text" readonly
+                  style="text-align: center"
+                  value="<%=message.clientName%>">
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label class="form-control" style="text-align: center">
+                  Email
+                </label>
+              </th>
+              <td>
+                <input class="form-control"
+                  type="email" readonly
+                  style="text-align: center"
+                  value="<%=message.email%>">
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label class="form-control" style="text-align: center">
+                  Assunto
+                </label>
+              </th>
+              <td>
+                <input class="form-control"
+                  type="text" readonly
+                  style="text-align: center"
+                  value="<%=message.subject%>">
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label class="form-control" style="text-align: center">
+                  Data
+                </label>
+              </th>
+              <td>
+                <input class="form-control"
+                  type="text" readonly
+                  style="text-align: center"
+                  value="<%=fixDate(message.messageDate)%>">
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label class="form-control" style="text-align: center">
+                  Hora
+                </label>
+              </th>
+              <td>
+                <input class="form-control"
+                  type="text" readonly
+                  style="text-align: center"
+                  value="<%=fixHour(message.messageDate)%>">
+              </td>
+            </tr>
+
+          </table>
+        </div> <!-- /.col-md-5" -->
+        <div class="col-md-5">
+          <div class="form-group">
+            <textarea class="form-control" rows="12" readonly> <%=message.message%> </textarea>
+
+
+          </div>
+        </div>
+      </div> <!-- row -->
 
     </div> <!-- /.container -->
   </div> <!-- /.content-section -->
