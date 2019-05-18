@@ -337,11 +337,42 @@ module.exports.contact = (req, res, application) => {
 }
 
 module.exports.newslatter = (req, res, application) => {
-  console.log(req.query)
-  const email = req.query.email
-  console.log(email)
-  const Newslatter = application.app.models.Newslatter
-  console.log(Newslatter)
-  Newslatter.setEmail(email)
-  res.send(Newslatter.test())
+  let email = req.body.email
+  const newslatter = new application.app.models.Newslatter(email)
+  const connect = application.config.connect()
+  newslatter.save(connect, (error, result) => {
+    if (error) {
+      console.log(`Error trying send message: ${error.sqlMessage}`)
+    } else {
+      console.log(result)
+      req.session.message = 'Obrigado por se inscrever na nossa newslatter :-)'
+      res.redirect('/')
+    }
+  })
+}
+
+module.exports.aboutUs = (req, res, application) => {
+  if (req.method == 'GET') {
+    const Category = application.app.models.Category
+    const connect = application.config.connect()
+
+    Category.getAll(connect, (error, categories) => {
+      connect.end()
+      if (error) {
+        console.log(`Error: ${error.sqlMessage}`)
+        req.session.error = `
+        Tivemos um problema técnico.
+        Já estamos trabalhando para resolvê - lo.Agradecemos sua compreensão
+        `
+        res.redirect('/')
+      } else {
+        res.render('core/aboutUs.ejs', {
+          'user': req.session.user,
+          'categories': categories
+        })
+      }
+    })
+  } else {
+    res.send('This method is post')
+  }
 }

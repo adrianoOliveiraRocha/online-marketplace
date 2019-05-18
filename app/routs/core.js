@@ -40,4 +40,8 @@ module.exports = (application) => {
     application.app.control.core.newslatter(req, res, application)
   })
 
+  application.get('/about_us', (req, res) => {
+    application.app.control.core.aboutUs(req, res, application)
+  })
+
 }

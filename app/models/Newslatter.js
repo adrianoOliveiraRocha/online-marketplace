@@ -1,19 +1,12 @@
-const Newslatter = (function() {
-  var email
-  return {
-    setEmail: function(test) {
-      console.log(test)
-      email = test
-    },
-    save: function(connect, callback) {
-      let stm = `insert into newslatter (email) values('${email}')`
-      connect.query(stm, callback)
-    },
+function Newslatter(email) {
+  this.email = email
+}
 
-    test: function() {
-      return email
-    }
-  }
-})()
+Newslatter.prototype.save = function (connect, callback) {
+  let stm = `insert into newslatter(email) values('${this.email}')`
+  connect.query(stm, callback)
+}
 
-module.exports = Newslatter
+module.exports = () => {
+  return Newslatter
+}
