@@ -1,3 +1,7 @@
 MySQL
  - sudo mysqldump --databases onlinemarketplace > onlinemarketplace.sql;
  - alter table message add messageDate timestamp not null default current_timestamp;
+ - CREATE TABLE [IF NOT EXISTS] table_name(
+      column_list
+    ) ENGINE=storage_engine
+ - update nameTable set nameColumn = value

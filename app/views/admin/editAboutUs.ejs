@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Área Administrativa</title>
+  <link href="/admin/quill/css/quill.snow.css" rel="stylesheet">
+  <%-include('admin_includes/index/links.ejs')%>
+
+</head>
+
+<!-- the function updateData() is in header-->
+<body
+  onload="JavaScript:updateData()"
+  class="hold-transition skin-blue sidebar-mini">
+
+<div class="wrapper">
+
+  <%-include('admin_includes/header.ejs')%>
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <%-include('admin_includes/left_side_column.ejs')%>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Painel de Controle
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Início</a></li>
+        <li class="active">Painel de Controle</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Quam Somos Nós</h3>
+        </div>
+        <div class="box-body">
+
+          <div id="editor">
+
+          </div>
+          <form
+            action="save_about_us"
+            method="post" id="formSend">
+            <input type="hidden" id="keepText" name="dataAboutUs">
+          </form>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+        <div class="control-group">
+          <div class="controls">
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary"
+              onclick="save()">
+                Salvar
+              </button>
+              <button type="button" class="btn btn-warning"
+              onclick="clean()">
+                Limpar
+              </button>
+              <a class="btn btn-danger" href="/admin">
+                Cancelar
+              </a>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
+      <script src="/admin/quill/js/quill.js"></script>
+      <!-- text editor -->
+      <script type="text/javascript">
+
+        var toolbarOptions = [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{'header': 1}, {'header': 2}],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'script': 'sub'}, { 'script': 'super' }],
+          [{ 'indent': '-1'}, { 'indent': '+1' }],
+          [{ 'direction': 'rtl' }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+          ['clean']
+        ]
+
+        var quill = new Quill('#editor', {
+          modules: {
+            toolbar: toolbarOptions
+          },
+          theme: 'snow'
+        })
+
+        function save() {
+          var data = quill.root.innerHTML
+          var keepText = document.getElementById("keepText")
+          keepText.value = data
+          var formSend = document.getElementById("formSend")
+          formSend.submit()
+        }
+
+        function clean() {
+          quill.root.innerHTML = null
+        }
+
+      </script>
+
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+  <%-include('./admin_includes/footer.ejs')%>
+
+</div>
+<!-- ./wrapper -->
+
+<%-include('admin_includes/index/scripts.ejs')%>
+
+<script src="/admin/notifications.js"></script>
+
+
+<!-- <script src="/admin/quill/main.js"></script> -->
+
+</body>
+</html>

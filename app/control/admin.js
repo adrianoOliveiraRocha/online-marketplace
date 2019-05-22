@@ -1,4 +1,4 @@
-// helpers 
+// helpers
 function editProfile(req, res, application) {
   var data = req.body;
   var imageName = null;
@@ -7,18 +7,18 @@ function editProfile(req, res, application) {
   if (Object.keys(req.files).length > 0) {// image sended
     const helper = require('./../utils/helper');
     var connect = application.config.connect()
-    helper.deleteOldeImage(User, data.userId, 'user', connect);      
+    helper.deleteOldeImage(User, data.userId, 'user', connect);
     imageName = helper.uploadImage(req.files.image, 'user');
   }
   var connect = application.config.connect()
-  User.update(req.session.user, data, connect, imageName, 
+  User.update(req.session.user, data, connect, imageName,
     (error, result) => {
     connect.end()
     if (error) {
       res.send(error.sqlMessage);
     } else {
       console.log(result);
-      updateSession();        
+      updateSession();
     }
   });
 
@@ -35,20 +35,20 @@ function editProfile(req, res, application) {
         res.redirect('\admin');
       }
     });
-  }  
+  }
 }
-// end helpers 
+// end helpers
 
 module.exports.index = (req, res, application) => {
   var message = req.session.message;
   req.session.message = '';
   var error = req.session.error;
   req.session.error = '';
-  
+
   res.render('admin/index.ejs', {
     'msg': message,
-    'user': req.session.user,  
-    'error': error  
+    'user': req.session.user,
+    'error': error
   });
 }
 
@@ -60,15 +60,15 @@ module.exports.logout = (req, res, application) => {
 module.exports.profile = (req, res, application) => {
   if (req.method == 'GET') {
     res.render('admin/profile.ejs', {
-      'user': req.session.user,           
+      'user': req.session.user,
     });
   } else {
-    editProfile(req, res, application);    
-  }  
+    editProfile(req, res, application);
+  }
 }
 
 module.exports.all_orders = function(req, res, application) {
-  
+
   const Order = application.app.models.Order
   var connect = application.config.connect()
   Order.getAllOrders(connect, (error, result) => {
@@ -88,12 +88,12 @@ module.exports.all_orders = function(req, res, application) {
 }
 
 module.exports.pending_orders = function(req, res, application) {
-  
+
   const Order = application.app.models.Order
   var connect = application.config.connect()
   Order.getAllPendingOrders(connect, (error, result) => {
     connect.end()
-    
+
     if (error) {
       console.error(error.sqlMessage)
       req.session.error = `Error trying get all orders: ${error.sqlMessage}`
@@ -130,25 +130,25 @@ module.exports.received_orders = function(req, res, application) {
 }
 
 module.exports.orderDetails = function(req, res, application) {
-  
+
   const orderId = req.query.orderId
   const Order = application.app.models.Order
   const Item = application.app.models.Item
   var connect = application.config.connect()
 
   function getOrderDetails() {
-    return new Promise((resolve, reject) => {      
+    return new Promise((resolve, reject) => {
       Order.orderDetails(orderId, connect, (error, result) => {
         if (error) {
           reject(error)
         } else {
-          resolve(result[0])//I have informations about the order and the client        
+          resolve(result[0])//I have informations about the order and the client
         }
       })
     })
   }
   getOrderDetails()
-  .then(order => {  
+  .then(order => {
     return new Promise((resolve, reject) => {
       Item.getAll(order.orderId, connect, (error, items) => {
         if (error) {
@@ -161,9 +161,9 @@ module.exports.orderDetails = function(req, res, application) {
           resolve(response)
         }
       })
-    })     
+    })
   })
-  .then((response) => { 
+  .then((response) => {
     req.session.orderImpress = response
     res.render('admin/order/order_details.ejs', {
       'user': req.session.user,
@@ -183,7 +183,7 @@ module.exports.orderDetails = function(req, res, application) {
     connect.end()
     console.log('connection closed')
   })
-  
+
 }
 
 module.exports.fulfillOrder = function(req, res) {
@@ -193,7 +193,7 @@ module.exports.fulfillOrder = function(req, res) {
     'items': fulfillOrder.items,
     'fixDate': require('../utils/utilsOrder').fixDate,
     'fixHour': require('../utils/utilsOrder').fixHour,
-    'getRest': require('../utils/utilsOrder').getRest    
+    'getRest': require('../utils/utilsOrder').getRest
   })
 }
 
@@ -210,5 +210,17 @@ module.exports.done = function(req, res, application) {
       req.session.message = `O pedido ${fulfillOrder.order.orderId} foi marcado como atendido`
       res.redirect('/admin')
     }
-  })  
+  })
+}
+
+module.exports.editAboutUs = (req, res, application) => {
+  res.render('admin/editAboutUs.ejs', {
+    'user': req.session.user
+  })
+}
+
+module.exports.saveAboutUs = (req, res, application) => {
+  const data = req.body.dataAboutUs
+  const EditableInformation = application.app.models.EditableInformation  
+
 }
