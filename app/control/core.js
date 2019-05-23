@@ -352,27 +352,43 @@ module.exports.newslatter = (req, res, application) => {
 }
 
 module.exports.aboutUs = (req, res, application) => {
-  if (req.method == 'GET') {
-    const Category = application.app.models.Category
-    const connect = application.config.connect()
+  const Category = application.app.models.Category
+  const connect = application.config.connect()
 
+  var getCategories = new Promise((resolve, reject) => {
     Category.getAll(connect, (error, categories) => {
-      connect.end()
       if (error) {
-        console.log(`Error: ${error.sqlMessage}`)
-        req.session.error = `
-        Tivemos um problema técnico.
-        Já estamos trabalhando para resolvê - lo.Agradecemos sua compreensão
-        `
-        res.redirect('/')
+        reject(error)
       } else {
+        resolve(categories)
+      }
+    })
+  })
+
+  getCategories.then(categories => {
+    const fs = require('fs')
+    var path = __dirname + "/../public/json-files/about-us.json"
+    let rawData = fs.readFile(path, (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        const aboutUs = JSON.parse(data)
+        console.log(aboutUs);
         res.render('core/aboutUs.ejs', {
           'user': req.session.user,
           'categories': categories
         })
       }
     })
-  } else {
-    res.send('This method is post')
-  }
+  }).catch(err => {
+    console.log(`Error: ${error.sqlMessage}`)
+    req.session.error = `
+    Tivemos um problema técnico.
+    Já estamos trabalhando para resolvê - lo.Agradecemos sua compreensão
+    `
+    res.redirect('/')
+  }).then(() => {
+    connect.end()
+  })
+
 }

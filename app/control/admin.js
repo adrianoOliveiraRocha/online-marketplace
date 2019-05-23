@@ -221,6 +221,18 @@ module.exports.editAboutUs = (req, res, application) => {
 
 module.exports.saveAboutUs = (req, res, application) => {
   const data = req.body.dataAboutUs
-  const EditableInformation = application.app.models.EditableInformation  
+  const fs = require('fs')
 
+  setTimeout(() => {
+    let aboutUs = {
+      "type": "aboutUs",
+      "data": data
+    }
+    let dataStringfy = JSON.stringify(aboutUs)
+    let path = __dirname + '/../public/json-files/about-us.json'
+    fs.writeFileSync(path, dataStringfy)
+  }, 2000)
+
+  res.redirect('/admin')
+  
 }
