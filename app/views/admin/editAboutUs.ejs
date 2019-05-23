@@ -41,11 +41,13 @@
         <div class="box-header with-border">
           <h3 class="box-title">Quam Somos Nós</h3>
         </div>
+
         <div class="box-body">
 
           <div id="editor">
 
           </div>
+
           <form
             action="save_about_us"
             method="post" id="formSend">
@@ -80,6 +82,13 @@
       <script src="/admin/quill/js/quill.js"></script>
       <!-- text editor -->
       <script type="text/javascript">
+        function htmlDecode(input){
+          var div = document.createElement('div');
+          div.innerHTML = input
+          return div
+        }
+        var divContent = htmlDecode("<%=aboutUs.data%>")
+        document.getElementById("editor").innerHTML = divContent.childNodes[0].nodeValue
 
         var toolbarOptions = [
           ['bold', 'italic', 'underline', 'strike'],

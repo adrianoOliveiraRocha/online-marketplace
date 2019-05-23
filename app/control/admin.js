@@ -214,9 +214,23 @@ module.exports.done = function(req, res, application) {
 }
 
 module.exports.editAboutUs = (req, res, application) => {
-  res.render('admin/editAboutUs.ejs', {
-    'user': req.session.user
+  const fs = require('fs')
+  let path = __dirname + "/../public/json-files/about-us.json"
+  var rawData = fs.readFile(path, (err, content) => {
+    if (err) {
+      console.error(err)
+      var errorMessage = "Não foi possível recuperar os dados: " + err
+      req.session.error = errorMessage
+      res.redirect('/admin')
+    } else {
+      var aboutUs = JSON.parse(content)
+      res.render('admin/editAboutUs.ejs', {
+        'user': req.session.user,
+        'aboutUs': aboutUs
+      })
+    }
   })
+
 }
 
 module.exports.saveAboutUs = (req, res, application) => {
@@ -234,5 +248,5 @@ module.exports.saveAboutUs = (req, res, application) => {
   }, 2000)
 
   res.redirect('/admin')
-  
+
 }
