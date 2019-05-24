@@ -48,5 +48,8 @@ module.exports = (application) => {
     application.app.control.admin.saveAboutUs(req, res, application)
   })
 
+  application.get('/edit_logo', (req, res) => {
+    application.app.control.admin.editLogo(req, res, application)
+  })
 
 }

@@ -368,15 +368,15 @@ module.exports.aboutUs = (req, res, application) => {
   getCategories.then(categories => {
     const fs = require('fs')
     var path = __dirname + "/../public/json-files/about-us.json"
-    let rawData = fs.readFile(path, (err, data) => {
+    let rawData = fs.readFile(path, (err, content) => {
       if (err) {
         console.error(err);
       } else {
-        const aboutUs = JSON.parse(data)
-        console.log(aboutUs);
+        const aboutUs = JSON.parse(content)
         res.render('core/aboutUs.ejs', {
           'user': req.session.user,
-          'categories': categories
+          'categories': categories,
+          'aboutUs': aboutUs
         })
       }
     })

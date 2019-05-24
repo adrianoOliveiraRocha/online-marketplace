@@ -250,3 +250,9 @@ module.exports.saveAboutUs = (req, res, application) => {
   res.redirect('/admin')
 
 }
+
+module.exports.editLogo = (req, res, application) => {
+  res.render('admin/editLogo.ejs', {
+    'user': req.session.user
+  });
+}

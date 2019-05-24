@@ -32,43 +32,32 @@ http://www.templatemo.com/preview/templatemo_428_kool_store
 
         <div class="col-md-8">
           <div id="aboutUsContent">
-            <p>Sobre nós</p>          
-            <p>
-            JavaScript (JS) is a lightweight interpreted or just-in-time 
-            compiled programming language with first-class functions.
-            While it is most well-known as the scripting language for Web 
-            pages, many non-browser environments also use it, such as Node.js,
-            Apache CouchDB and Adobe Acrobat.
-            </p>
-            <p>
-            JavaScript (JS) is a lightweight interpreted or just-in-time 
-            compiled programming language with first-class functions.
-            While it is most well-known as the scripting language for Web 
-            pages, many non-browser environments also use it, such as Node.js,
-            Apache CouchDB and Adobe Acrobat.
-            </p>
-            <p>
-            JavaScript (JS) is a lightweight interpreted or just-in-time 
-            compiled programming language with first-class functions.
-            While it is most well-known as the scripting language for Web 
-            pages, many non-browser environments also use it, such as Node.js,
-            Apache CouchDB and Adobe Acrobat.
-            </p>
+            
           </div>
+          <!-- aboutUsContent -->
+          <script type="text/javascript">
+          function htmlDecode(input){
+            var div = document.createElement('div');
+            div.innerHTML = input
+            return div
+          }
+          var divContent = htmlDecode("<%=aboutUs.data%>")
+          document.getElementById("aboutUsContent").innerHTML = divContent.childNodes[0].nodeValue
+          </script>
         </div> <!-- /.col-md-8 -->
         <div class="col-md-4 col-sm-8">
           <div class="product-item-2">
             <span class="glyphicon glyphicon-chevron-right"></span>
             <a href="/">Home</a>
-          </div> 
+          </div>
           <div class="product-item-2">
             <span class="glyphicon glyphicon-chevron-right"></span>
             <a href="contact/">Contate-nos</a>
-          </div> 
+          </div>
           <div class="product-item-2">
             <span class="glyphicon glyphicon-chevron-right"></span>
             <a href="/login">Entrar</a>
-          </div> 
+          </div>
           <div class="product-item-2">
             <span class="glyphicon glyphicon-chevron-right"></span>
             <a href="/register">Cadastrar-se</a>

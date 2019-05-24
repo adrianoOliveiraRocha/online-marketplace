@@ -82,6 +82,7 @@
       <script src="/admin/quill/js/quill.js"></script>
       <!-- text editor -->
       <script type="text/javascript">
+        // Place the content in the editor
         function htmlDecode(input){
           var div = document.createElement('div');
           div.innerHTML = input
@@ -89,11 +90,10 @@
         }
         var divContent = htmlDecode("<%=aboutUs.data%>")
         document.getElementById("editor").innerHTML = divContent.childNodes[0].nodeValue
-
+        // Create toolbar
         var toolbarOptions = [
           ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote', 'code-block'],
-          [{'header': 1}, {'header': 2}],
+          ['blockquote'],
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
           [{ 'script': 'sub'}, { 'script': 'super' }],
           [{ 'indent': '-1'}, { 'indent': '+1' }],
