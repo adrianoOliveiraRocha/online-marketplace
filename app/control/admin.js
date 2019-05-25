@@ -252,7 +252,21 @@ module.exports.saveAboutUs = (req, res, application) => {
 }
 
 module.exports.editLogo = (req, res, application) => {
-  res.render('admin/editLogo.ejs', {
-    'user': req.session.user
-  });
+  const fs = require('fs')
+  const path = __dirname + "/../public/system-images/mylogo.svg"
+
+  fs.readFile(path, (error, content) => {
+    if (error) {
+      res.render('admin/editLogo.ejs', {
+        'user': req.session.user,
+        'imageExists': false
+      });
+    } else {
+      res.render('admin/editLogo.ejs', {
+        'user': req.session.user,
+        'imageExists': true
+      });
+    }
+  })
+
 }

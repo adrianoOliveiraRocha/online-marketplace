@@ -8,7 +8,6 @@
   <%-include('admin_includes/index/links.ejs')%>
 
 </head>
-
 <!-- the function updateData() is in header-->
 <body
   onload="JavaScript:updateData()"
@@ -43,17 +42,36 @@
         </div>
 
         <div class="box-body">
+          <% if(imageExists) { %>
           <div class="row">
-            <div class="col-md-6">
-              <label for="">Imagem Atual</label>
+            <div class="col-md-4 form-group">
+              <label for="">Imagem Atual: </label>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5 form-group">
               <img src="/system-images/mylogo.svg"
-              alt=" My Logo " width="200px">
+              alt=" My Logo ">
             </div>
           </div>
-
-
+          <hr>
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label for="">Substituir Imagem</label>
+            </div>
+            <div class="col-md-5 form-group">
+              <input type="file" value="newImage">
+            </div>
+          </div>
+          <hr>
+          <% } else { %>
+            <div class="row">
+              <div class="col-md-4 form-group">
+                <label for="">Inserir Imagem</label>
+              </div>
+              <div class="col-md-5 form-group">
+                <input type="file" value="newImage">
+              </div>
+            </div>
+          <% } %>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -61,11 +79,14 @@
           <div class="controls">
             <div class="btn-group">
               <button type="submit" class="btn btn-primary"
-              onclick="">
+                onclick="">
                 Editar
               </button>
-              <a class="btn btn-danger" href="/admin">
+              <a class="btn btn-warning" href="/admin">
                 Cancelar
+              </a>
+              <a class="btn btn-danger" href="/delete_logo">
+                Deletar
               </a>
             </div>
           </div>
@@ -74,8 +95,6 @@
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
-
-
 
     </section>
     <!-- /.content -->
