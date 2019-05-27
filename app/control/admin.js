@@ -251,11 +251,25 @@ module.exports.saveAboutUs = (req, res, application) => {
 
 }
 
-module.exports.editLogo = (req, res, application) => {
- res.render('admin/editLogo.ejs', {
-   'user': req.session.user,
-   'imageExists': true
- })  
+module.exports.editLogo = (req, res) => {
+  const fs = require('fs')
+  fs.readdir(__dirname + '/../public/system-images', (error, response) => {
+    if (error) {
+      req.session.error = "Não foi possível recuperar a imagem"
+      res.redirect('/admin')
+    } else {
+      var fileName
+      Object.values(response).forEach(item => {
+        if (item.includes('mylogo')) {
+          fileName = item
+        }
+        res.render('admin/editLogo.ejs', {
+          'user': req.session.user,
+          'fileName': fileName 
+        })
+      })
+    }
+  })  
 }
 
 module.exports.saveLogo = (req, res) => {

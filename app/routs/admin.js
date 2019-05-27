@@ -49,7 +49,7 @@ module.exports = (application) => {
   })
 
   application.get('/edit_logo', (req, res) => {
-    application.app.control.admin.editLogo(req, res, application)
+    application.app.control.admin.editLogo(req, res)
   })
 
   application.post('/save_logo', (req, res) => {
