@@ -252,21 +252,74 @@ module.exports.saveAboutUs = (req, res, application) => {
 }
 
 module.exports.editLogo = (req, res, application) => {
-  const fs = require('fs')
-  const path = __dirname + "/../public/system-images/mylogo.svg"
+ res.render('admin/editLogo.ejs', {
+   'user': req.session.user,
+   'imageExists': true
+ })  
+}
 
-  fs.readFile(path, (error, content) => {
-    if (error) {
-      res.render('admin/editLogo.ejs', {
-        'user': req.session.user,
-        'imageExists': false
-      });
-    } else {
-      res.render('admin/editLogo.ejs', {
-        'user': req.session.user,
-        'imageExists': true
-      });
+module.exports.saveLogo = (req, res) => {
+  // new logo
+  var image = null
+  var pathNewLogo = null
+  if (req.files != null) {
+    image = req.files.newLogo 
+    var imageName = image.name   
+    var extension = imageName.split(".").pop()
+    imageName = "mylogo." + extension    
+    pathNewLogo = __dirname + "/../public/system-images/" + imageName
+    changeLogo() // because the image was sended the logo going to be changed
+  } else {
+    req.session.message = "Você precisa enviar uma imagem para trocar sua logo"
+    res.redirect("/admin")
+  }
+  
+  function changeLogo() {
+    // get current file
+    const fs = require('fs')
+    function searchDir() {
+      return new Promise((resolve, reject) => {
+        fs.readdir(__dirname + '/../public/system-images', (error, files) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve(files)
+          }
+        })
+      })
     }
-  })
+
+    async function searchFile() {
+      const allFiles = await searchDir()
+      var currentFieleName = null
+      Object.values(allFiles).forEach(item => {
+        if (item.includes("mylogo")) {
+          currentFieleName = item
+        }
+      })
+      return currentFieleName
+    }
+
+    searchFile().then(currentFieleName => {
+      var pathCurrentLogo = __dirname + "/../public/system-images/" + currentFieleName
+      fs.unlink(pathCurrentLogo, errorDeleting => {
+        if (errorDeleting) {
+          console.error(errorDeleting)
+        } else { // old logo was deleted
+          image.mv(pathNewLogo, errorUploading => {
+            if (errorUploading) {
+              console.error(errorUploading)
+            } else {
+              req.session.msg = "Sua logo foi atualizada com sucesso!"
+              res.redirect("/admin")
+            }
+          })
+        }
+      })
+
+    }).catch(error => {
+      res.send(error)
+    })
+  }  
 
 }

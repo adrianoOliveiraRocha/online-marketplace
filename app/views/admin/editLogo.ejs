@@ -6,7 +6,6 @@
   <title>Área Administrativa</title>
   <link href="/admin/quill/css/quill.snow.css" rel="stylesheet">
   <%-include('admin_includes/index/links.ejs')%>
-
 </head>
 <!-- the function updateData() is in header-->
 <body
@@ -35,64 +34,54 @@
 
     <!-- Main content -->
     <section class="content">
-
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Logo Marca</h3>
         </div>
 
-        <div class="box-body">
-          <% if(imageExists) { %>
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <label for="">Imagem Atual: </label>
-            </div>
-            <div class="col-md-5 form-group">
-              <img src="/system-images/mylogo.svg"
-              alt=" My Logo ">
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <label for="">Substituir Imagem</label>
-            </div>
-            <div class="col-md-5 form-group">
-              <input type="file" value="newImage">
-            </div>
-          </div>
-          <hr>
-          <% } else { %>
+        <form 
+          action="/save_logo"
+          method="POST"
+          enctype="multipart/form-data">
+
+          <div class="box-body">            
             <div class="row">
               <div class="col-md-4 form-group">
-                <label for="">Inserir Imagem</label>
+                <label for="">Imagem Atual: </label>
               </div>
               <div class="col-md-5 form-group">
-                <input type="file" value="newImage">
+                <img src="system-images/mylogo.jpg"/>
               </div>
             </div>
-          <% } %>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-        <div class="control-group">
-          <div class="controls">
-            <div class="btn-group">
-              <button type="submit" class="btn btn-primary"
-                onclick="">
-                Editar
-              </button>
-              <a class="btn btn-warning" href="/admin">
-                Cancelar
-              </a>
-              <a class="btn btn-danger" href="/delete_logo">
-                Deletar
-              </a>
+            <hr/>
+            <div class="row">
+              <div class="col-md-4 form-group">
+                <label for="">Substituir Imagem</label>
+              </div>
+              <div class="col-md-5 form-group">
+                <input type="file" name="newLogo" required>
+              </div>
+            </div>
+            <hr/>  
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <div class="control-group">
+              <div class="controls">
+                <div class="btn-group">
+                  <input type="submit" class="btn btn-primary" value="Editar"/>                    
+                  
+                  <a class="btn btn-warning" href="/admin">
+                    Cancelar
+                  </a>
+                  
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        </div>
-        <!-- /.box-footer-->
+          <!-- /.box-footer-->
+        </form>
+        
       </div>
       <!-- /.box -->
 

@@ -52,4 +52,8 @@ module.exports = (application) => {
     application.app.control.admin.editLogo(req, res, application)
   })
 
+  application.post('/save_logo', (req, res) => {
+    application.app.control.admin.saveLogo(req, res)
+  })
+
 }
