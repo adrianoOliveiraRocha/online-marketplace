@@ -213,10 +213,10 @@ module.exports.done = function(req, res, application) {
   })
 }
 
-module.exports.editAboutUs = (req, res, application) => {
+module.exports.editAboutUs = (req, res) => {
   const fs = require('fs')
   let path = __dirname + "/../public/json-files/about-us.json"
-  var rawData = fs.readFile(path, (err, content) => {
+  fs.readFile(path, (err, content) => {
     if (err) {
       console.error(err)
       var errorMessage = "Não foi possível recuperar os dados: " + err
@@ -233,7 +233,7 @@ module.exports.editAboutUs = (req, res, application) => {
 
 }
 
-module.exports.saveAboutUs = (req, res, application) => {
+module.exports.saveAboutUs = (req, res) => {
   const data = req.body.dataAboutUs
   const fs = require('fs')
 
@@ -247,6 +247,46 @@ module.exports.saveAboutUs = (req, res, application) => {
     fs.writeFileSync(path, dataStringfy)
   }, 2000)
 
+  req.session.message = 'Salvo com sucesso!'
+  res.redirect('/admin')
+
+}
+
+module.exports.editWhyOurProducts = (req, res) => {
+  const fs = require('fs')
+  let path = __dirname + "/../public/json-files/why-our-products.json"
+  fs.readFile(path, (err, content) => {
+    if (err) {
+      console.error(err)
+      var errorMessage = "Não foi possível recuperar os dados: " + err
+      req.session.error = errorMessage
+      res.redirect('/admin')
+    } else {
+      var whyOurProducts = JSON.parse(content)
+      res.render('admin/editWhyOurProducts.ejs', {
+        'user': req.session.user,
+        'whyOurProducts': whyOurProducts
+      })
+    }
+  })
+
+}
+
+module.exports.saveWhyOurProducts = (req, res) => {
+  const data = req.body.dataWhyOurProducts
+  const fs = require('fs')
+
+  setTimeout(() => {
+    let whyOurProducts = {
+      "type": "whyOurProducts",
+      "data": data
+    }
+    let dataStringfy = JSON.stringify(whyOurProducts)
+    let path = __dirname + '/../public/json-files/why-our-products.json'
+    fs.writeFileSync(path, dataStringfy)
+  }, 2000)
+
+  req.session.message = 'Salvo com sucesso!'
   res.redirect('/admin')
 
 }
@@ -337,3 +377,5 @@ module.exports.saveLogo = (req, res) => {
   }  
 
 }
+
+

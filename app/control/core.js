@@ -93,7 +93,6 @@ module.exports.index = (req, res, application) => {
     res.send(`Error: ${error}`)
   }).then(() => {
     connect.end()
-    console.log('Connection clesed')
   })  
   
 }
@@ -343,21 +342,49 @@ module.exports.contact = (req, res, application) => {
   var errorSendMessage = req.session.error
   req.session.error = ''
 
-  const connect = application.config.connect()
-  const Category = application.app.models.Category
+  const getAllCategories = new Promise((resolve, reject) => {
+    const connect = application.config.connect()
+    const Category = application.app.models.Category
+    Category.getAll(connect, (error, categories) => {
+      connect.end()
+      if (error) {
+        reject(eror)
+      } else {
+        resolve(categories)
+      }
+    })
+  })  
 
-  Category.getAll(connect, (error, result) => {
-    connect.end()
-    if (error) {
-      res.send(`Error trying show contact page: ${error.sqlMessage}`)
-    } else {
-      res.render('core/contact.ejs', {
-        'user': req.session.user,
-        'categories': result,
-        'msg': msg,
-        'error': errorSendMessage
-      })
-    }
+  const getLogoName = new Promise((resolve, reject) => {
+    const fs = require('fs')
+    const dirLogoPath = __dirname + '/../public/system-images'
+    fs.readdir(dirLogoPath, (errorDir, responseDir) => {
+      if (errorDir) {
+        reject(errorDir)
+      } else {
+        var logoName
+        Object.values(responseDir).forEach(item => {
+          if (item.includes('mylogo')) {
+            logoName = item
+          }
+        })
+        resolve(logoName)
+      }
+    })
+  })
+
+  Promise.all([getAllCategories, getLogoName])
+  .then(([categories, logoName]) => {
+    res.render('core/contact.ejs', {
+      'user': req.session.user,
+      'categories': categories,
+      'msg': msg,
+      'error': errorSendMessage,
+      'logoName': logoName
+    })
+  })
+  .catch(error => {
+    res.send(`Error trying show contact page: ${error.sqlMessage}`)
   })
 
 }
@@ -383,6 +410,7 @@ module.exports.aboutUs = (req, res, application) => {
 
   var getCategories = new Promise((resolve, reject) => {
     Category.getAll(connect, (error, categories) => {
+      connect.end()
       if (error) {
         reject(error)
       } else {
@@ -391,30 +419,53 @@ module.exports.aboutUs = (req, res, application) => {
     })
   })
 
-  getCategories.then(categories => {
+  var getAboutUs = new Promise((resolve, reject) => {
     const fs = require('fs')
     var path = __dirname + "/../public/json-files/about-us.json"
-    let rawData = fs.readFile(path, (err, content) => {
+    fs.readFile(path, (err, content) => {
       if (err) {
-        console.error(err);
+        reject(err)
       } else {
         const aboutUs = JSON.parse(content)
-        res.render('core/aboutUs.ejs', {
-          'user': req.session.user,
-          'categories': categories,
-          'aboutUs': aboutUs
-        })
+        resolve(aboutUs)        
       }
     })
-  }).catch(err => {
-    console.log(`Error: ${error.sqlMessage}`)
+  }) 
+
+  const getLogoName = new Promise((resolve, reject) => {
+    const fs = require('fs')
+    const dirLogoPath = __dirname + '/../public/system-images'
+    fs.readdir(dirLogoPath, (errorDir, responseDir) => {
+      if (errorDir) {
+        reject(errorDir)
+      } else {
+        var logoName
+        Object.values(responseDir).forEach(item => {
+          if (item.includes('mylogo')) {
+            logoName = item
+          }
+        })
+        resolve(logoName)
+      }
+    })
+  })
+
+  Promise.all([getCategories, getAboutUs, getLogoName])
+  .then(([categories, aboutUs, logoName]) => {
+    res.render('core/aboutUs.ejs', {
+      'user': req.session.user,
+      'categories': categories,
+      'aboutUs': aboutUs,
+      'logoName': logoName
+    })
+  })
+  .catch(err => {
+    console.log(`Error: ${error}`)
     req.session.error = `
     Tivemos um problema técnico.
     Já estamos trabalhando para resolvê - lo.Agradecemos sua compreensão
     `
     res.redirect('/')
-  }).then(() => {
-    connect.end()
   })
 
 }

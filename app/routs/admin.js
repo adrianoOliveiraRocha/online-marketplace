@@ -56,4 +56,12 @@ module.exports = (application) => {
     application.app.control.admin.saveLogo(req, res)
   })
 
+  application.get('/edit_why_our_products', (req, res) => {
+    application.app.control.admin.editWhyOurProducts(req, res)
+  })
+
+  application.post('/save_why_our_products', (req, res) => {
+    application.app.control.admin.saveWhyOurProducts(req, res, application)
+  })
+
 }
