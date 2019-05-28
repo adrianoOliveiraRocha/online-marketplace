@@ -1,80 +1,106 @@
 module.exports.index = (req, res, application) => {
-  var msg = req.session.message
+  var msg = req.session.message;
   req.session.message = ''
-  var error = req.session.error
+  var error = req.session.error;
   req.session.error = ''
-  var continueThisCategory = req.session.categoryId
-  req.session.categoryId = undefined
+  var continueThisCategory = req.session.categoryId;
+  req.session.categoryId = undefined;
+  var connect = application.config.connect()
 
-  var categoryId = req.query.categoryId
+  var categoryId = req.query.categoryId;
 
   if (categoryId === undefined) {
     if(continueThisCategory !== undefined) {
       var newCategoryId = parseInt(continueThisCategory)
       if (!isNaN(newCategoryId)) {
-        categoryId = newCategoryId
+        categoryId = newCategoryId;
       }
     }
   }
 
-  var connect = application.config.connect()
-  application.app.models.Product.getAll(connect, categoryId,
-    (errProduct, result) => {
-      connect.end()
-      if (errProduct) {
-        console.error(`Error tryong get product: ${errProduct.sqlMessage}`);
-        req.session.error = `Error tryong get product: ${errProduct.sqlMessage}`;
-        res.redirect('/')
-      } else {
-        getAllCategories(result)
-      }
+  const getAllProducts = new Promise((resolve, reject) => {
+    // get all products
+    application.app.models.Product.getAll(connect, categoryId,
+      (errProduct, products) => {
+        if (errProduct) {
+          reject(errProduct)
+        } else {
+          resolve(products)
+        }
+      })
   })
-
-  function getAllCategories(products) {
-    var connect = application.config.connect()
+  
+  const getAllCategories = new Promise((resolve, reject) => {
     application.app.models.Category.getAll(connect,
       (errCategory, categories) => {
-      connect.end()
-      if (errCategory) {
-        console.error(`Error: ${errCategory.sqlMessage}`);
-        req.session.error = `Error tryong get all categories: ${errCategory.sqlMessage}`;
-        res.render('core/index.ejs', {
-          'error': error
-        })
-      } else {
-
-        function whatCategory(categoryId) {
-          for(let category of categories) {
-            if (categoryId == category.id) {
-              return category.name
-            }
-          }
+        if (errCategory) {
+         reject()
+        } else {
+          resolve(categories)
         }
+      })
+  })
 
-        let page = req.query.page
-        paginator = application.app.utils.paginator(products, page)
-
-        res.render('core/index.ejs', {
-          'paginator': paginator,
-          'user': req.session.user,
-          'categories': categories,
-          'msg': msg,
-          'error': error,
-          'whatCategory': whatCategory,
-          'currentCategory': categoryId,
-          'page': page,
-          'cart': req.session.cart,
-          'money': req.session.money,
-          'allProducts': products
+  const getLogoName = new Promise((resolve, reject) => {
+    const fs = require('fs')
+    const dirLogoPath = __dirname + '/../public/system-images'
+    fs.readdir(dirLogoPath, (errorDir, responseDir) => {
+      if (errorDir) {
+        reject(errorDir)
+      } else {
+        var logoName
+        Object.values(responseDir).forEach(item => {
+          if (item.includes('mylogo')) {
+            logoName = item
+          }
         })
+        resolve(logoName)
       }
     })
-  }
+  })
+
+  Promise.all([getAllProducts, getAllCategories, getLogoName])
+  .then(([products, categories, logoName]) => {
+
+    function whatCategory(categoryId) {
+      for (let category of categories) {
+        if (categoryId == category.id) {
+          return category.name
+        }
+      }
+    }
+
+    let page = req.query.page
+    paginator = application.app.utils.paginator(products, page)
+
+    res.render('core/index.ejs', {
+      'paginator': paginator,
+      'user': req.session.user,
+      'categories': categories,
+      'msg': msg,
+      'error': error,
+      'whatCategory': whatCategory,
+      'currentCategory': categoryId,
+      'page': page,
+      'cart': req.session.cart,
+      'money': req.session.money,
+      'allProducts': products,
+      'logoName': logoName
+    })
+    
+  }).catch(error => {
+    console.error(error)
+    res.send(`Error: ${error}`)
+  }).then(() => {
+    connect.end()
+    console.log('Connection clesed')
+  })  
+  
 }
 
 module.exports.login = (req, res, application) => {
-  var msg = req.session.message
-  var error = req.session.error
+  var msg = req.session.message;
+  var error = req.session.error;
   req.session.message = ''
   req.session.error = ''
 
