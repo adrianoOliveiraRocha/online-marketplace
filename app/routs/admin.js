@@ -64,4 +64,12 @@ module.exports = (application) => {
     application.app.control.admin.saveWhyOurProducts(req, res, application)
   })
 
+  application.get('/edit_social_nw', (req, res) => {
+    application.app.control.admin.editSocialNW(req, res)
+  })
+
+  application.post('/save_social_nw', (req, res) => {
+    application.app.control.admin.saveSocialNW(req, res)
+  })
+
 }

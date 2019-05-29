@@ -380,4 +380,45 @@ module.exports.saveLogo = (req, res) => {
 
 }
 
+module.exports.editSocialNW = (req, res) => {
+  const fs = require('fs')
+  let path = __dirname + "/../public/json-files/social-nw.json"
+  fs.readFile(path, (err, content) => {
+    if (err) {
+      console.error(err)
+      var errorMessage = "Não foi possível recuperar os dados: " + err
+      req.session.error = errorMessage
+      res.redirect('/admin')
+    } else {
+      var socialNW = JSON.parse(content)
+      res.render('admin/editSocialNW.ejs', {
+        'user': req.session.user,
+        'socialNW': socialNW
+      })
+    }
+  })
+
+}
+
+module.exports.saveSocialNW = (req, res) => {
+  const facebook = req.body.facebook.trim() 
+  const twitter = req.body.twitter.trim()
+  const fs = require('fs')
+
+  setTimeout(() => {
+    let socialNM = {
+      "type": "socialNW",
+      "facebook": facebook,
+      "twitter": twitter
+    }
+    let dataStringfy = JSON.stringify(socialNM)
+    let path = __dirname + '/../public/json-files/social-nw.json'
+    fs.writeFileSync(path, dataStringfy)
+  }, 2000)
+
+  req.session.message = 'Salvo com sucesso!'
+  res.redirect('/admin')
+
+}
+
 
