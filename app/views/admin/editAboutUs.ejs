@@ -51,7 +51,8 @@
           <form
             action="save_about_us"
             method="post" id="formSend">
-            <input type="hidden" id="keepText" name="dataAboutUs">
+            <input type="hidden" id="keepHtml" name="dataAboutUs">
+            <input type="hidden" id="keepText" name="textAboutUs">
           </form>
 
         </div>
@@ -115,8 +116,10 @@
 
         function save() {
           var data = quill.root.innerHTML
+          var keepHtml = document.getElementById("keepHtml")
+          keepHtml.value = data
           var keepText = document.getElementById("keepText")
-          keepText.value = data
+          keepText.value = quill.getText()
           var formSend = document.getElementById("formSend")
           formSend.submit()
         }

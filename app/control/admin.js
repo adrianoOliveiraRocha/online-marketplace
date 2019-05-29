@@ -234,13 +234,15 @@ module.exports.editAboutUs = (req, res) => {
 }
 
 module.exports.saveAboutUs = (req, res) => {
-  const data = req.body.dataAboutUs
+  const data = req.body.dataAboutUs // this keep the html
+  const text = req.body.textAboutUs
   const fs = require('fs')
 
   setTimeout(() => {
     let aboutUs = {
       "type": "aboutUs",
-      "data": data
+      "data": data,
+      "text": text
     }
     let dataStringfy = JSON.stringify(aboutUs)
     let path = __dirname + '/../public/json-files/about-us.json'

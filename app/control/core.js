@@ -6,6 +6,7 @@ module.exports.index = (req, res, application) => {
   var continueThisCategory = req.session.categoryId;
   req.session.categoryId = undefined;
   var connect = application.config.connect()
+  const fs = require('fs')
 
   var categoryId = req.query.categoryId;
 
@@ -40,9 +41,8 @@ module.exports.index = (req, res, application) => {
         }
       })
   })
-
+  
   const getLogoName = new Promise((resolve, reject) => {
-    const fs = require('fs')
     const dirLogoPath = __dirname + '/../public/system-images'
     fs.readdir(dirLogoPath, (errorDir, responseDir) => {
       if (errorDir) {
@@ -58,9 +58,35 @@ module.exports.index = (req, res, application) => {
       }
     })
   })
+  
+  const getWhyChooseOurProducts = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/why-our-products.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        reject(err)
+      } else {
+        var whyOurProducts = JSON.parse(content)
+        resolve(whyOurProducts)
+      }
+    })
+  })
 
-  Promise.all([getAllProducts, getAllCategories, getLogoName])
-  .then(([products, categories, logoName]) => {
+  const getAboutUs = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/about-us.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        reject(err)
+      } else {
+        var aboutUs = JSON.parse(content)
+        resolve(aboutUs)
+      }
+    })
+  })
+
+  Promise.all([getAllProducts, getAllCategories, 
+    getLogoName, getWhyChooseOurProducts, getAboutUs])
+    .then(([products, categories, logoName, whyOurProducts, 
+      aboutUs]) => {
 
     function whatCategory(categoryId) {
       for (let category of categories) {
@@ -85,7 +111,9 @@ module.exports.index = (req, res, application) => {
       'cart': req.session.cart,
       'money': req.session.money,
       'allProducts': products,
-      'logoName': logoName
+      'logoName': logoName,
+      'whyOurProducts': whyOurProducts,
+      'aboutUs': aboutUs
     })
     
   }).catch(error => {
