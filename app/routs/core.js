@@ -43,5 +43,5 @@ module.exports = (application) => {
   application.get('/about_us', (req, res) => {
     application.app.control.core.aboutUs(req, res, application)
   })
-
+ 
 }

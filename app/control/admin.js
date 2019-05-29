@@ -275,13 +275,13 @@ module.exports.editWhyOurProducts = (req, res) => {
 }
 
 module.exports.saveWhyOurProducts = (req, res) => {
-  const data = req.body.dataWhyOurProducts
+  const text = req.body.whyOurProducts
   const fs = require('fs')
 
   setTimeout(() => {
     let whyOurProducts = {
       "type": "whyOurProducts",
-      "data": data
+      "text": text
     }
     let dataStringfy = JSON.stringify(whyOurProducts)
     let path = __dirname + '/../public/json-files/why-our-products.json'

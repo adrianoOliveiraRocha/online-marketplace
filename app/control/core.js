@@ -369,6 +369,7 @@ module.exports.contact = (req, res, application) => {
   req.session.message = ''
   var errorSendMessage = req.session.error
   req.session.error = ''
+  const fs = require('fs')
 
   const getAllCategories = new Promise((resolve, reject) => {
     const connect = application.config.connect()
@@ -384,7 +385,6 @@ module.exports.contact = (req, res, application) => {
   })  
 
   const getLogoName = new Promise((resolve, reject) => {
-    const fs = require('fs')
     const dirLogoPath = __dirname + '/../public/system-images'
     fs.readdir(dirLogoPath, (errorDir, responseDir) => {
       if (errorDir) {
@@ -401,18 +401,45 @@ module.exports.contact = (req, res, application) => {
     })
   })
 
-  Promise.all([getAllCategories, getLogoName])
-  .then(([categories, logoName]) => {
+  const getWhyChooseOurProducts = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/why-our-products.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        reject(err)
+      } else {
+        var whyOurProducts = JSON.parse(content)
+        resolve(whyOurProducts)
+      }
+    })
+  })
+
+  const getAboutUs = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/about-us.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        reject(err)
+      } else {
+        var aboutUs = JSON.parse(content)
+        resolve(aboutUs)
+      }
+    })
+  })
+
+  Promise.all([getAllCategories, getLogoName,
+    getWhyChooseOurProducts, getAboutUs])
+    .then(([categories, logoName, whyOurProducts, aboutUs]) => {
     res.render('core/contact.ejs', {
       'user': req.session.user,
       'categories': categories,
       'msg': msg,
       'error': errorSendMessage,
-      'logoName': logoName
+      'logoName': logoName,
+      'whyOurProducts': whyOurProducts,
+      'aboutUs': aboutUs
     })
   })
   .catch(error => {
-    res.send(`Error trying show contact page: ${error.sqlMessage}`)
+    res.send(`Error trying show contact page: ${error}`)
   })
 
 }
@@ -435,6 +462,7 @@ module.exports.newslatter = (req, res, application) => {
 module.exports.aboutUs = (req, res, application) => {
   const Category = application.app.models.Category
   const connect = application.config.connect()
+  const fs = require('fs')
 
   var getCategories = new Promise((resolve, reject) => {
     Category.getAll(connect, (error, categories) => {
@@ -448,7 +476,6 @@ module.exports.aboutUs = (req, res, application) => {
   })
 
   var getAboutUs = new Promise((resolve, reject) => {
-    const fs = require('fs')
     var path = __dirname + "/../public/json-files/about-us.json"
     fs.readFile(path, (err, content) => {
       if (err) {
@@ -461,7 +488,6 @@ module.exports.aboutUs = (req, res, application) => {
   }) 
 
   const getLogoName = new Promise((resolve, reject) => {
-    const fs = require('fs')
     const dirLogoPath = __dirname + '/../public/system-images'
     fs.readdir(dirLogoPath, (errorDir, responseDir) => {
       if (errorDir) {
@@ -478,20 +504,34 @@ module.exports.aboutUs = (req, res, application) => {
     })
   })
 
-  Promise.all([getCategories, getAboutUs, getLogoName])
-  .then(([categories, aboutUs, logoName]) => {
+  const getWhyChooseOurProducts = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/why-our-products.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        reject(err)
+      } else {
+        var whyOurProducts = JSON.parse(content)
+        resolve(whyOurProducts)
+      }
+    })
+  })
+
+  Promise.all([getCategories, getAboutUs, getLogoName,
+    getWhyChooseOurProducts])
+    .then(([categories, aboutUs, logoName, whyOurProducts]) => {
     res.render('core/aboutUs.ejs', {
       'user': req.session.user,
       'categories': categories,
       'aboutUs': aboutUs,
-      'logoName': logoName
+      'logoName': logoName,
+      'whyOurProducts': whyOurProducts
     })
   })
   .catch(err => {
-    console.log(`Error: ${error}`)
+    console.log(`Error: ${err}`)
     req.session.error = `
     Tivemos um problema técnico.
-    Já estamos trabalhando para resolvê - lo.Agradecemos sua compreensão
+    Já estamos trabalhando para resolvê - lo. Agradecemos sua compreensão
     `
     res.redirect('/')
   })

@@ -39,94 +39,46 @@
 
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Porque Escolher Nossos Produtos</h3>
+          <h3 class="box-title">Porque Escolher Nossos Produtos?</h3>
         </div>
 
         <div class="box-body">
+          <div class="form-group">            
+            <form action="/save_why_our_products" method="POST">
+              <div class="form-group">
+                <textarea class="form-control" autofocus
+                  id="keepText" name="whyOurProducts"><%=whyOurProducts.text%></textarea>
+              </div>  
 
-          <div id="editor">
+              <div class="control-group">
+                <div class="controls">
+                  <div class="btn-group">
+                    <input type="submit" class="btn btn-primary" value="Salvar" />
+                    
+                    <button type="button" class="btn btn-warning"
+                    onclick="clean()">
+                      Limpar
+                    </button>
+                    <a class="btn btn-danger" href="/admin">
+                      Cancelar
+                    </a>
+                  </div>
+                </div>
+              </div>  
 
+            </form>
+            
           </div>
 
-          <form
-            action="/save_why_our_products"
-            method="post" id="formSend">
-            <input type="hidden" id="keepText" name="dataWhyOurProducts">
-          </form>
-
+          <script>
+            function clean() {
+              var textArea = document.getElementById("keepText").value = ""              
+            }
+          </script>
         </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-        <div class="control-group">
-          <div class="controls">
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary"
-              onclick="save()">
-                Salvar
-              </button>
-              <button type="button" class="btn btn-warning"
-              onclick="clean()">
-                Limpar
-              </button>
-              <a class="btn btn-danger" href="/admin">
-                Cancelar
-              </a>
-            </div>
-          </div>
-        </div>
-        </div>
-        <!-- /.box-footer-->
+        
       </div>
-      <!-- /.box -->
-
-      <script src="/admin/quill/js/quill.js"></script>
-      <!-- text editor -->
-      <script type="text/javascript">
-        // Place the content in the editor
-        function htmlDecode(input){
-          var div = document.createElement('div');
-          div.innerHTML = input
-          return div
-        }
-        var divContent = htmlDecode("<%=whyOurProducts.data%>")
-        document.getElementById("editor").innerHTML = divContent.childNodes[0].nodeValue
-        // Create toolbar
-        var toolbarOptions = [
-          ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote'],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],
-          [{ 'indent': '-1'}, { 'indent': '+1' }],
-          [{ 'direction': 'rtl' }],
-          [{ 'size': ['small', false, 'large', 'huge'] }],
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'font': [] }],
-          [{ 'align': [] }],
-          ['clean']
-        ]
-
-        var quill = new Quill('#editor', {
-          modules: {
-            toolbar: toolbarOptions
-          },
-          theme: 'snow'
-        })
-
-        function save() {
-          var data = quill.root.innerHTML
-          var keepText = document.getElementById("keepText")
-          keepText.value = data
-          var formSend = document.getElementById("formSend")
-          formSend.submit()
-        }
-
-        function clean() {
-          quill.root.innerHTML = null
-        }
-
-      </script>
-
+      <!-- /.box -->      
     </section>
     <!-- /.content -->
 
