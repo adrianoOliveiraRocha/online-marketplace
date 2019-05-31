@@ -43,5 +43,13 @@ module.exports = (application) => {
   application.get('/about_us', (req, res) => {
     application.app.control.core.aboutUs(req, res, application)
   })
+
+  application.get('/remember_password', (req, res) => {
+    application.app.control.core.rememberPassword(req, res, application)
+  })
+
+  application.post('/remember_password', (req, res) => {
+    application.app.control.core.rememberPassword(req, res, application)
+  })
  
 }

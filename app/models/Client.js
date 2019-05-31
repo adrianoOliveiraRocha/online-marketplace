@@ -36,6 +36,11 @@ class Client extends User{
     where user_id = ${data.userId}`
     connect.query(stm, callback)
   }
+
+  static verifyEmail(email, connect, callback) {
+    let stm = `select id from user where email = '${email}'`
+    connect.query(stm, callback)
+  }
   
 }
 

@@ -583,3 +583,38 @@ module.exports.aboutUs = (req, res, application) => {
   })
 
 }
+
+module.exports.rememberPassword = (req, res, application) => {
+  var msg = req.session.message
+  req.session.message = ''
+  var error = req.session.error
+  req.session.error = ''
+  if (req.method == 'GET') {
+    res.render('core/remember_password.ejs', {
+      'msg': msg,
+      'error': error
+    })
+  } else {
+    let email = req.body.email
+    const connect = application.config.connect()
+    const Client = application.app.models.Client
+
+    Client.verifyEmail(email, connect, (error, result) => {
+      connect.end()
+      if (error) {
+        console.error(error)
+        res.send(`Error: ${error}`)
+      } else {
+        if (result.length == 0) {
+          req.session.error = 'Usuário não encontrado'
+          res.redirect(req.originalUrl)
+        } else {
+          res.send(`ID: ${result[0].id}`)
+        }
+        
+      }
+    })   
+    
+  }
+
+}
