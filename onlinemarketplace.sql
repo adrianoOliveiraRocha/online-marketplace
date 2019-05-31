@@ -160,7 +160,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES (1,'Adriano Oliveira','adriano.qwe32@yahoo.com.br','my subject','Praesent venenatis metus at tortor pulvinar varius. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Sed libero. Praesent ac massa at ligula laoreet iaculis. Etiam sollicitudin, ipsum eu pulvinar rutrum, tellus ipsum laoreet sapien, quis venenatis ante odio sit amet eros.','2019-05-15 13:40:33',1),(2,'Rafaela Dias','rafaela@email','Subject','This is my message. I am sending you this message because I have nothing to do','2019-05-15 13:40:33',0),(3,'Daniele Peixoto','daniele@email','my subject','i am testing the module pattern','2019-05-15 13:40:33',0),(4,'Arivaldo Silva','arivaldo@email.com','Any thing','Hello! how are you? :-)','2019-05-16 11:04:54',0),(5,'Adriano Oliveira','adriano.qwe32@yahoo.com.br','Assunto','Essa é minha mensagem','2019-05-17 10:16:38',0);
+INSERT INTO `message` VALUES (1,'Adriano Oliveira','adriano.qwe32@yahoo.com.br','my subject','Praesent venenatis metus at tortor pulvinar varius. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Sed libero. Praesent ac massa at ligula laoreet iaculis. Etiam sollicitudin, ipsum eu pulvinar rutrum, tellus ipsum laoreet sapien, quis venenatis ante odio sit amet eros.','2019-05-15 13:40:33',1),(2,'Rafaela Dias','rafaela@email','Subject','This is my message. I am sending you this message because I have nothing to do','2019-05-15 13:40:33',1),(3,'Daniele Peixoto','daniele@email','my subject','i am testing the module pattern','2019-05-15 13:40:33',0),(4,'Arivaldo Silva','arivaldo@email.com','Any thing','Hello! how are you? :-)','2019-05-16 11:04:54',1),(5,'Adriano Oliveira','adriano.qwe32@yahoo.com.br','Assunto','Essa é minha mensagem','2019-05-17 10:16:38',0);
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +241,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('hcinQqzYxWmk-2h3lSjehOb4I_6NQKDL',1558271639,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\"}');
+INSERT INTO `sessions` VALUES ('2BjhsiFXmNBapFaYayFDuUY72V_0blFq',1559389794,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\"}'),('aNNHRLsTrNb9sTMT8KFCgGs9cAsY0S53',1559224442,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":1,\"email\":\"admin@email.com\",\"password\":\"453231\",\"image\":\"1554230246449_user-male.png\",\"admin\":1},\"loged\":true}'),('bATzS0zmGSIsnFBIZd8ZwAvIzQnZL08_',1559236828,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"message\":\"\",\"error\":\"\",\"user\":{\"id\":21,\"email\":\"fulane@email.com\",\"password\":\"fu123\",\"image\":\"1555066605070_user-female.jpeg\",\"admin\":0},\"loged\":true}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-18 10:21:12
+-- Dump completed on 2019-05-31 13:22:16

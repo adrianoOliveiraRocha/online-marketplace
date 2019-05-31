@@ -83,10 +83,24 @@ module.exports.index = (req, res, application) => {
     })
   })
 
+  const getSocialNW = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/social-nw.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        console.error(err)
+        reject(err)
+      } else {
+        var socialNW = JSON.parse(content)
+        resolve(socialNW)
+      }
+    })
+  })
+
   Promise.all([getAllProducts, getAllCategories, 
-    getLogoName, getWhyChooseOurProducts, getAboutUs])
+    getLogoName, getWhyChooseOurProducts, getAboutUs,
+    getSocialNW])
     .then(([products, categories, logoName, whyOurProducts, 
-      aboutUs]) => {
+      aboutUs, socialNW]) => {
 
     function whatCategory(categoryId) {
       for (let category of categories) {
@@ -113,7 +127,8 @@ module.exports.index = (req, res, application) => {
       'allProducts': products,
       'logoName': logoName,
       'whyOurProducts': whyOurProducts,
-      'aboutUs': aboutUs
+      'aboutUs': aboutUs,
+      'socialNW': socialNW
     })
     
   }).catch(error => {
@@ -425,9 +440,24 @@ module.exports.contact = (req, res, application) => {
     })
   })
 
+  const getSocialNW = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/social-nw.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        console.error(err)
+        reject(err)
+      } else {
+        var socialNW = JSON.parse(content)
+        resolve(socialNW)
+      }
+    })
+  })
+
   Promise.all([getAllCategories, getLogoName,
-    getWhyChooseOurProducts, getAboutUs])
-    .then(([categories, logoName, whyOurProducts, aboutUs]) => {
+    getWhyChooseOurProducts, getAboutUs,
+    getSocialNW])
+    .then(([categories, logoName, whyOurProducts, aboutUs,
+      socialNW]) => {
     res.render('core/contact.ejs', {
       'user': req.session.user,
       'categories': categories,
@@ -435,7 +465,8 @@ module.exports.contact = (req, res, application) => {
       'error': errorSendMessage,
       'logoName': logoName,
       'whyOurProducts': whyOurProducts,
-      'aboutUs': aboutUs
+      'aboutUs': aboutUs,
+      'socialNW': socialNW
     })
   })
   .catch(error => {
@@ -516,15 +547,30 @@ module.exports.aboutUs = (req, res, application) => {
     })
   })
 
+  const getSocialNW = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/social-nw.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        console.error(err)
+        reject(err)
+      } else {
+        var socialNW = JSON.parse(content)
+        resolve(socialNW)
+      }
+    })
+  })
+
   Promise.all([getCategories, getAboutUs, getLogoName,
-    getWhyChooseOurProducts])
-    .then(([categories, aboutUs, logoName, whyOurProducts]) => {
+    getWhyChooseOurProducts, getSocialNW])
+    .then(([categories, aboutUs, logoName, whyOurProducts,
+      socialNW]) => {
     res.render('core/aboutUs.ejs', {
       'user': req.session.user,
       'categories': categories,
       'aboutUs': aboutUs,
       'logoName': logoName,
-      'whyOurProducts': whyOurProducts
+      'whyOurProducts': whyOurProducts,
+      'socialNW': socialNW
     })
   })
   .catch(err => {
