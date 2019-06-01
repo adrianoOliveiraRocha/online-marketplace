@@ -41,6 +41,11 @@ class Client extends User{
     let stm = `select id from user where email = '${email}'`
     connect.query(stm, callback)
   }
+
+  static changePassword(id, password, connect, callback) {
+    let stm = `update user set password = '${password}' where id = ${id}`
+    connect.query(stm , callback)
+  }
   
 }
 

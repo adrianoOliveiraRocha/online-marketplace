@@ -589,6 +589,7 @@ module.exports.rememberPassword = (req, res, application) => {
   req.session.message = ''
   var error = req.session.error
   req.session.error = ''
+
   if (req.method == 'GET') {
     res.render('core/remember_password.ejs', {
       'msg': msg,
@@ -599,22 +600,57 @@ module.exports.rememberPassword = (req, res, application) => {
     const connect = application.config.connect()
     const Client = application.app.models.Client
 
-    Client.verifyEmail(email, connect, (error, result) => {
-      connect.end()
-      if (error) {
-        console.error(error)
-        res.send(`Error: ${error}`)
-      } else {
-        if (result.length == 0) {
-          req.session.error = 'Usuário não encontrado'
-          res.redirect(req.originalUrl)
-        } else {
-          res.send(`ID: ${result[0].id}`)
-        }
-        
+    function verifyEmail(){
+      return new Promise((resolve, reject) => {
+        Client.verifyEmail(email, connect, (error, result) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve(result)
+          }
+        })
+      })        
+    }
+
+    async function getIdClient() {
+      var result = await verifyEmail()
+      if (result.length == 0) { // the email don't exists
+        result = false 
+      } else { // defining a new password
+        result[0].newPassWord = Math.floor(Math.random() * 10000)        
       }
-    })   
+      return result
+    }
+
+    getIdClient().then(result => {
+      if (result == false) {
+        req.session.error = 'Email não encontrado'
+        res.redirect(req.originalUrl)
+      } else {
+        Client.changePassword(result[0].id, result[0].newPassWord, connect, (error, r) => {
+          connect.end()
+          if (error) {
+            console.error(error)
+            req.session.error = 'Não foi possível atualizar o banco de dados'
+            res.redirect(req.originalUrl)
+          } else {
+            console.log(r)
+            // send email with password
+            const newPassWord = result[0].newPassWord
+            
+            req.session.message = `
+            Uma nova senha foi enviada para o seu email. 
+            Use sua nova senha para entrar em sua conta. 
+            Você pode mudar de senha a qualquer momento na área do cliente`
+            res.redirect(req.originalUrl)
+          }
+        })
+      }
+    }).catch(error => {
+      console.log(`error: ${error}`)
+      req.session.error = error      
+    })  
     
-  }
+  } 
 
 }
