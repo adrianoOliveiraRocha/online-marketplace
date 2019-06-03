@@ -190,26 +190,54 @@ module.exports.editProduct = (req, res, application) => {
     const connect = application.config.connect()
     const Product = application.app.models.Product
 
-    Product.getThis(productId, connect, (errorProduct, result) => {
-      if (errorProduct) {
-        res.send(errorProduct)
-      } else {
-        var oldImageName = result[0].image
-        if (oldImageName) {
-          let oldFile = __dirname + `/../public/upload/public/${result[0].image}`;
-          const fs = require('fs');
-          fs.unlink(oldFile, (errOldFile) => {
-            if (errOldFile) {
-              res.send(`Error tentando deletar imagem antiga: ${errOldFile}`);
-            } else {
-              res.send('Image deleted with success!');
-            }
-          })
+    var deleteOldImage = new Promise((resolve, reject) => {
+      Product.getThis(productId, connect, (errorProduct, result) => {
+        if (errorProduct) {
+          reject(`Error recuperar o produto: ${errorProduct}`)
         } else {
-          res.send('sem imagem')
+          var oldImageName = result[0].image
+          if (oldImageName) {
+            let oldFile = __dirname + `/../public/upload/public/${result[0].image}`;
+            const fs = require('fs');
+            fs.unlink(oldFile, (errOldFile) => {
+              if (errOldFile) {
+                resolve(result) // Não existe imagem para deletar
+              } else {
+                resolve(result) // Imagem foi deletada. Continue
+              }
+            })
+          } else {
+            resolve(result) // Não existe imagem a seer deletada. Continue
+          }
         }
-      }
+      })
     })
+
+    deleteOldImage.then(result => {
+      return new Promise((resolve, reject) => {
+        const image = req.files.image
+        let imageName = new Date().getTime()
+        let extension = image.name.split('.').pop()
+        var completeName = imageName + '.' + extension
+        var path = __dirname + '/../public/upload/product/' + completeName
+        image.mv(path, (err) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }).then(result => {
+      /** Até agora, fiz apenas o teste que resolve se a imagem não existe
+       * precisa resolver no caso de a imgame existir
+       * Já está fazendo upload. Precisa atualizar o banco de dados
+       */
+      res.send(result)
+    })
+    .catch(error => {
+      res.send(`Erro: ${error}`)
+    })   
     
   }
 
