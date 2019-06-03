@@ -48,20 +48,20 @@ class Product {
     var name = data.name.replace(/'/g, '"')
     var description = data.description.replace(/'/g, '"')
 
-    if (imageName != 'null') {
+    if (imageName == null) {
+      stm = `update product
+      set name = '${name}',
+      description = '${description.trim()}',
+      category = ${data.category},
+      price = ${data.price}
+      where id = ${data.idProduct}`      
+    } else {
       stm = `update product
       set name = '${name}',
       description = '${description.trim()}',
       category = ${data.category},
       price = ${data.price},
       image = '${imageName}'
-      where id = ${data.idProduct}`
-    } else {
-      stm = `update product
-      set name = '${name}',
-      description = '${description.trim()}',
-      category = ${data.category},
-      price = ${data.price}
       where id = ${data.idProduct}`
     }
     console.log(stm)

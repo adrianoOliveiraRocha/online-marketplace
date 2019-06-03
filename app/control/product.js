@@ -168,35 +168,79 @@ module.exports.products_details = (req, res, application) => {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports.editProduct = (req, res, application) => {
+  var imageName = null
+  if(req.files == null) { // no image
+    updateDatabase()
+  } else { // image sended
+    const data = req.body
+    const productId = data.idProduct
+    const connect = application.config.connect()
+    const Product = application.app.models.Product
 
-  var data = req.body
-  var imageName = 'null'
-  const Product = application.app.models.Product
-  var connect = application.config.connect()
-
-  if (Object.keys(req.files).length > 0) {// image sended
-    const helper = require('./../utils/helper')
-    helper.deleteOldeImage(Product, data.idProduct, 'product', connect)
-    var imageName = helper.uploadImage(req.files.image, 'product')
+    Product.getThis(productId, connect, (errorProduct, result) => {
+      if (errorProduct) {
+        res.send(errorProduct)
+      } else {
+        var oldImageName = result[0].image
+        if (oldImageName) {
+          let oldFile = __dirname + `/../public/upload/public/${result[0].image}`;
+          const fs = require('fs');
+          fs.unlink(oldFile, (errOldFile) => {
+            if (errOldFile) {
+              res.send(`Error tentando deletar imagem antiga: ${errOldFile}`);
+            } else {
+              res.send('Image deleted with success!');
+            }
+          })
+        } else {
+          res.send('sem imagem')
+        }
+      }
+    })
+    
   }
 
 
-  Product.edit(data, imageName, connect,
-    (err, result) => {
-    connect.end()
-    if(err) {
-      console.error(`Error trying edit the product: ${err.sqlMessage}`)
-      req.session.error = `Error trying edit the product: ${err.sqlMessage}`
-      res.redirect('\admin')
-    } else {
-      console.log(`Success ${result}`)
-      req.session.message = 'Produto editado com sucesso!'
-      res.redirect('\admin')
-    }
-  })
+  function updateDatabase() {
+    var data = req.body
+    const connect = application.config.connect()
+    const Product = application.app.models.Product
+    Product.edit(data, imageName, connect, (error, result) => {
+      if (error) {
+        console.error(error)
+        req.session.error = `Error tentando atudalizar o banco de dados: ${error}`
+        res.redirect('/admin')
+      } else {
+        console.log(result)
+        req.session.message = `Produto atualizado com sucesso!`
+        res.redirect('/admin')
+      }
+    })
+  }
 
 }
+
+
+
+
+
+
+
+
+
 
 module.exports.deleteProduct = (req, res, application) => {
   const productId = req.query.idProduct

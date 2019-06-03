@@ -421,4 +421,67 @@ module.exports.saveSocialNW = (req, res) => {
 
 }
 
+module.exports.sendNewsLatter = (req, res, application) => {
+  if (req.method == 'GET') {
+    res.render('admin/send-news-latter.ejs', {
+      'user': req.session.user
+    })
+  } else {
+    console.log('post')
+    const connect = application.config.connect()
+    const NewsLatter = application.app.models.Newslatter
+    var newsLatter = new NewsLatter()
+
+    var pGetEmails = new Promise((resolve, reject) => {
+      newsLatter.getEmails(connect, (error, result) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(result)
+        }
+      })
+    })
+
+    pGetEmails.then(response => {
+      var receivers = ''
+      for (let index = 0; index < response.length; index++) {
+        if (index > 0) {
+          receivers += ', '
+        }
+        receivers += response[index].email
+      }
+      var title = req.body.title
+      var msgBody = req.body.msgBody
+      var text = title + '\n' + msgBody
+      var html = `<h2>${title}</h2> <p>${msgBody}</p>`
+      var message = {
+        text: text,
+        html: html
+      }
+      
+      var subject = 'Newslatter Fábrica de Software'
+      const sendMail = require('../utils/helper').sendMail
+      const pSendMail = sendMail(message, receivers, subject)
+
+      pSendMail.then(result => {
+        console.log(result)
+        req.session.message = 'Mensagem enviada com sucesso'
+        res.redirect('\admin')
+      }).catch(error => {
+        console.error(`Error: ${error}`)
+        req.session.error = `Error ao tentar enviar a mensagem: ${error}`
+        res.redirect('/admin')
+      })
+      
+    }).catch(error => {
+      console.error(error)
+    }).then(() => {
+      connect.end()
+    })
+
+     
+  }
+  
+} 
+
 

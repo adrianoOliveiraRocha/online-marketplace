@@ -72,4 +72,12 @@ module.exports = (application) => {
     application.app.control.admin.saveSocialNW(req, res)
   })
 
+  application.get('/send_news_latter', (req, res) => {
+    application.app.control.admin.sendNewsLatter(req, res)
+  })
+
+  application.post('/send_news_latter', (req, res) => {
+    application.app.control.admin.sendNewsLatter(req, res, application)
+  })
+
 }
