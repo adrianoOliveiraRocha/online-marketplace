@@ -596,7 +596,7 @@ module.exports.rememberPassword = (req, res, application) => {
       'error': error
     })
   } else {
-    let email = req.body.email
+    var email = req.body.email
     const connect = application.config.connect()
     const Client = application.app.models.Client
 
@@ -636,13 +636,41 @@ module.exports.rememberPassword = (req, res, application) => {
           } else {
             console.log(r)
             // send email with password
-            const newPassWord = result[0].newPassWord
+            const newPassWord = result[0].newPassWord            
             
-            req.session.message = `
-            Uma nova senha foi enviada para o seu email. 
-            Use sua nova senha para entrar em sua conta. 
-            Você pode mudar de senha a qualquer momento na área do cliente`
-            res.redirect(req.originalUrl)
+            receivers = email
+            let text = `
+            Sua nova senha é ${newPassWord}}. Você pode mudar de senha a qualquer
+          momento na área do cliente
+            `
+            let html = `
+            <i>Mudança de senha</i>
+            <p>Sua nova senha é ${newPassWord}. Você pode mudar de senha a qualquer
+            momento na área do cliente</p>
+            `
+            let subject = "Mudança de senha"
+
+            const sendMail = require('../utils/helper').sendMail
+            
+            var message = {
+              html: html,
+              text: text
+            }
+            var info = sendMail(message, receivers, subject)
+            info.then(result => {
+              console.log(result)
+              req.session.message = `
+              Uma nova senha foi enviada para o seu email. 
+              Use sua nova senha para entrar em sua conta. 
+              Você pode mudar de senha a qualquer momento na área do cliente`
+
+              res.redirect(req.originalUrl)
+            }).catch(error => {
+              console.error(error)
+              req.message.error = `Error ao tentar enviar o email: ${error}`
+              res.redirect(req.originalUrl)
+            })
+            
           }
         })
       }

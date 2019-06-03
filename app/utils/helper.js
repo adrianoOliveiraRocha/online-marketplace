@@ -65,8 +65,35 @@ function getTotal(cart){
   }
 }
 
+async function sendMail(message, receivers, subject) {
+  "use strict";
+  console.log(receivers)
+  const nodemailer = require("nodemailer")
+  // my account
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+      user: 'murl.kuvalis@ethereal.email',
+      pass: 'nS8zpVxva1dABmbf32'
+    }
+  })
+
+  let info = await transporter.sendMail({
+    from: '"adriano.qwe32@gmail.com', // sender address
+    to: receivers, // list of receivers
+    subject: subject, // Subject line
+    text: message.text, // plain text body
+    html: message.html // html body
+  })
+
+  return info
+
+}
+
 
 module.exports.deleteOldeImage = deleteOldeImage
 module.exports.uploadImage = uploadImage
 module.exports.getTotal = getTotal
 module.exports.deleteProductImage = deleteProductImage
+module.exports.sendMail = sendMail
