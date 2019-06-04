@@ -56,7 +56,7 @@ module.exports.insertProduct = (req, res, application) => {
           'product': response.product[0],
           'barcode': response.barcode
         })
-        // res.send(response.product)
+        
       }
 
     }).catch(error => {
@@ -168,22 +168,14 @@ module.exports.products_details = (req, res, application) => {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports.editProduct = (req, res, application) => {
-  var imageName = null
-  if(req.files == null) { // no image
-    updateDatabase()
+  var completeName = null
+  if(req.files == null) {
+    /**
+     * nova imagem não enviada.
+     * nesse caso, serão atualizadas somente as outras informações no banco
+     */
+    updateDatabase() 
   } else { // image sended
     const data = req.body
     const productId = data.idProduct
@@ -197,8 +189,9 @@ module.exports.editProduct = (req, res, application) => {
         } else {
           var oldImageName = result[0].image
           if (oldImageName) {
-            let oldFile = __dirname + `/../public/upload/public/${result[0].image}`;
-            const fs = require('fs');
+            let oldFile = __dirname + `/../public/upload/product/${oldImageName}`
+            console.log(oldFile)
+            const fs = require('fs')
             fs.unlink(oldFile, (errOldFile) => {
               if (errOldFile) {
                 resolve(result) // Não existe imagem para deletar
@@ -207,6 +200,7 @@ module.exports.editProduct = (req, res, application) => {
               }
             })
           } else {
+            console.log('Não existe imagem antiga')
             resolve(result) // Não existe imagem a seer deletada. Continue
           }
         }
@@ -218,9 +212,9 @@ module.exports.editProduct = (req, res, application) => {
         const image = req.files.image
         let imageName = new Date().getTime()
         let extension = image.name.split('.').pop()
-        var completeName = imageName + '.' + extension
+        completeName = imageName + '.' + extension
         var path = __dirname + '/../public/upload/product/' + completeName
-        image.mv(path, (err) => {
+        image.mv(path, (err) => { // uploade da imagem
           if (err) {
             reject(err)
           } else {
@@ -229,11 +223,9 @@ module.exports.editProduct = (req, res, application) => {
         })
       })
     }).then(result => {
-      /** Até agora, fiz apenas o teste que resolve se a imagem não existe
-       * precisa resolver no caso de a imgame existir
-       * Já está fazendo upload. Precisa atualizar o banco de dados
-       */
-      res.send(result)
+      console.log(result)
+      connect.end()
+      updateDatabase()
     })
     .catch(error => {
       res.send(`Erro: ${error}`)
@@ -241,18 +233,23 @@ module.exports.editProduct = (req, res, application) => {
     
   }
 
-
   function updateDatabase() {
     var data = req.body
     const connect = application.config.connect()
     const Product = application.app.models.Product
-    Product.edit(data, imageName, connect, (error, result) => {
+    /**
+     * completeName é o nome da nova imagem, no caso de o usuário ter 
+     * enviado. Caso o usuário não tenha enviado essa imagem, completeName
+     * será igual a null
+      */
+    Product.edit(data, completeName, connect, (error, result) => {
+      connect.end()
       if (error) {
         console.error(error)
         req.session.error = `Error tentando atudalizar o banco de dados: ${error}`
         res.redirect('/admin')
       } else {
-        console.log(result)
+        console.log('Dados atualizados')
         req.session.message = `Produto atualizado com sucesso!`
         res.redirect('/admin')
       }
@@ -260,15 +257,6 @@ module.exports.editProduct = (req, res, application) => {
   }
 
 }
-
-
-
-
-
-
-
-
-
 
 module.exports.deleteProduct = (req, res, application) => {
   const productId = req.query.idProduct

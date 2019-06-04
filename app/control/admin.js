@@ -1,41 +1,67 @@
 // helpers
 function editProfile(req, res, application) {
   var data = req.body;
-  var imageName = null;
+  var imageName = null // se a imagem foi enviada, essa variável será atualizada
   const User = application.app.models.User;
 
-  if (Object.keys(req.files).length > 0) {// image sended
-    const helper = require('./../utils/helper');
-    var connect = application.config.connect()
-    helper.deleteOldeImage(User, data.userId, 'user', connect);
-    imageName = helper.uploadImage(req.files.image, 'user');
+  if (req.files == null) { // imagem não enviada
+    update() // imagem não será atualizada
+  } else {
+    // updateImage()
+    res.send('Imagem enviada') 
   }
-  var connect = application.config.connect()
-  User.update(req.session.user, data, connect, imageName,
-    (error, result) => {
-    connect.end()
-    if (error) {
-      res.send(error.sqlMessage);
-    } else {
-      console.log(result);
-      updateSession();
-    }
-  });
 
-  function updateSession() {
+  function update() {
     var connect = application.config.connect()
-    User.getThis(req.session.user.id, connect, (err, result) => {
+    // atualiza as informações no banco de dados
+    var pUpdate = new Promise((resolve, reject) => {      
+      User.update(req.session.user, data, connect, imageName,
+        (error, result) => {
+          if (error) {
+            reject(error)
+          } else {
+            console.log(result)
+            resolve()
+          }
+        })
+    })
+
+    pUpdate.then(() => {
+      // recupera informações atualizadas do usuário
+      return new Promise((resolve, reject) => {
+        User.getThis(req.session.user.id, connect, (error, result) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve(result)            
+          }
+        })
+      })
+    }).then(result => {
       connect.end()
-      if (err) {
-        console.error(err.sqlMessage);
-      } else {
-        console.log(result);
-        req.session.user = result[0];
-        req.session.message = 'Atualizado com sucesso!';
-        res.redirect('\admin');
-      }
-    });
+      // atualiza a sessão
+      req.session.user = result[0]
+      req.session.message = 'Atualizado com sucesso!'
+      res.redirect('\admin')
+    })
+    .catch(error => {
+      console.error(error)
+      req.session.error = 'Não foi possível atualizar as informações do usuário'
+      res.redirect('\admin')
+    })
+
   }
+
+
+
+  
+
+
+
+
+  
+
+
 }
 // end helpers
 
