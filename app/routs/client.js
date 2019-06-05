@@ -8,8 +8,8 @@ module.exports = (application) => {
     application.app.control.client.client_profile(req, res, application)
   })
 
-  application.post('/client_profile', (req, res) => {
-    application.app.control.client.client_profile(req, res, application)
+  application.post('/edit_client_profile', (req, res) => {
+    application.app.control.client.clientProfile(req, res, application)
   }) 
 
   application.post('/comeback_site', (req, res) => {

@@ -1,21 +1,74 @@
 // helpers
 function editProfile(req, res, application) {
   var data = req.body;
-  var imageName = null // se a imagem foi enviada, essa variável será atualizada
+  var completeName = null // se a imagem foi enviada, essa variável será atualizada
   const User = application.app.models.User;
 
   if (req.files == null) { // imagem não enviada
     update() // imagem não será atualizada
   } else {
-    // updateImage()
-    res.send('Imagem enviada') 
+    updateImage()     
+  }
+
+  function updateImage() {
+    const User = application.app.models.User
+    const connect = application.config.connect()
+
+    var getUser = new Promise((resolve, reject) => { // delete old image
+      User.getThis(req.session.user.id, connect, (userError, userResult) => {
+        if (userError) {
+          reject(`Error recuperar o usuário: ${userError}`)
+        } else {
+          var oldImageName = userResult[0].image
+          if (oldImageName) {
+            let oldFile = __dirname + `/../public/upload/user/${oldImageName}`
+            const fs = require('fs')
+            fs.unlink(oldFile, (errOldFile) => {
+              if (errOldFile) {
+                resolve() // Doesn't exists image to delete
+              } else {
+                resolve() // Image was deleted. Go on
+              }
+            })
+          } else {
+            console.log("Doesn't exists olde image")
+            resolve() // Doesn't exists image to delete
+          }
+        }
+      })
+    })
+
+    getUser.then(() => { // upload new image
+      return new Promise((resolve, reject) => {
+        const image = req.files.image
+        let imageName = new Date().getTime()
+        let extension = image.name.split('.').pop()
+        completeName = imageName + '.' + extension
+        var path = __dirname + '/../public/upload/user/' + completeName
+        image.mv(path, (err) => { // uploade da imagem
+          if (err) {
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+      })
+    }).then(() => {
+      connect.end()
+      update()
+    }).catch(error => {
+      console.error(error)
+      req.session.error = 'Não foi possível atualizar a imagem'
+      res.redirect('\admin')
+    })
+
   }
 
   function update() {
     var connect = application.config.connect()
     // atualiza as informações no banco de dados
     var pUpdate = new Promise((resolve, reject) => {      
-      User.update(req.session.user, data, connect, imageName,
+      User.update(req.session.user, data, connect, completeName,
         (error, result) => {
           if (error) {
             reject(error)
@@ -51,16 +104,6 @@ function editProfile(req, res, application) {
     })
 
   }
-
-
-
-  
-
-
-
-
-  
-
 
 }
 // end helpers

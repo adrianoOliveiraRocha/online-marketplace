@@ -144,25 +144,141 @@ module.exports.client_area = (req, res, application) => {
 }
 
 module.exports.client_profile = (req, res, application) => {
-  if (req.method == 'GET') {
-    var connect = application.config.connect()
-    application.app.models.Client.getThis(req.session.user.id, connect, 
-      (error, result) => {
-        connect.end()
-        if(error) {
-          console.error(error.sqlMessage);
-          req.session.error = `Error trying get the client: ${error.sqlMessage}`;
-          res.redirect('\client_area');
-        } else {
-          res.render('client_area/profile.ejs', {
-            'user': req.session.user,
-            'clientUser': result[0]
-          })
-        }
-      })    
+  var connect = application.config.connect()
+  application.app.models.Client.getThis(req.session.user.id, connect,
+    (error, result) => {
+      connect.end()
+      if (error) {
+        console.error(error.sqlMessage);
+        req.session.error = `
+            Erro tentando recuperar as informações do cliente: ${error.sqlMessage}`
+        res.redirect('\client_area');
+      } else {
+        res.render('client_area/profile.ejs', {
+          'user': req.session.user,
+          'clientUser': result[0]
+        })
+      }
+    })  
+}
+
+module.exports.clientProfile = (req, res, application) => {
+
+  var data = req.body;
+  var completeName = null // if this image was sende, it will be updated
+  const User = application.app.models.User
+
+  if (req.files == null) { // image not sended
+    update() // image will not to be updated
   } else {
-    editProfile(req, res, application);      
-  }  
+    updateImage()
+  }
+
+  function updateImage() {
+    const User = application.app.models.User
+    const connect = application.config.connect()
+
+    var getUser = new Promise((resolve, reject) => { // delete old image
+      User.getThis(req.session.user.id, connect, (userError, userResult) => {
+        if (userError) {
+          reject(`Error recuperar o usuário: ${userError}`)
+        } else {
+          var oldImageName = userResult[0].image
+          if (oldImageName) {
+            let oldFile = __dirname + `/../public/upload/user/${oldImageName}`
+            const fs = require('fs')
+            fs.unlink(oldFile, (errOldFile) => {
+              if (errOldFile) {
+                resolve() // Doesn't exists image to delete
+              } else {
+                resolve() // Image was deleted. Go on
+              }
+            })
+          } else {
+            console.log("Doesn't exists olde image")
+            resolve() // Doesn't exists image to delete
+          }
+        }
+      })
+    })
+
+    getUser.then(() => { // upload new image
+      return new Promise((resolve, reject) => {
+        const image = req.files.image
+        let imageName = new Date().getTime()
+        let extension = image.name.split('.').pop()
+        completeName = imageName + '.' + extension
+        var path = __dirname + '/../public/upload/user/' + completeName
+        image.mv(path, (err) => { // uploade da imagem
+          if (err) {
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+      })
+    }).then(() => {
+      connect.end()
+      update()
+    }).catch(error => {
+      console.error(error)
+      req.session.error = 'Não foi possível atualizar a imagem'
+      res.redirect('\admin')
+    })
+
+  }
+
+  function update() { // update the table user
+    var connect = application.config.connect()
+    
+    var pUpdate = new Promise((resolve, reject) => {
+      User.update(req.session.user, data, connect, completeName,
+        (error, result) => {
+          if (error) {
+            reject(error)
+          } else {
+            console.log(result)
+            resolve()
+          }
+        })
+    })
+
+    pUpdate.then(() => { // update the table client
+      return new Promise((resolve, reject) => {
+        const Client = application.app.models.Client
+        Client.update(data, connect, (error, resultClient) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve()
+          }
+        })
+      })
+    }).then(() => { // get user already updated      
+      return new Promise((resolve, reject) => {
+        User.getThis(req.session.user.id, connect, (error, result) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }).then(result => {
+      console.log(result)
+      connect.end()
+      // atualiza a sessão
+      req.session.user = result[0]
+      req.session.message = 'Atualizado com sucesso!'
+      res.redirect('/client_area')
+    }).catch(error => {
+        console.error(error)
+        req.session.error = 'Não foi possível atualizar as informações'
+        res.redirect('/client_area')
+    })
+
+  }
+
 }
 
 module.exports.comeback_site = (req, res) => {
