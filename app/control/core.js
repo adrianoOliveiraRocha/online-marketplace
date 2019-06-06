@@ -215,8 +215,8 @@ module.exports.register = (req, res, application) => {
 
     var data = req.body;
 
-    var imageName = 'null';
-    if (Object.keys(req.files).length > 0) {// image sended
+    var imageName = null;
+    if (req.files != null) {// image sended
       const helper = require('./../utils/helper')
       imageName = helper.uploadImage(req.files.image, 'user')
     }
@@ -249,7 +249,7 @@ module.exports.register = (req, res, application) => {
         connect.end()
         if (errorClient) {
           console.error(errorClient.sqlMessage);
-          req.session.error = `Error trying save a new client: ${errorClient.sqlMessage}`;
+          req.session.error = `Erro tentando salvar o cliente: ${errorClient.sqlMessage}`;
           res.redirect(req.originalUrl);
         } else {
           console.log(`Saved with id ${resultClient['insertId']}`);
@@ -259,7 +259,7 @@ module.exports.register = (req, res, application) => {
       })
     }).catch(error => {
       console.error(error.sqlMessage);
-      req.session.error = `Error trying save a new user: ${error.sqlMessage}`;
+      req.session.error = `Error tentando salvar o usuário: ${error.sqlMessage}`;
       res.redirect(req.originalUrl);
     })
 
@@ -340,6 +340,7 @@ module.exports.productDetails = (req, res, application) => {
   const Product = application.app.models.Product
   const connect = application.config.connect()
   const productId = req.query.productId
+  const fs = require('fs')
 
   var getCategpries = new Promise((resolve, reject) => {
     Category.getAll(connect, (error, categories) => {
@@ -361,16 +362,76 @@ module.exports.productDetails = (req, res, application) => {
     })
   })
 
-  Promise.all([getCategpries, getProduct])
-  .then(([categories, product]) => {
+  const getLogoName = new Promise((resolve, reject) => {
+    const dirLogoPath = __dirname + '/../public/system-images'
+    fs.readdir(dirLogoPath, (errorDir, responseDir) => {
+      if (errorDir) {
+        reject(errorDir)
+      } else {
+        var logoName
+        Object.values(responseDir).forEach(item => {
+          if (item.includes('mylogo')) {
+            logoName = item
+          }
+        })
+        resolve(logoName)
+      }
+    })
+  })
+
+  const getAboutUs = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/about-us.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        reject(err)
+      } else {
+        var aboutUs = JSON.parse(content)
+        resolve(aboutUs)
+      }
+    })
+  })
+
+  const getSocialNW = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/social-nw.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        console.error(err)
+        reject(err)
+      } else {
+        var socialNW = JSON.parse(content)
+        resolve(socialNW)
+      }
+    })
+  })
+
+  const getWhyChooseOurProducts = new Promise((resolve, reject) => {
+    let path = __dirname + "/../public/json-files/why-our-products.json"
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        reject(err)
+      } else {
+        var whyOurProducts = JSON.parse(content)
+        resolve(whyOurProducts)
+      }
+    })
+  })
+
+  Promise.all([getCategpries, getProduct, getLogoName,
+    getAboutUs, getSocialNW, getWhyChooseOurProducts])
+    .then(([categories, product, logoName, aboutUs,
+      socialNW, whyOurProducts]) => {
     res.render('core/product_details.ejs', {
       'user': req.session.user,
       'categories': categories,
-      'product': product
+      'product': product,
+      'logoName': logoName,
+      'aboutUs': aboutUs,
+      'socialNW': socialNW,
+      'whyOurProducts': whyOurProducts
     })
   }).catch(error => {
     console.error(error.sqlMessage);
-    req.session.error = `Error: ${error.sqlMessage}`;
+    req.session.error = `Error: ${error}`;
     res.redirect('/');
   }).then(() => {
     connect.end()
